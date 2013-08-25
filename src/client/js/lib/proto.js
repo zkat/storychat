@@ -5,6 +5,9 @@
 let Genfun = require("genfun"),
     {addMethod} = Genfun;
 
+let init = new Genfun();
+addMethod(init, [], function(){});
+
 /**
  * Like `new`, but doesn't work off constructor functions and is more
  * prototype-y.
@@ -19,9 +22,6 @@ function clone(parent) {
 function parent(obj) {
   return Object.getPrototypeOf(obj);
 }
-
-let init = new Genfun();
-addMethod(init, [], function(){});
 
 module.exports = {
   clone: clone,

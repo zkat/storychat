@@ -51,7 +51,7 @@ bower-spec = bower.json
 # Targets
 #
 .PHONY: all
-all: compile
+all: lint compile
 
 .PHONY: run
 run: $(node-main) compile

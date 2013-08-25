@@ -6,7 +6,7 @@
 require("../shims/can.view.mustache");
 require("sockjs");
 
-let sock = window.SockJS,
+let Sock = window.SockJS,
     {addMethod} = require("genfun"),
     {clone, init} = require("../lib/proto"),
     _ = require("lodash"),
@@ -31,7 +31,7 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
 });
 
 function initSocket(chat) {
-  chat.socket = new sock("http://localhost:8080/ws");
+  chat.socket = new Sock("http://localhost:8080/ws");
   chat.socket.onmessage = _.partial(onMessage, chat);
 }
 
@@ -52,7 +52,7 @@ function sendMessage(chat) {
 
 function onMessage(chat, line) {
   chat.log.addLine(line);
-};
+}
 
 /*
  * DOM event handling
@@ -62,9 +62,9 @@ let events = _.each({
   ".form submit": sendMessage
 }, _wrapCallback);
 
-let Control = can.Control.extend({}, events);
-function _wrapCallback(callback, pattern, events) {
-  events[pattern] = function() {
+var Control = can.Control.extend({}, events);
+function _wrapCallback(callback, pattern, evs) {
+  evs[pattern] = function() {
     callback.apply(this, [this.chat].concat(arguments));
   };
 }
