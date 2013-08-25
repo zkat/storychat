@@ -22,7 +22,7 @@ supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 #
 mocha-opts = --check-leaks
 linter-opts =
-browserify-opts = -t es6ify -t debowerify -d
+browserify-opts = -t es6ify -t debowerify -t brfs -d
 
 #
 # Frontend files
