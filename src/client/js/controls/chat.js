@@ -7,13 +7,10 @@ require("../shims/can.view.mustache");
 require("sockjs");
 
 let sock = window.SockJS,
-    // Language utilities
     {addMethod} = require("genfun"),
     {clone, init} = require("../lib/proto"),
     _ = require("lodash"),
-    // DOM and browser components
     can = require("../shims/can"),
-    // Template
     fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
 
@@ -67,9 +64,6 @@ let events = _.each({
 
 let Control = can.Control.extend({}, events);
 function _wrapCallback(callback, pattern, events) {
-  // We want to pretend events are getting handled by our Chat instance, so
-  // we do some (partial) redirecting here to pretend the world is sane and
-  // good.
   events[pattern] = function() {
     callback.apply(this, [this.chat].concat(arguments));
   };
