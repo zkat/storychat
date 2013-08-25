@@ -12,7 +12,7 @@ let Genfun = require("genfun"),
 function clone(parent) {
   let initargs = [].slice.call(arguments, 1),
       obj = Object.create(parent || Object.prototype),
-      initRet = init.apply(obj, initargs);
+      initRet = init.apply(parent, [obj].concat(initargs));
   return typeof initRet === "object" ? initRet : obj;
 }
 
