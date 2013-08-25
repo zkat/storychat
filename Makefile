@@ -25,18 +25,27 @@ linter-opts =
 browserify-opts = -t es6ify -t debowerify -d
 
 #
-# Files
+# Frontend files
 #
 client-src-dir = src/client/js
 client-src-files = $(shell find $(client-src-dir) -iname "*.js");
 client-main-file = src/client/js/storychat.js
-source-files = $(shell find src -iname "*.js" -a -not -path "./src/client/*")
-node-main = src/storychat.js
 resource-dir = static
 build-dir = $(resource-dir)/js
 browserify-bundle = $(build-dir)/storychat.js
+
+#
+# Backend files
+#
+source-files = $(shell find src -iname "*.js" \
+					-and -not -path "./$(client-src-dir)/*")
+node-main = src/storychat.js
 linter-config = jshint.conf.json
 readme = README.md
+npm-dep-dir = node_modules
+bower-dep-dir = bower_components
+npm-spec = package.json
+bower-spec = bower.json
 
 #
 # Targets
@@ -79,6 +88,12 @@ $(build-dir):
 clean:
 	-rm -rf $(build-dir)
 
+.PHONY: distclean
+distclean:
+	-rm -rf $(build-dir)
+	-rm -rf $(npm-dep-dir)
+	-rm -rf $(bower-dep-dir)
+
 .PHONY: test
 test: test-spec
 
@@ -97,3 +112,12 @@ test-watch: $(source-files)
 .PHONY: lint
 lint: $(source-files) $(linter-config)
 	$(linter) --config $(linter-config) $(source-files)
+
+.PHONY: deps
+deps: $(npm-dep-dir) $(bower-dep-dir)
+
+$(npm-dep-dir): $(npm-spec)
+	npm install
+
+$(bower-dep-dir): $(bower-spec)
+	bower install
