@@ -17,7 +17,6 @@ let sock = window.SockJS,
     fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
 
-
 /**
  * Chat Controller
  *
