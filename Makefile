@@ -11,7 +11,6 @@ module-root = ./node_modules
 uglify = $(module-root)/uglify-js/bin/uglifyjs
 browserify = $(module-root)/$(browserify-name)/bin/cmd.js
 jsdoc = $(module-root)/jsdoc/jsdoc
-mocha = $(module-root)/mocha/bin/mocha $(mocha-opts)
 linter = $(module-root)/jshint/bin/jshint $(linter-opts)
 semver = $(module-root)/semver/bin/semver
 node = node
@@ -20,7 +19,6 @@ supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 #
 # Opts
 #
-mocha-opts = --check-leaks
 linter-opts =
 browserify-opts = -t es6ify -t debowerify -t stylify -t brfs -d
 
@@ -94,21 +92,6 @@ distclean:
 	-rm -rf $(build-dir)
 	-rm -rf $(npm-dep-dir)
 	-rm -rf $(bower-dep-dir)
-
-.PHONY: test
-test: test-spec
-
-.PHONY: test-spec
-test-spec: $(source-files)
-	$(mocha) --reporter spec
-
-.PHONY: test-quiet
-test-quiet: $(source-files)
-	$(mocha) --reporter dot
-
-.PHONY: test-watch
-test-watch: $(source-files)
-	$(mocha) --reporter min --watch
 
 .PHONY: lint
 lint: $(source-files) $(linter-config) $(client-src-files)
