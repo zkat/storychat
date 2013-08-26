@@ -22,13 +22,14 @@ supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 #
 mocha-opts = --check-leaks
 linter-opts =
-browserify-opts = -t es6ify -t debowerify -t brfs -d
+browserify-opts = -t es6ify -t debowerify -t stylify -t brfs -d
 
 #
 # Frontend files
 #
 client-src-dir = src/client/js
-client-src-files = $(shell find $(client-src-dir) -iname "*.js");
+client-src-files = $(shell find $(client-src-dir) -iname "*.js")
+client-stylesheets = $(shell find $(client-src-dir) -iname "*.styl")
 client-main-file = src/client/js/storychat.js
 resource-dir = static
 build-dir = $(resource-dir)/js
@@ -77,7 +78,7 @@ publish:
 	git push --tags
 	npm publish .
 
-$(browserify-bundle): $(client-main-file) $(client-src-files)
+$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
 	@mkdir -p $(@D)
 	$(browserify) $< $(browserify-opts) -o $@
 

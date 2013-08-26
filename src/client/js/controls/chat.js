@@ -11,8 +11,12 @@ let Sock = window.SockJS,
     {clone, init} = require("../lib/proto"),
     _ = require("lodash"),
     can = require("../shims/can"),
+    insertCss = require("insert-css"),
+    viewCss = require("./chat.styl"),
     fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
+
+insertCss(viewCss);
 
 /**
  * Chat Controller
