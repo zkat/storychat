@@ -3,13 +3,13 @@
 "use strict";
 
 // Broken AMDs
-require("../shims/can.view.mustache");
+require("../../shims/can.view.mustache");
 require("sockjs");
 
 let {addMethod} = require("genfun"),
-    {clone, init} = require("../lib/proto"),
+    {clone, init} = require("../../lib/proto"),
     _ = require("lodash"),
-    can = require("../shims/can"),
+    can = require("../../shims/can"),
     insertCss = require("insert-css"),
     viewCss = require("./chat.styl"),
     fs = require("fs"),

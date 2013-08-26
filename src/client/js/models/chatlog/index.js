@@ -5,9 +5,9 @@
 require("sockjs");
 let Sock = window.SockJS,
     {addMethod} = require("genfun"),
-    {clone, init} = require("../lib/proto"),
+    {clone, init} = require("../../lib/proto"),
     _ = require("lodash"),
-    can = require("../shims/can");
+    can = require("../../shims/can");
 
 /**
  * Chatlog Model
@@ -28,7 +28,7 @@ function initSocket(log) {
 }
 
 function initModelList(log) {
-  log.lines = new LogLine.List([new LogLine({text: "test"})]);
+  log.lines = new LogLine.List([]);
 }
 
 function onMessage(log, line) {
