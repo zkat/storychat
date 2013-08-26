@@ -4,9 +4,11 @@
 
 let $ = require("jquery"),
     {Chat} = require("./controls/chat"),
-    Chatlog = require("./models/chatlog"),
+    {Chatlog} = require("./models/chatlog"),
     {clone} = require("./lib/proto");
 
 $(function() {
-  window.chat = clone(Chat, $("#chat"), clone(Chatlog));
+  let url = "http://localhost:8080/ws";
+  window.chatlog = clone(Chatlog, url);
+  window.chat = clone(Chat, $("#chat"), window.chatlog);
 });

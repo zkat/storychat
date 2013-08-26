@@ -6,8 +6,7 @@
 require("../shims/can.view.mustache");
 require("sockjs");
 
-let Sock = window.SockJS,
-    {addMethod} = require("genfun"),
+let {addMethod} = require("genfun"),
     {clone, init} = require("../lib/proto"),
     _ = require("lodash"),
     can = require("../shims/can"),
@@ -30,14 +29,9 @@ let Chat = clone();
 addMethod(init, [Chat], function(chat, el, chatlog) {
   chat.el = el;
   chat.log = chatlog;
-  initSocket(chat);
   initControl(chat);
 });
 
-function initSocket(chat) {
-  chat.socket = new Sock("http://localhost:8080/ws");
-  chat.socket.onmessage = _.partial(onMessage, chat);
-}
 
 let chatTemplate = can.view.mustache(chatTemplateText);
 function initControl(chat) {
@@ -48,14 +42,11 @@ function initControl(chat) {
 /*
  * Chat message handling
  */
-function sendMessage(chat) {
+function sendMessage(chat, _el, event) {
   let input = chat.el.find("input[type=text]");
-  chat.socket.write(input.text());
+  chat.log.addLine(input.text());
   input.text("");
-}
-
-function onMessage(chat, line) {
-  chat.log.addLine(line);
+  event.preventDefault();
 }
 
 /*
