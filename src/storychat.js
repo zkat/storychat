@@ -28,7 +28,9 @@ sock.on("connection", function(socket) {
   console.log("Received connection from "+socket.remoteAddress+".");
   connections.push(socket);
   socket.on("data", function(data) {
-    _.each(connections, _.partialRight(method("write"), data));
+    _.each(connections, function(conn) {
+      conn.write(data);
+    });
   });
   socket.on("close", function() {
     console.log("Client at "+socket.remoteAddress+" disconnected.");
@@ -39,12 +41,3 @@ sock.on("connection", function(socket) {
 sock.installHandlers(server, {prefix: "/ws"});
 
 server.listen(8080);
-
-/*
- * Utils
- */
-function method(name) {
-  return function(obj) {
-    return obj[name].apply(obj, [].slice.call(arguments, 1));
-  };
-}
