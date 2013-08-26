@@ -2,7 +2,7 @@
   "name": "storychat",
   "version": "0.0.0",
   "description": "storytelling chatroom",
-  "main": "src/storychat.js",
+  "main": "src/server",
   "scripts": {
     "test": "make test"
   },

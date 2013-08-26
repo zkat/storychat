@@ -17,7 +17,7 @@ app.configure(function(){
 	app.use(express.cookieParser());
 	app.use(express.session({secret: "super-secret-cookie-omg"}));
 	//app.use(connect.compress());
-	app.use(express["static"](__dirname + "/../static"));
+	app.use(express["static"](__dirname + "/../../static"));
 });
 
 var server = http.createServer(app),

@@ -38,7 +38,8 @@ browserify-bundle = $(build-dir)/storychat.js
 #
 source-files = $(shell find src -iname "*.js" \
 					-and -not -path "./$(client-src-dir)/*")
-node-main = src/storychat.js
+node-main = $(shell grep main package.json | \
+				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
 linter-config = jshint.conf.json
 readme = README.md
 npm-dep-dir = node_modules
