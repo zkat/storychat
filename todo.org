@@ -1,6 +1,30 @@
 * archive [0/0]
 * backlog [0/0]
-* active [0/1]
-** TODO Set up a basic test with funcunit                                :qa:
+* active [5/10]
+** DONE Set up stylus for per-control styles             :style:architecture:
+   CLOSED: [2013-08-25 Sun 20:23]
+** DONE render chatlog and write chatlog model/list                    :chat:
+   CLOSED: [2013-08-25 Sun 21:30]
+   It should take care of the websocket, itself.
+** DONE Move controls and models into their own directories    :architecture:
+   CLOSED: [2013-08-25 Sun 21:49]
+** DONE Ask around to see what people do wrt having to ../     :architecture:
+   CLOSED: [2013-08-25 Sun 21:54]
+   It's a bit ridiculous. Is this how node stuff usually works?...
+** DONE Move node source code into src/server                  :architecture:
+   CLOSED: [2013-08-25 Sun 22:12]
+   Better separation this way. It's kinda awkward for the server-side code
+   to live in a directory above the client code. Having src/client/js is
+   ok, since it gives freedom to treat src/client as a source mirror of
+   the browser-side structure.
+** TODO Put together an actual working chatbox                         :chat:
+   Now that everything's in place, move the pieces around, do some
+   styling, add a <form>, and make it a working chat.
+** TODO Rename chat control to chatbox                                 :chat:
+   So we have an actual unique, clear name for the control/view part of
+   it. :)
+** TODO Generic wrapper for can.Model                                 :proto:
+** TODO Generic wrapper for can.Control                               :proto:
+** TODO Set up a basic test with funcunit                   :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
