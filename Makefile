@@ -111,8 +111,8 @@ test-watch: $(source-files)
 	$(mocha) --reporter min --watch
 
 .PHONY: lint
-lint: $(source-files) $(linter-config)
-	$(linter) --config $(linter-config) $(source-files)
+lint: $(source-files) $(linter-config) $(client-src-files)
+	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
 .PHONY: deps
 deps: $(npm-dep-dir) $(bower-dep-dir)
