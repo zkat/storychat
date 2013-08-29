@@ -31,12 +31,12 @@ function initModelList(log) {
   log.lines = new LogLine.List([]);
 }
 
-function onMessage(log, line) {
-  addLine(log, line);
+function onMessage(log, message) {
+  log.lines.push(new LogLine({text: message.data}));
 }
 
 function addLine(log, line) {
-  log.lines.push(new LogLine({text: line}));
+  log.socket.send(line);
 }
 
 /*
@@ -45,3 +45,4 @@ function addLine(log, line) {
 var LogLine = can.Model.extend({},{});
 
 module.exports.Chatlog = Chatlog;
+module.exports.addLine = addLine;

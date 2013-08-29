@@ -12,6 +12,7 @@ let {addMethod} = require("genfun"),
     can = require("../../shims/can"),
     insertCss = require("insert-css"),
     viewCss = require("./chat.styl"),
+    {addLine} = require("../../models/chatlog"),
     fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
 
@@ -32,7 +33,6 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
   initControl(chat);
 });
 
-
 let chatTemplate = can.view.mustache(chatTemplateText);
 function initControl(chat) {
   chat.el.html(chatTemplate({ log: chat.log }));
@@ -43,10 +43,10 @@ function initControl(chat) {
  * Chat message handling
  */
 function sendMessage(chat, _el, event) {
-  let input = chat.el.find("input[type=text]");
-  chat.log.addLine(input.text());
-  input.text("");
   event.preventDefault();
+  let input = chat.el.find("input[type=text]");
+  addLine(chat.log, input.val());
+  input.val("");
 }
 
 /*
@@ -54,13 +54,13 @@ function sendMessage(chat, _el, event) {
  */
 
 let events = _.each({
-  ".form submit": sendMessage
+  "form submit": sendMessage
 }, _wrapCallback);
 
 var Control = can.Control.extend({}, events);
 function _wrapCallback(callback, pattern, evs) {
   evs[pattern] = function() {
-    callback.apply(this, [this.chat].concat(arguments));
+    callback.apply(this, [this.options.chat].concat([].slice.call(arguments)));
   };
 }
 
