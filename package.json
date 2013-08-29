@@ -23,7 +23,7 @@
     "stylify": "0.0.1"
   },
   "dependencies": {
-    "genfun": "0.0.1",
+    "genfun": "~0.1.0",
     "express": "~3.3.5",
     "sockjs": "~0.3.7",
     "rbytes": "~1.0.0",
