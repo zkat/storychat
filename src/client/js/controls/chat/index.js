@@ -4,15 +4,14 @@
 
 // Broken AMDs
 require("../../shims/can.view.mustache");
-require("sockjs");
 
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
-    _ = require("lodash"),
     can = require("../../shims/can"),
     insertCss = require("insert-css"),
     viewCss = require("./chat.styl"),
     {addLine} = require("../../models/chatlog"),
+    {EventListener, listen} = require("../../lib/eventListener"),
     fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
 
@@ -22,7 +21,10 @@ insertCss(viewCss);
  * Chat Controller
  *
  */
-let Chat = clone();
+let Chat = clone(),
+    chatTemplate = can.view.mustache(chatTemplateText),
+    events = { "form submit": sendMessage },
+    listener = clone(EventListener, events);
 
 /*
  * Init
@@ -30,13 +32,12 @@ let Chat = clone();
 addMethod(init, [Chat], function(chat, el, chatlog) {
   chat.el = el;
   chat.log = chatlog;
-  initControl(chat);
+  initDom(chat);
 });
 
-let chatTemplate = can.view.mustache(chatTemplateText);
-function initControl(chat) {
+function initDom(chat) {
   chat.el.html(chatTemplate({ log: chat.log }));
-  chat.control = new Control(chat.el, { chat: chat, log: chat.log });
+  chat.listenerHandle = listen(listener, chat, chat.el);
 }
 
 /*
@@ -47,21 +48,6 @@ function sendMessage(chat, _el, event) {
   let input = chat.el.find("input[type=text]");
   addLine(chat.log, input.val());
   input.val("");
-}
-
-/*
- * DOM event handling
- */
-
-let events = _.each({
-  "form submit": sendMessage
-}, _wrapCallback);
-
-var Control = can.Control.extend({}, events);
-function _wrapCallback(callback, pattern, evs) {
-  evs[pattern] = function() {
-    callback.apply(this, [this.options.chat].concat([].slice.call(arguments)));
-  };
 }
 
 /*
