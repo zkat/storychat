@@ -53,7 +53,7 @@ function addLine(log, line) {
 /*
  * Canjs Model
  */
-var LogLine = can.Model.extend({},{});
+var LogLine = can.Model.extend();
 
 module.exports.Chatlog = Chatlog;
 module.exports.addLine = addLine;
