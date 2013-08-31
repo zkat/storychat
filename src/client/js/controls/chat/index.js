@@ -36,8 +36,16 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
 });
 
 function initDom(chat) {
-  chat.el.html(chatTemplate({ log: chat.log }));
+  chat.el.html(chatTemplate({ log: chat.log }, {isEntryType: isEntryType}));
   chat.listenerHandle = listen(listener, chat, chat.el);
+}
+
+function isEntryType(entryType, options) {
+  if (this.entryType === entryType) {
+    return options.fn(this);
+  } else {
+    return false;
+  }
 }
 
 /*

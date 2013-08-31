@@ -1,8 +1,15 @@
-<ul>
+<div>
   {{#each log.lines}}
-  <li>{{text}}
+  <div class=entry>
+    {{#isEntryType "system"}}
+    <h1>{{text}}</h1>
+    {{/isEntryType}}
+    {{#isEntryType "line"}}
+    <p>{{text}}</p>
+    {{/isEntryType}}
+  </div>
   {{/each}}
-</ul>
+</div>
 <form>
   <input type=text>
 </form>

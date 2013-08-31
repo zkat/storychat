@@ -24,6 +24,7 @@ addMethod(init, [Chatlog], function(log, url) {
 
 function initSocket(log) {
   log.socket = new Sock("http://localhost:8080/ws");
+  log.socket.onopen = _.partial(onOpen, log);
   log.socket.onmessage = _.partial(onMessage, log);
   // TODO - this is probably a pretty naive way to go about reconnecting...
   log.socket.onclose = _.partial(initSocket, log);
@@ -33,12 +34,20 @@ function initModelList(log) {
   log.lines = new LogLine.List([]);
 }
 
+function onOpen(log) {
+  addEntry(log, {entryType: "system", text: "Connected"});
+}
+
+function addEntry(log, entryInfo) {
+  log.lines.push(new LogLine(entryInfo));
+}
+
 function onMessage(log, message) {
-  log.lines.push(new LogLine({text: message.data}));
+  addEntry(log, JSON.parse(message.data));
 }
 
 function addLine(log, line) {
-  log.socket.send(line);
+  addEntry(log, {entryType: "line", text: line});
 }
 
 /*
