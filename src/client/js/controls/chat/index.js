@@ -8,12 +8,18 @@ require("../../shims/can.view.mustache");
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
     can = require("../../shims/can"),
+    $ = require("jquery"),
     insertCss = require("insert-css"),
     viewCss = require("./chat.styl"),
+    _ = require("lodash"),
     {addLine} = require("../../models/chatlog"),
     {EventListener, listen} = require("../../lib/eventListener"),
     fs = require("fs"),
-    chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
+    chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache"),
+    systemTemplateText =
+      fs.readFileSync(__dirname + "/entries/system.mustache"),
+    lineTemplateText =
+      fs.readFileSync(__dirname + "/entries/line.mustache");
 
 /**
  * Chat Controller
@@ -24,6 +30,13 @@ let Chat = clone(),
     events = { "form submit": sendMessage },
     listener = clone(EventListener, events),
     cssInserted = false;
+
+Chat.entryTemplates = _.each({
+  system: systemTemplateText,
+  line: lineTemplateText
+}, function(val, key, tbl) {
+  tbl[key] = can.view.mustache(val);
+});
 
 /*
  * Init
@@ -39,17 +52,18 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
 });
 
 function initDom(chat) {
-  chat.el.html(chatTemplate({ log: chat.log }, { isEntryType: isEntryType }));
+  chat.el.html(chatTemplate({ log: chat.log }, { renderEntry: renderEntry }));
   chat.listenerHandle = listen(listener, chat, chat.el);
 }
 
-function isEntryType(entryType, options) {
+function renderEntry() {
   /*jshint validthis: true*/
-  if (this.entryType === entryType) {
-    return options.fn(this);
-  } else {
-    return false;
-  }
+  let obj = this;
+  return function(el) {
+    $(el).html(Chat.entryTemplates[obj.entryType](obj))
+      .addClass(obj.entryType)
+      .data("entry", obj);
+  };
 }
 
 /*

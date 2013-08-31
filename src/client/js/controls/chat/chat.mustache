@@ -1,13 +1,6 @@
 <div class=entry-list>
   {{#each log.lines}}
-  <div class=entry>
-    {{#isEntryType "system"}}
-    <h1>{{text}}</h1>
-    {{/isEntryType}}
-    {{#isEntryType "line"}}
-    <p>{{text}}</p>
-    {{/isEntryType}}
-  </div>
+  <div class=entry {{renderEntry}}/>
   {{/each}}
 </div>
 <form>
