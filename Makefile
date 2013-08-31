@@ -77,7 +77,7 @@ publish:
 	git push --tags
 	npm publish .
 
-$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
+$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets) deps
 	@mkdir -p $(@D)
 	$(browserify) $< $(browserify-opts) -o $@
 
@@ -95,7 +95,7 @@ distclean:
 	-rm -rf $(bower-dep-dir)
 
 .PHONY: lint
-lint: $(source-files) $(linter-config) $(client-src-files)
+lint: $(source-files) $(linter-config) $(client-src-files) deps
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
 .PHONY: deps
