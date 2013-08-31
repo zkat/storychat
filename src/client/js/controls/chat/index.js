@@ -15,8 +15,6 @@ let {addMethod} = require("genfun"),
     fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache");
 
-insertCss(viewCss);
-
 /**
  * Chat Controller
  *
@@ -24,7 +22,8 @@ insertCss(viewCss);
 let Chat = clone(),
     chatTemplate = can.view.mustache(chatTemplateText),
     events = { "form submit": sendMessage },
-    listener = clone(EventListener, events);
+    listener = clone(EventListener, events),
+    cssInserted = false;
 
 /*
  * Init
@@ -33,6 +32,10 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
   chat.el = el;
   chat.log = chatlog;
   initDom(chat);
+  if (!cssInserted) {
+    insertCss(viewCss);
+    cssInserted = true;
+  }
 });
 
 function initDom(chat) {
