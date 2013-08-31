@@ -17,12 +17,6 @@ node = node
 supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 
 #
-# Opts
-#
-linter-opts =
-browserify-opts = -t es6ify -t debowerify -t stylify -t brfs -d
-
-#
 # Frontend files
 #
 client-src-dir = src/client/js
@@ -36,8 +30,7 @@ browserify-bundle = $(build-dir)/storychat.js
 #
 # Backend files
 #
-source-files = $(shell find src -iname "*.js" \
-					-and -not -path "./$(client-src-dir)/*")
+source-files = $(shell find src/server -iname "*.js")
 node-main = $(shell grep main package.json | \
 				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
 linter-config = jshint.conf.json
@@ -48,18 +41,28 @@ npm-spec = package.json
 bower-spec = bower.json
 
 #
+# Opts
+#
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+linter-opts =
+browserify-opts = -t es6ify -t debowerify -t stylify -t brfs -d
+supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
+
+#
 # Targets
 #
 .PHONY: all
 all: lint compile
 
 .PHONY: run
-run: $(node-main) compile
-	$(node) $<
+run: $(npm-spec)
+	$(node) .
 
 .PHONY: run-dev
-run-dev: $(node-main) compile
-	$(supervisor) $<
+run-dev: $(npm-spec)
+	$(supervisor) $(supervisor-opts) .
 
 .PHONY: compile
 compile: $(browserify-bundle)
