@@ -2,24 +2,15 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
-require("../../shims/can.view.mustache");
-
 let {addMethod} = require("genfun"),
-    {clone, init} = require("../../lib/proto"),
-    _ = require("lodash");
+    {clone, init} = require("../../lib/proto");
 
-let can = require("../../shims/can"),
-    $ = require("jquery");
+let $ = require("jquery");
 
 let style = require("../../lib/ensureStyle"),
     viewCss = require("./chat.styl");
 
-let fs = require("fs"),
-    chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache"),
-    systemTemplateText =
-      fs.readFileSync(__dirname + "/entries/system.mustache"),
-    lineTemplateText =
-      fs.readFileSync(__dirname + "/entries/line.mustache");
+require("../../shims/can.view.mustache");
 
 let {ChatInput} = require("../chatInput");
 
@@ -27,15 +18,13 @@ let {ChatInput} = require("../chatInput");
  * Chat Controller
  *
  */
-let Chat = clone(),
-    chatTemplate = can.view.mustache(chatTemplateText);
+let Chat = clone();
 
-let entryTemplates = _.each({
-  system: systemTemplateText,
-  line: lineTemplateText
-}, function(val, key, tbl) {
-  tbl[key] = can.view.mustache(val);
-});
+let chatTemplate = require("./chat.mustache");
+let entryTemplates = {
+  system: require("./entries/system.mustache"),
+  line: require("./entries/line.mustache")
+};
 
 /*
  * Init

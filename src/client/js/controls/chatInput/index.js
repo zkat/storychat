@@ -2,30 +2,24 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
-require("../../shims/can.view.mustache");
-
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto");
-
-let can = require("../../shims/can");
 
 let style = require("../../lib/ensureStyle"),
     viewCss = require("./chatInput.styl");
 
-let fs = require("fs"),
-    chatInputTemplateText = fs.readFileSync(__dirname + "/chatInput.mustache");
+require("../../shims/can.view.mustache");
 
 let {addLine} = require("../../models/chatlog"),
     {EventListener, listen} = require("../../lib/eventListener");
 
-/*
- * ChatInput
+/**
+ * ChatInput Controller
  */
 let ChatInput = clone();
 
-let events = { "form submit": sendMessage },
-    listener = clone(EventListener, events),
-    chatInputTemplate = can.view.mustache(chatInputTemplateText);
+let chatInputTemplate = require("./chatInput.mustache"),
+    listener = clone(EventListener, { "form submit": sendMessage });
 
 addMethod(init, [ChatInput], function(input, el, chatlog) {
   input.el = el;

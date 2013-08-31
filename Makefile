@@ -47,7 +47,7 @@ comma:= ,
 empty:=
 space:= $(empty) $(empty)
 linter-opts =
-browserify-opts = -t es6ify -t debowerify -t stylify -t brfs -d
+browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
 
 #
