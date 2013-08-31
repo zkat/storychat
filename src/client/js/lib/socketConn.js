@@ -29,19 +29,18 @@ addMethod(onMessage, [], function() {});
 addMethod(onClose, [], function() {});
 
 function notifyObservers(conn, handler, msg) {
-  let args = arguments;
   if (msg.type === "message") {
     let data = JSON.parse(msg.data),
         observers = conn.observers[data.namespace] ||
-          (console.log("Unknown namespace: ", data.namespace),
+          (console.warn("Unknown namespace: ", data.namespace),
            []);
     _.each(observers, function(obs) {
-      return handler(obs, data.data, conn);
+      return handler.call(conn, obs, data.data);
     });
   } else {
     _.each(conn.observers, function(arr) {
       _.each(arr, function(obs) {
-        return handler(obs, conn);
+        return handler.call(conn, obs);
       });
     });
   }
