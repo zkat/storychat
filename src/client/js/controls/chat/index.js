@@ -2,24 +2,26 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
-// Broken AMDs
 require("../../shims/can.view.mustache");
 
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
-    can = require("../../shims/can"),
-    $ = require("jquery"),
-    insertCss = require("insert-css"),
-    viewCss = require("./chat.styl"),
-    _ = require("lodash"),
-    {addLine} = require("../../models/chatlog"),
-    {EventListener, listen} = require("../../lib/eventListener"),
-    fs = require("fs"),
+    _ = require("lodash");
+
+let can = require("../../shims/can"),
+    $ = require("jquery");
+
+let insertCss = require("insert-css"),
+    viewCss = require("./chat.styl");
+
+let fs = require("fs"),
     chatTemplateText = fs.readFileSync(__dirname + "/chat.mustache"),
     systemTemplateText =
       fs.readFileSync(__dirname + "/entries/system.mustache"),
     lineTemplateText =
       fs.readFileSync(__dirname + "/entries/line.mustache");
+
+let {ChatInput} = require("../chatInput");
 
 /**
  * Chat Controller
@@ -27,8 +29,6 @@ let {addMethod} = require("genfun"),
  */
 let Chat = clone(),
     chatTemplate = can.view.mustache(chatTemplateText),
-    events = { "form submit": sendMessage },
-    listener = clone(EventListener, events),
     cssInserted = false;
 
 let entryTemplates = _.each({
@@ -45,6 +45,7 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
   chat.el = el;
   chat.log = chatlog;
   initDom(chat);
+  chat.input = clone(ChatInput, el.find(".input"), chatlog);
   if (!cssInserted) {
     insertCss(viewCss);
     cssInserted = true;
@@ -53,7 +54,6 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
 
 function initDom(chat) {
   chat.el.html(chatTemplate({ log: chat.log }, { renderEntry: renderEntry }));
-  chat.listenerHandle = listen(listener, chat, chat.el);
 }
 
 function renderEntry() {
@@ -64,16 +64,6 @@ function renderEntry() {
       .addClass(obj.entryType)
       .data("entry", obj);
   };
-}
-
-/*
- * Chat message handling
- */
-function sendMessage(chat, _el, event) {
-  event.preventDefault();
-  let input = chat.el.find("input[type=text]");
-  addLine(chat.log, input.val());
-  input.val("");
 }
 
 /*
