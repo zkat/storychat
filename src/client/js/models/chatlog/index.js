@@ -47,7 +47,7 @@ function onMessage(log, message) {
 }
 
 function addLine(log, line) {
-  addEntry(log, {entryType: "line", text: line});
+  log.socket.send(JSON.stringify({entryType: "line", text: line}));
 }
 
 /*
