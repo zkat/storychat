@@ -2,11 +2,9 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
-require("sockjs");
-let Sock = window.SockJS,
+let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
     {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
-    _ = require("lodash"),
     can = require("../../shims/can");
 
 /**
@@ -17,42 +15,35 @@ let Chatlog = clone();
 /*
  * Init
  */
-addMethod(init, [Chatlog], function(log, url) {
-  initSocket(log, url);
+addMethod(init, [Chatlog], function(log, conn, ns) {
+  log.conn = conn;
+  log.namespace = ns;
+  listen(conn, log, ns);
   initModelList(log);
 });
-
-function initSocket(log, url) {
-  log.socket = new Sock(url);
-  log.socket.onopen = _.partial(onOpen, log);
-  log.socket.onmessage = _.partial(onMessage, log);
-  // TODO - this is probably a pretty naive way to go about reconnecting...
-  log.socket.onclose = _.partial(onClose, log, url);
-}
 
 function initModelList(log) {
   log.lines = new LogLine.List([]);
 }
 
-function onOpen(log) {
+addMethod(onOpen, [Chatlog], function(log) {
   addEntry(log, {entryType: "system", text: "Connected"});
-}
+});
 
-function onClose(log, url) {
+addMethod(onMessage, [Chatlog], function(log, data, conn) {
+  addEntry(log, data);
+});
+
+addMethod(onClose, [Chatlog], function(log) {
   addEntry(log, {entryType: "system", text: "Disconnected..."});
-  initSocket(log, url);
-}
+});
 
 function addEntry(log, entryInfo) {
   log.lines.push(new LogLine(entryInfo));
 }
 
-function onMessage(log, message) {
-  addEntry(log, JSON.parse(message.data));
-}
-
 function addLine(log, line) {
-  log.socket.send(JSON.stringify({entryType: "line", text: line}));
+  send(log.conn, log.namespace, {entryType: "line", text: line});
 }
 
 /*

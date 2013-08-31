@@ -3,12 +3,13 @@
 "use strict";
 
 let $ = require("jquery"),
+    {SocketConn} = require("./lib/socketConn"),
     {Chat} = require("./controls/chat"),
     {Chatlog} = require("./models/chatlog"),
     {clone} = require("./lib/proto");
 
 $(function() {
-  let url = "http://localhost:8080/ws";
-  window.chatlog = clone(Chatlog, url);
+  window.socketConn = clone(SocketConn, "http://localhost:8080/ws");
+  window.chatlog = clone(Chatlog, window.socketConn, "chat");
   window.chat = clone(Chat, $("#chat"), window.chatlog);
 });
