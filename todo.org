@@ -1,4 +1,4 @@
-* archive [10/10]
+* archive [12/12]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -33,23 +33,28 @@
    any given time -- as such, the handling should be moved to a single,
    shared WS connection that is then passed around to any interested
    modules, who will receive namespaced APIs for listening/writing.
+** DONE Write a transform that will include and render css            :build:
+   CLOSED: [2013-08-31 Sat 12:19]
+   Should be able to just require("./chatInput.styl") or
+   requireCss("./chatInput.styl") and have it do the right thing. The
+   question is -- should it only insert the CSS after being called the
+   first time, or should control modules simply add the CSS themselves?
+** DONE Write a transform for including .mustache files as can.views  :build:
+   CLOSED: [2013-08-31 Sat 12:18]
 * backlog [0/0]
-* active [0/6]
-** TODO Reconnect logic for socketConn                                 :chat:
-   Bring back the reconnection logic, but think a bit about what it means
-   to reconnect and handle connected/disconnected events when there's only
-   a single shared connection.
+* active [0/5]
 ** TODO Split chatbox into two components                              :chat:
    One for input, which will be increasingly complex, and one for
    rendering the actual chat entries (and interactivity with entries in
    it).
-** TODO Smarter disconnect handling                                    :chat:
+** TODO Reconnect logic for socketConn                             :sockConn:
+   Bring back the reconnection logic, but think a bit about what it means
+   to reconnect and handle connected/disconnected events when there's only
+   a single shared connection.
+** TODO Smarter disconnect handling                                :sockConn:
    Right now, it just keeps trying to reconnect over and over, as fast as
    possible. Instead, make the reconnect frequency lower and limit the n
    number of reconnect attempts before asking the user to refresh.
-** TODO Rename chat control to chatbox                                 :chat:
-   So we have an actual unique, clear name for the control/view part of
-   it. :)
 ** TODO Generic wrapper for can.Model                                 :proto:
 ** TODO Set up a basic test with funcunit                   :qa:architecture:
    Just something that tests that connections are established properly and
