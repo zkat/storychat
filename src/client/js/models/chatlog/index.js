@@ -27,7 +27,7 @@ function initSocket(log, url) {
   log.socket.onopen = _.partial(onOpen, log);
   log.socket.onmessage = _.partial(onMessage, log);
   // TODO - this is probably a pretty naive way to go about reconnecting...
-  log.socket.onclose = _.partial(initSocket, log);
+  log.socket.onclose = _.partial(onClose, log, url);
 }
 
 function initModelList(log) {
@@ -36,6 +36,11 @@ function initModelList(log) {
 
 function onOpen(log) {
   addEntry(log, {entryType: "system", text: "Connected"});
+}
+
+function onClose(log, url) {
+  addEntry(log, {entryType: "system", text: "Disconnected..."});
+  initSocket(log, url);
 }
 
 function addEntry(log, entryInfo) {
