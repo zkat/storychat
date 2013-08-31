@@ -22,8 +22,8 @@ addMethod(init, [Chatlog], function(log, url) {
   initModelList(log);
 });
 
-function initSocket(log) {
-  log.socket = new Sock("http://localhost:8080/ws");
+function initSocket(log, url) {
+  log.socket = new Sock(url);
   log.socket.onopen = _.partial(onOpen, log);
   log.socket.onmessage = _.partial(onMessage, log);
   // TODO - this is probably a pretty naive way to go about reconnecting...
