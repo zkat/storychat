@@ -1,6 +1,4 @@
-* archive [0/0]
-* backlog [0/0]
-* active [5/10]
+* archive [10/10]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -17,14 +15,42 @@
    to live in a directory above the client code. Having src/client/js is
    ok, since it gives freedom to treat src/client as a source mirror of
    the browser-side structure.
-** TODO Put together an actual working chatbox                         :chat:
-   Now that everything's in place, move the pieces around, do some
-   styling, add a <form>, and make it a working chat.
+** DONE Reconnect on disconnect, or something                          :chat:
+   CLOSED: [2013-08-29 Thu 23:10]
+** DONE Generic wrapper for can.Control                               :proto:
+   CLOSED: [2013-08-30 Fri 00:44]
+** DONE Notify the user of a disconnection somehow                     :chat:
+   CLOSED: [2013-08-31 Sat 00:30]
+** DONE Move websocket configuration to external param                 :chat:
+   CLOSED: [2013-08-31 Sat 00:31]
+   Might actually need to make a clientState thing for generic client
+   settings.
+   Good enough to move it out to storychat.js and pass it in.
+** DONE Shared websocket connection                                    :chat:
+   CLOSED: [2013-08-31 Sat 01:34]
+   Ideally, there would be one websocket connection for each "thing", but
+   fallback protocols mean that we can only have one WS connection open at
+   any given time -- as such, the handling should be moved to a single,
+   shared WS connection that is then passed around to any interested
+   modules, who will receive namespaced APIs for listening/writing.
+* backlog [0/0]
+* active [0/6]
+** TODO Reconnect logic for socketConn                                 :chat:
+   Bring back the reconnection logic, but think a bit about what it means
+   to reconnect and handle connected/disconnected events when there's only
+   a single shared connection.
+** TODO Split chatbox into two components                              :chat:
+   One for input, which will be increasingly complex, and one for
+   rendering the actual chat entries (and interactivity with entries in
+   it).
+** TODO Smarter disconnect handling                                    :chat:
+   Right now, it just keeps trying to reconnect over and over, as fast as
+   possible. Instead, make the reconnect frequency lower and limit the n
+   number of reconnect attempts before asking the user to refresh.
 ** TODO Rename chat control to chatbox                                 :chat:
    So we have an actual unique, clear name for the control/view part of
    it. :)
 ** TODO Generic wrapper for can.Model                                 :proto:
-** TODO Generic wrapper for can.Control                               :proto:
 ** TODO Set up a basic test with funcunit                   :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
