@@ -31,7 +31,7 @@ let Chat = clone(),
     listener = clone(EventListener, events),
     cssInserted = false;
 
-Chat.entryTemplates = _.each({
+let entryTemplates = _.each({
   system: systemTemplateText,
   line: lineTemplateText
 }, function(val, key, tbl) {
@@ -60,7 +60,7 @@ function renderEntry() {
   /*jshint validthis: true*/
   let obj = this;
   return function(el) {
-    $(el).html(Chat.entryTemplates[obj.entryType](obj))
+    $(el).html(entryTemplates[obj.entryType](obj))
       .addClass(obj.entryType)
       .data("entry", obj);
   };
