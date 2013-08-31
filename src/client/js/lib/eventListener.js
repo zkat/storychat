@@ -13,6 +13,7 @@ addMethod(init, [EventListener], function(ctrl, events) {
   events = _.each(_.extend({}, events), wrapCallback);
   ctrl._canControl = can.Control.extend({}, events);
 });
+init(EventListener, {});
 
 function listen(listener, observer, domNode, extraData) {
   return new (listener._canControl)(domNode,
