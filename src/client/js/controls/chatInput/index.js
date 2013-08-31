@@ -9,7 +9,7 @@ let {addMethod} = require("genfun"),
 
 let can = require("../../shims/can");
 
-let insertCss = require("insert-css"),
+let style = require("../../lib/ensureStyle"),
     viewCss = require("./chatInput.styl");
 
 let fs = require("fs"),
@@ -25,17 +25,13 @@ let ChatInput = clone();
 
 let events = { "form submit": sendMessage },
     listener = clone(EventListener, events),
-    chatInputTemplate = can.view.mustache(chatInputTemplateText),
-    cssInserted = false;
+    chatInputTemplate = can.view.mustache(chatInputTemplateText);
 
 addMethod(init, [ChatInput], function(input, el, chatlog) {
   input.el = el;
   input.log = chatlog;
   initDom(input);
-  if (!cssInserted) {
-    insertCss(viewCss);
-    cssInserted = true;
-  }
+  style(viewCss);
 });
 
 function initDom(input) {

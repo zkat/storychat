@@ -11,7 +11,7 @@ let {addMethod} = require("genfun"),
 let can = require("../../shims/can"),
     $ = require("jquery");
 
-let insertCss = require("insert-css"),
+let style = require("../../lib/ensureStyle"),
     viewCss = require("./chat.styl");
 
 let fs = require("fs"),
@@ -28,8 +28,7 @@ let {ChatInput} = require("../chatInput");
  *
  */
 let Chat = clone(),
-    chatTemplate = can.view.mustache(chatTemplateText),
-    cssInserted = false;
+    chatTemplate = can.view.mustache(chatTemplateText);
 
 let entryTemplates = _.each({
   system: systemTemplateText,
@@ -46,10 +45,7 @@ addMethod(init, [Chat], function(chat, el, chatlog) {
   chat.log = chatlog;
   initDom(chat);
   chat.input = clone(ChatInput, el.find(".input"), chatlog);
-  if (!cssInserted) {
-    insertCss(viewCss);
-    cssInserted = true;
-  }
+  style(viewCss);
 });
 
 function initDom(chat) {
