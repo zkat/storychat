@@ -13,7 +13,7 @@
     "mocha": "~1.12.0",
     "uglify-js": "~2.4.0",
     "supervisor": "~0.5.4",
-    "bower": "~1.2.4",
+    "bower": "~1.2.6",
     "browserify": "~2.28.0",
     "es6ify": "~0.3.0",
     "brfs": "0.0.7",

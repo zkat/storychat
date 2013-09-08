@@ -15,6 +15,8 @@ linter = $(module-root)/jshint/bin/jshint $(linter-opts)
 semver = $(module-root)/semver/bin/semver
 node = node
 supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
+npm = npm
+bower = $(module-root)/bower/bin/bower
 
 #
 # Frontend files
@@ -54,14 +56,19 @@ supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(
 # Targets
 #
 .PHONY: all
-all: lint compile
+all: build
+
+.PHONY: build
+build: lint compile
+
+run-deps = $(npm-spec) $(npm-dep-dir) build
 
 .PHONY: run
-run: $(npm-spec) $(npm-dep-dir)
+run: $(run-deps)
 	$(node) .
 
 .PHONY: run-dev
-run-dev: $(npm-spec) $(npm-dep-dir)
+run-dev: $(run-deps)
 	$(supervisor) $(supervisor-opts) .
 
 .PHONY: compile
@@ -105,7 +112,8 @@ lint: $(source-files) $(linter-config) $(client-src-files) deps
 deps: $(npm-dep-dir) $(bower-dep-dir)
 
 $(npm-dep-dir): $(npm-spec)
-	npm install
+	$(npm) install
 
-$(bower-dep-dir): $(bower-spec)
-	bower install
+$(bower): $(npm-dep-dir)
+$(bower-dep-dir): $(bower) $(bower-spec)
+	$< install
