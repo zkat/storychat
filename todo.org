@@ -1,4 +1,4 @@
-* archive [12/12]
+* archive [13/13]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -41,8 +41,18 @@
    first time, or should control modules simply add the CSS themselves?
 ** DONE Write a transform for including .mustache files as can.views  :build:
    CLOSED: [2013-08-31 Sat 12:18]
+** DONE Toggle between different input types in input field            :chat:
+   CLOSED: [2013-09-08 Sun 15:52]
+   Pressing TAB while focused on the input field should toggle between the
+   different types of input.
 * backlog [0/0]
-* active [0/5]
+* active [0/12]
+** TODO Add dialogue                                                   :chat:
+** TODO Add actions                                                    :chat:
+** TODO Add slug lines                                                 :chat:
+** TODO Add scene heading                                              :chat:
+** TODO Add parentheticals                                             :chat:
+** TODO Auth                                                           :chat:
 ** TODO Split chatbox into two components                              :chat:
    One for input, which will be increasingly complex, and one for
    rendering the actual chat entries (and interactivity with entries in
@@ -56,6 +66,13 @@
    possible. Instead, make the reconnect frequency lower and limit the n
    number of reconnect attempts before asking the user to refresh.
 ** TODO Generic wrapper for can.Model                                 :proto:
+** TODO Work on backend architecture                                :backend:
+   When a websocket server receives a message, it should throw it into a
+   0mq queue, which will be read by another server dedicated to processing
+   user input. When that input is processed, a response is sent back on a
+   fanout queue which goes to all websocket servers, who then send out all
+   messages to appropriate clients. Might be good to key clients with some
+   tag so messages can be sent selectively.
 ** TODO Set up a basic test with funcunit                   :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
