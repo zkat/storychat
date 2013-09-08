@@ -21,11 +21,18 @@ bower = $(module-root)/bower/bin/bower
 #
 # Frontend files
 #
-client-src-dir = src/client/js
-client-src-files = $(shell find $(client-src-dir) -iname "*.js")
-client-stylesheets = $(shell find $(client-src-dir) -iname "*.styl")
+client-src-dir = ./src/client
+client-src-files = \
+	$(shell find $(client-src-dir)/js -type f -iname "*.js")
+client-view-stylesheets = \
+	$(shell find $(client-src-dir)/js -type f -iname "*.styl")
+client-static-resource-files = \
+	$(shell find $(client-src-dir) -type f \
+		-not -path "$(client-src-dir)/js/*")
 client-main-file = src/client/js/storychat.js
 resource-dir = static
+static-resources = \
+	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
 build-dir = $(resource-dir)/js
 browserify-bundle = $(build-dir)/storychat.js
 
@@ -59,7 +66,10 @@ supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(
 all: build
 
 .PHONY: build
-build: lint compile
+build: static lint compile
+
+.PHONY: static
+static: $(static-resources)
 
 run-deps = $(npm-spec) $(npm-dep-dir) build
 
@@ -96,7 +106,7 @@ $(build-dir):
 
 .PHONY: clean
 clean:
-	-rm -rf $(build-dir)
+	-rm -rf $(resource-dir)
 
 .PHONY: distclean
 distclean:
@@ -117,3 +127,7 @@ $(npm-dep-dir): $(npm-spec)
 $(bower): $(npm-dep-dir)
 $(bower-dep-dir): $(bower) $(bower-spec)
 	$< install
+
+$(resource-dir)/%: $(client-src-dir)/%
+	mkdir -p $(@D)
+	cp $< $@
