@@ -57,11 +57,11 @@ supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(
 all: lint compile
 
 .PHONY: run
-run: $(npm-spec)
+run: $(npm-spec) $(npm-dep-dir)
 	$(node) .
 
 .PHONY: run-dev
-run-dev: $(npm-spec)
+run-dev: $(npm-spec) $(npm-dep-dir)
 	$(supervisor) $(supervisor-opts) .
 
 .PHONY: compile
