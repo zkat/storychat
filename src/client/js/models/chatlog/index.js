@@ -5,6 +5,7 @@
 let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
     {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
+    _ = require("lodash"),
     can = require("../../shims/can");
 
 /**
@@ -41,8 +42,9 @@ addMethod(onClose, [Chatlog], function(log) {
   addEntry(log, {entryType: "system", text: "Disconnected..."});
 });
 
-function addLine(log, line) {
-  send(log.conn, log.namespace, {entryType: "line", text: line});
+function submitMessage(log, type, message, opts) {
+  let msg = _.extend({}, {entryType: type, text: message}, opts || {});
+  send(log.conn, log.namespace, msg);
 }
 
 /*
@@ -58,4 +60,4 @@ function addEntry(log, entryInfo) {
 var LogLine = can.Model.extend();
 
 module.exports.Chatlog = Chatlog;
-module.exports.addLine = addLine;
+module.exports.submitMessage = submitMessage;
