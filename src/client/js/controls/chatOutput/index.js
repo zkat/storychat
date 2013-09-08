@@ -12,13 +12,11 @@ let style = require("../../lib/ensureStyle"),
 
 require("../../shims/can.view.mustache");
 
-let {ChatInput} = require("../chatInput");
-
 /**
- * Chat Controller
+ * ChatOutput Controller
  *
  */
-let Chat = clone();
+let ChatOutput = clone();
 
 let chatTemplate = require("./chat.mustache");
 let entryTemplates = {
@@ -29,11 +27,10 @@ let entryTemplates = {
 /*
  * Init
  */
-addMethod(init, [Chat], function(chat, el, chatlog) {
+addMethod(init, [ChatOutput], function(chat, el, chatlog) {
   chat.el = el;
   chat.log = chatlog;
   initDom(chat);
-  chat.input = clone(ChatInput, el.find(".input"), chatlog);
   style(viewCss);
 });
 
@@ -54,4 +51,4 @@ function renderEntry() {
 /*
  * Exports
  */
-module.exports.Chat = Chat;
+module.exports.ChatOutput = ChatOutput;

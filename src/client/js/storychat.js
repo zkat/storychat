@@ -4,12 +4,14 @@
 
 let $ = require("jquery"),
     {SocketConn} = require("./lib/socketConn"),
-    {Chat} = require("./controls/chat"),
+    {ChatOutput} = require("./controls/chatOutput"),
+    {ChatInput} = require("./controls/chatInput"),
     {Chatlog} = require("./models/chatlog"),
     {clone} = require("./lib/proto");
 
 $(function() {
   window.socketConn = clone(SocketConn, "http://localhost:8080/ws");
   window.chatlog = clone(Chatlog, window.socketConn, "chat");
-  window.chat = clone(Chat, $("#chat"), window.chatlog);
+  window.chatOutput = clone(ChatOutput, $("#chat-output"), window.chatlog);
+  window.chatInput = clone(ChatInput, $("#chat-input"), window.chatlog);
 });
