@@ -82,6 +82,7 @@ function selectChanged(chatInput, select) {
 }
 
 function isSelected(type) {
+  /*jshint validthis:true*/
   if (this === type()) {
     return "selected";
   }
