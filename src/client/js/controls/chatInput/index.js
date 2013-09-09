@@ -76,13 +76,15 @@ const TAB = 9;
 function keyPressed(chatInput, _el, event) {
   if (event.keyCode === TAB) {
     event.preventDefault();
-    cycleInputType(chatInput);
+    cycleInputType(chatInput, !event.shiftKey);
   }
 }
 
-function cycleInputType(chatInput) {
+function cycleInputType(chatInput, goForward) {
   let typeIndex = inputTypes.indexOf(chatInput.type());
-  chatInput.type(inputTypes[(typeIndex + 1) % inputTypes.length]);
+  chatInput.type(inputTypes[goForward ?
+                            (typeIndex + 1) % inputTypes.length :
+                            (typeIndex || inputTypes.length) - 1]);
   chatInput.el.find("[name=content]").focus();
 }
 
