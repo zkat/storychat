@@ -82,9 +82,9 @@ function keyPressed(chatInput, _el, event) {
 
 function cycleInputType(chatInput, goForward) {
   let typeIndex = inputTypes.indexOf(chatInput.type());
-  chatInput.type(inputTypes[goForward ?
-                            (typeIndex + 1) % inputTypes.length :
-                            (typeIndex || inputTypes.length) - 1]);
+  chatInput.type(
+    inputTypes[(typeIndex + (goForward ? 1 : inputTypes.length - 1)) %
+               inputTypes.length]);
   chatInput.el.find("[name=content]").focus();
 }
 
