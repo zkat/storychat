@@ -23,7 +23,7 @@ let listener = clone(EventListener, {
   "form submit": sendMessage,
   "form keydown": keyPressed,
   "select change": selectChanged,
-  "input.actor input": actorChanged
+  "[name=actor] input": actorChanged
 });
 
 // NOTE: Yeah, it has to be added in multiple places.
@@ -55,7 +55,7 @@ function initDom(chatInput) {
       isSelected: isSelected
     }));
   chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
-  chatInput.el.find(".content").focus();
+  chatInput.el.find("[name=content]").focus();
 }
 
 /*
@@ -63,12 +63,10 @@ function initDom(chatInput) {
  */
 function sendMessage(chatInput, _el, event) {
   event.preventDefault();
-  let input = chatInput.el.find(".content");
-  submitMessage(chatInput.log, chatInput.type(), {
-    content: input.val(),
-    actor: chatInput.actor()
-  });
-  input.val("");
+  let formVals = can.deparam(chatInput.el.find("form").serialize());
+  formVals.actor = formVals.actor || chatInput.actor();
+  submitMessage(chatInput.log, chatInput.type(), formVals);
+  chatInput.el.find("form").get(0).reset();
 }
 
 /*
@@ -85,7 +83,7 @@ function keyPressed(chatInput, _el, event) {
 function cycleInputType(chatInput) {
   let typeIndex = inputTypes.indexOf(chatInput.type());
   chatInput.type(inputTypes[(typeIndex + 1) % inputTypes.length]);
-  chatInput.el.find(".content").focus();
+  chatInput.el.find("[name=content]").focus();
 }
 
 function selectChanged(chatInput, select) {
