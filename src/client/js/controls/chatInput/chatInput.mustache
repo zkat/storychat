@@ -1,3 +1,8 @@
+<select>
+  {{#each types}}
+  <option {{isSelected type}}>{{.}}</option>
+  {{/each}}
+</select>
 <form>
   {{{renderInput type}}}
 </form>

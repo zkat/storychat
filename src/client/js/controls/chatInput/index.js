@@ -21,7 +21,8 @@ let ChatInput = clone();
 
 let listener = clone(EventListener, {
   "form submit": sendMessage,
-  keydown: keyPressed
+  keydown: keyPressed,
+  "select change": selectChanged
 });
 
 // NOTE: Yeah, it has to be added in multiple places.
@@ -43,7 +44,8 @@ addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
 
 function initDom(chatInput) {
   chatInput.el.html(
-    chatInputTemplate({ type: chatInput.type }, { renderInput: renderInput }));
+    chatInputTemplate({ types: inputTypes, type: chatInput.type },
+                      { renderInput: renderInput, isSelected: isSelected }));
   chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
   chatInput.el.find(".content").focus();
 }
@@ -73,6 +75,16 @@ function cycleInputType(chatInput) {
   let typeIndex = inputTypes.indexOf(chatInput.type());
   chatInput.type(inputTypes[(typeIndex + 1) % inputTypes.length]);
   chatInput.el.find(".content").focus();
+}
+
+function selectChanged(chatInput, select) {
+  chatInput.type(select.val());
+}
+
+function isSelected(type) {
+  if (this === type()) {
+    return "selected";
+  }
 }
 
 function renderInput(type) {
