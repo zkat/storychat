@@ -28,11 +28,10 @@ let listener = clone(EventListener, {
 });
 
 // NOTE: Yeah, it has to be added in multiple places.
-let inputTypes = ["dialogue", "action", "system"];
+let inputTypes = ["dialogue", "action"];
 let inputTemplates = {
   dialogue: require("./inputs/dialogue.mustache"),
-  action: require("./inputs/action.mustache"),
-  system: require("./inputs/system.mustache")
+  action: require("./inputs/action.mustache")
 };
 
 let chatInputTemplate = require("./chatInput.mustache");
