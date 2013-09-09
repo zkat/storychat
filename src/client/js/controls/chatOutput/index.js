@@ -21,7 +21,7 @@ let ChatOutput = clone();
 let chatTemplate = require("./chatOutput.mustache");
 let entryTemplates = {
   system: require("./entries/system.mustache"),
-  line: require("./entries/line.mustache")
+  dialogue: require("./entries/dialogue.mustache")
 };
 
 /*

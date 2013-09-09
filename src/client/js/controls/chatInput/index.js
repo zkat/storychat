@@ -27,9 +27,9 @@ let listener = clone(EventListener, {
 });
 
 // NOTE: Yeah, it has to be added in multiple places.
-let inputTypes = ["line", "system"];
+let inputTypes = ["dialogue", "system"];
 let inputTemplates = {
-  line: require("./inputs/line.mustache"),
+  dialogue: require("./inputs/dialogue.mustache"),
   system: require("./inputs/system.mustache")
 };
 
