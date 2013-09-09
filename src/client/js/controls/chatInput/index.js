@@ -38,14 +38,21 @@ addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
   chatInput.el = el;
   chatInput.log = chatlog;
   chatInput.type = can.compute(inputTypes[0]);
+  chatInput.actor = can.compute("Mr. 名無しさん");
   initDom(chatInput);
   style(viewCss);
 });
 
 function initDom(chatInput) {
   chatInput.el.html(
-    chatInputTemplate({ types: inputTypes, type: chatInput.type },
-                      { renderInput: renderInput, isSelected: isSelected }));
+    chatInputTemplate({
+      types: inputTypes,
+      type: chatInput.type,
+      actor: chatInput.actor
+    }, {
+      renderInput: renderInput,
+      isSelected: isSelected
+    }));
   chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
   chatInput.el.find(".content").focus();
 }
@@ -56,7 +63,10 @@ function initDom(chatInput) {
 function sendMessage(chatInput, _el, event) {
   event.preventDefault();
   let input = chatInput.el.find(".content");
-  submitMessage(chatInput.log, chatInput.type(), input.val());
+  submitMessage(chatInput.log, chatInput.type(), {
+    content: input.val(),
+    actor: chatInput.actor()
+  });
   input.val("");
 }
 
@@ -81,13 +91,16 @@ function selectChanged(chatInput, select) {
   chatInput.type(select.val());
 }
 
+/*
+ * Mustache helpers
+ */
 function isSelected(type) {
   /*jshint validthis:true*/
   return this === type() ? "selected" : "";
 }
 
-function renderInput(type) {
-  return inputTemplates[type()]();
+function renderInput(opts) {
+  return inputTemplates[opts.contexts[0].type()](opts.contexts[0]);
 }
 
 /*

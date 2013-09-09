@@ -31,7 +31,7 @@ function initModelList(log) {
  * Event handling
  */
 addMethod(onOpen, [Chatlog], function(log) {
-  addEntry(log, {entryType: "system", text: "Connected"});
+  addEntry(log, {entryType: "system", content: "Connected"});
 });
 
 addMethod(onMessage, [Chatlog], function(log, data) {
@@ -39,11 +39,11 @@ addMethod(onMessage, [Chatlog], function(log, data) {
 });
 
 addMethod(onClose, [Chatlog], function(log) {
-  addEntry(log, {entryType: "system", text: "Disconnected..."});
+  addEntry(log, {entryType: "system", content: "Disconnected..."});
 });
 
-function submitMessage(log, type, message, opts) {
-  let msg = _.extend({}, {entryType: type, text: message}, opts || {});
+function submitMessage(log, type, opts) {
+  let msg = _.extend({}, {entryType: type }, opts || {});
   send(log.conn, log.namespace, msg);
 }
 
