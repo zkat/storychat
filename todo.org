@@ -1,4 +1,4 @@
-* archive [13/13]
+* archive [15/15]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -45,18 +45,31 @@
    CLOSED: [2013-09-08 Sun 15:52]
    Pressing TAB while focused on the input field should toggle between the
    different types of input.
+** DONE Build all of \/static based on src\/client                    :build:
+   CLOSED: [2013-09-08 Sun 16:41]
+   Put everything, including regular frontend files, inside src/client/,
+   and have the makefile build off there. See if watchify can be
+   configured to rebuild when files in an arbitrary directory change.
+** DONE Split chatbox into two components                              :chat:
+   CLOSED: [2013-09-08 Sun 17:04]
+   One for input, which will be increasingly complex, and one for
+   rendering the actual chat entries (and interactivity with entries in
+   it).
 * backlog [0/0]
-* active [0/12]
+* active [0/15]
+** TODO inputType dropdown                                             :chat:
+   Allow a dropdown to change the inputType, not just pressing the TAB key
 ** TODO Add dialogue                                                   :chat:
 ** TODO Add actions                                                    :chat:
 ** TODO Add slug lines                                                 :chat:
 ** TODO Add scene heading                                              :chat:
 ** TODO Add parentheticals                                             :chat:
-** TODO Auth                                                           :chat:
-** TODO Split chatbox into two components                              :chat:
-   One for input, which will be increasingly complex, and one for
-   rendering the actual chat entries (and interactivity with entries in
-   it).
+** TODO Style chatOutput                                         :chat:style:
+** TODO Style chatInput                                          :chat:style:
+** TODO Auth                                                   :chat:infosec:
+** TODO Force scoping of control css to individual controls           :build:
+   May need to hack stylify to force wrapping of stuff, or something like
+   that.
 ** TODO Reconnect logic for socketConn                             :sockConn:
    Bring back the reconnection logic, but think a bit about what it means
    to reconnect and handle connected/disconnected events when there's only
