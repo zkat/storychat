@@ -21,7 +21,7 @@ let ChatInput = clone();
 
 let listener = clone(EventListener, {
   "form submit": sendMessage,
-  keydown: keyPressed,
+  "form keydown": keyPressed,
   "select change": selectChanged
 });
 
