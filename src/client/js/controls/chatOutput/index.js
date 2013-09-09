@@ -8,7 +8,7 @@ let {addMethod} = require("genfun"),
 let $ = require("jquery");
 
 let style = require("../../lib/ensureStyle"),
-    viewCss = require("./chat.styl");
+    viewCss = require("./chatOutput.styl");
 
 require("../../shims/can.view.mustache");
 
@@ -18,7 +18,7 @@ require("../../shims/can.view.mustache");
  */
 let ChatOutput = clone();
 
-let chatTemplate = require("./chat.mustache");
+let chatTemplate = require("./chatOutput.mustache");
 let entryTemplates = {
   system: require("./entries/system.mustache"),
   line: require("./entries/line.mustache")
@@ -27,15 +27,17 @@ let entryTemplates = {
 /*
  * Init
  */
-addMethod(init, [ChatOutput], function(chat, el, chatlog) {
-  chat.el = el;
-  chat.log = chatlog;
-  initDom(chat);
+addMethod(init, [ChatOutput], function(chatOutput, el, chatlog) {
+  chatOutput.el = el;
+  chatOutput.log = chatlog;
+  initDom(chatOutput);
   style(viewCss);
 });
 
-function initDom(chat) {
-  chat.el.html(chatTemplate({ log: chat.log }, { renderEntry: renderEntry }));
+function initDom(chatOutput) {
+  chatOutput.el.html(chatTemplate(
+    { log: chatOutput.log },
+    { renderEntry: renderEntry }));
 }
 
 function renderEntry() {
