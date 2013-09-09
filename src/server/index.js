@@ -7,6 +7,8 @@ var express = require("express"),
     Sockjs = require("sockjs"),
     _ = require("lodash");
 
+var port = process.env.PORT || 8080;
+
 /*
  * App Setup
  */
@@ -40,4 +42,4 @@ sock.on("connection", function(socket) {
 
 sock.installHandlers(server, {prefix: "/ws"});
 
-server.listen(8080);
+server.listen(port);
