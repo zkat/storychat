@@ -1,9 +1,10 @@
+<hr>
+<form>
+  {{{renderInput}}}
+</form>
 <select>
   {{#each types}}
   <option {{isSelected type}}>{{.}}</option>
   {{/each}}
 </select>
 <label>Name: <input name=actor type=text value="{{actor}}"></label>
-<form>
-  {{{renderInput}}}
-</form>
