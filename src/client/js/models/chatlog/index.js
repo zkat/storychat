@@ -43,7 +43,8 @@ addMethod(onClose, [Chatlog], function(log) {
 });
 
 function submitMessage(log, type, opts) {
-  let msg = _.extend({}, {entryType: type }, opts || {});
+  let msg = _.extend({_sent: (new Date()).getTime()},
+                     {entryType: type }, opts || {});
   send(log.conn, log.namespace, msg);
 }
 
@@ -51,7 +52,8 @@ function submitMessage(log, type, opts) {
  * Entries
  */
 function addEntry(log, entryInfo) {
-  log.lines.push(new LogLine(entryInfo));
+  log.lines.push(
+    new LogLine(_.extend({_received: (new Date()).getTime()}, entryInfo)));
 }
 
 /*

@@ -31,23 +31,28 @@ let entryTemplates = {
 addMethod(init, [ChatOutput], function(chatOutput, el, chatlog) {
   chatOutput.el = el;
   chatOutput.log = chatlog;
+  chatOutput.debug = true;
   initDom(chatOutput);
   style(viewCss);
 });
 
 function initDom(chatOutput) {
   chatOutput.el.html(chatTemplate(
-    { log: chatOutput.log },
+    { log: chatOutput.log, debug: chatOutput.debug },
     { renderEntry: renderEntry }));
 }
 
-function renderEntry() {
+function renderEntry(opts) {
   /*jshint validthis: true*/
   let obj = this;
   return function(el) {
     $(el).html((entryTemplates[obj.entryType] || entryWarn)(obj))
       .addClass(obj.entryType)
       .data("entry", obj);
+    if (opts.contexts[0].debug && obj._sent) {
+      let diff = obj._received - obj._sent;
+      $("<span class=debug>").text(diff).appendTo(el);
+    }
   };
 }
 
