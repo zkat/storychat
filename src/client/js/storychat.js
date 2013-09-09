@@ -10,7 +10,8 @@ let $ = require("jquery"),
     {clone} = require("./lib/proto");
 
 $(function() {
-  window.socketConn = clone(SocketConn, "http://localhost:8080/ws");
+  let origin = window.location.protocol + "//" + window.location.host;
+  window.socketConn = clone(SocketConn, origin + "/ws");
   window.chatlog = clone(Chatlog, window.socketConn, "chat");
   window.chatOutput = clone(ChatOutput, $("#chat-output"), window.chatlog);
   window.chatInput = clone(ChatInput, $("#chat-input"), window.chatlog);
