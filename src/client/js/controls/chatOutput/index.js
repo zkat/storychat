@@ -44,10 +44,14 @@ function renderEntry() {
   /*jshint validthis: true*/
   let obj = this;
   return function(el) {
-    $(el).html(entryTemplates[obj.entryType](obj))
+    $(el).html((entryTemplates[obj.entryType] || entryWarn)(obj))
       .addClass(obj.entryType)
       .data("entry", obj);
   };
+}
+
+function entryWarn(ctx) {
+  console.warn("No template for entry type: ", ctx.entryType);
 }
 
 /*
