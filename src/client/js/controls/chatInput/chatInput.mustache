@@ -2,9 +2,11 @@
 <form>
   {{{renderInput}}}
 </form>
-<select>
-  {{#each types}}
-  <option {{isSelected type}}>{{.}}</option>
-  {{/each}}
-</select>
+<label>Input type:
+  <select>
+    {{#each types}}
+    <option {{isSelected type}}>{{.}}</option>
+    {{/each}}
+  </select>
+</label>
 <label>Name: <input name=actor type=text value="{{actor}}"></label>
