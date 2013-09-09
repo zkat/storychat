@@ -19,11 +19,14 @@ let {submitMessage} = require("../../models/chatlog"),
  */
 let ChatInput = clone();
 
-let chatInputTemplate = require("./chatInput.mustache"),
-    listener = clone(EventListener, { "form submit": sendMessage,
-                                      keydown: keyPressed});
+let listener = clone(EventListener, {
+  "form submit": sendMessage,
+  keydown: keyPressed
+});
 
 let inputTypes = ["line", "system"];
+
+let chatInputTemplate = require("./chatInput.mustache");
 let inputTemplates = {
   line: require("./inputs/line.mustache"),
   system: require("./inputs/system.mustache")
@@ -32,14 +35,14 @@ let inputTemplates = {
 addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
   chatInput.el = el;
   chatInput.log = chatlog;
-  chatInput.typeInfo = new can.Observe({type: inputTypes[0]});
+  chatInput.type = can.compute(inputTypes[0]);
   initDom(chatInput);
   style(viewCss);
 });
 
 function initDom(chatInput) {
-  chatInput.el.html(chatInputTemplate(chatInput.typeInfo,
-                                      { renderInput: renderInput }));
+  chatInput.el.html(
+    chatInputTemplate({ type: chatInput.type }, { renderInput: renderInput }));
   chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
 }
 
@@ -49,7 +52,7 @@ function initDom(chatInput) {
 function sendMessage(chatInput, _el, event) {
   event.preventDefault();
   let input = chatInput.el.find(".content");
-  submitMessage(chatInput.log, chatInput.typeInfo.attr("type"), input.val());
+  submitMessage(chatInput.log, chatInput.type(), input.val());
   input.val("");
 }
 
@@ -65,9 +68,8 @@ function keyPressed(chatInput, _el, event) {
 }
 
 function cycleInputType(chatInput) {
-  let typeIndex = inputTypes.indexOf(chatInput.typeInfo.attr("type"));
-  chatInput.typeInfo.attr("type",
-                          (inputTypes[(typeIndex + 1) % inputTypes.length]));
+  let typeIndex = inputTypes.indexOf(chatInput.type());
+  chatInput.type(inputTypes[(typeIndex + 1) % inputTypes.length]);
   chatInput.el.find(".content").focus();
 }
 
