@@ -1,4 +1,4 @@
-* archive [15/15]
+* archive [22/22]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -55,17 +55,44 @@
    One for input, which will be increasingly complex, and one for
    rendering the actual chat entries (and interactivity with entries in
    it).
-* backlog [0/0]
-* active [0/15]
-** TODO inputType dropdown                                             :chat:
+** DONE inputType dropdown                                             :chat:
+   CLOSED: [2013-09-08 Sun 19:53]
    Allow a dropdown to change the inputType, not just pressing the TAB key
-** TODO Add dialogue                                                   :chat:
-** TODO Add actions                                                    :chat:
+** DONE Add character name to chat                                     :chat:
+   CLOSED: [2013-09-09 Mon 01:06]
+** DONE Add dialogue                                                   :chat:
+   CLOSED: [2013-09-09 Mon 02:07]
+** DONE Don't lose input when you switch input types                   :chat:
+   CLOSED: [2013-09-09 Mon 02:24]
+   If you press tab, everything gets rerendered and the input completely
+   disappears.
+   The best fix for this is most likely to change how inputs
+   work so that each of them is its own control, and is attached/detached
+   as the types cycle through -- that way, they can maintain their state
+   during tabbing.
+** DONE Add actions                                                    :chat:
+   CLOSED: [2013-09-09 Mon 02:36]
+** DONE Get rid of system input                                        :chat:
+   CLOSED: [2013-09-09 Mon 02:36]
+   Because it's not supposed to be there anyway.
+** DONE Get rid of 'line' input                                        :chat:
+   CLOSED: [2013-09-09 Mon 02:36]
+* backlog [0/0]
+* active [0/14]
 ** TODO Add slug lines                                                 :chat:
 ** TODO Add scene heading                                              :chat:
 ** TODO Add parentheticals                                             :chat:
+   The input for this one is going to be a bit more complex.
+** TODO Add OOC                                                        :chat:
 ** TODO Style chatOutput                                         :chat:style:
 ** TODO Style chatInput                                          :chat:style:
+** TODO MessageGroups                                                  :chat:
+   Instead of having each item in the Chatlog be an individual message,
+   have the chatlog consist of groups of messages of the same type/source
+   -- so if the same source sends a message multiple times in a row, it'll
+   get appended to the group. The views can then render these messages as
+   multiple dom nodes, but close together so that they seem like they're
+   part of a single, big message.
 ** TODO Auth                                                   :chat:infosec:
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
