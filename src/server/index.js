@@ -42,4 +42,6 @@ sock.on("connection", function(socket) {
 
 sock.installHandlers(server, {prefix: "/ws"});
 
-server.listen(port);
+server.listen(port, function() {
+  console.log("Listening on "+port);
+});
