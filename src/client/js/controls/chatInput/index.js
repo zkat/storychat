@@ -29,18 +29,18 @@ let inputTemplates = {
   system: require("./inputs/system.mustache")
 };
 
-addMethod(init, [ChatInput], function(input, el, chatlog) {
-  input.el = el;
-  input.log = chatlog;
-  input.typeInfo = new can.Observe({type: inputTypes[0]});
-  initDom(input);
+addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
+  chatInput.el = el;
+  chatInput.log = chatlog;
+  chatInput.typeInfo = new can.Observe({type: inputTypes[0]});
+  initDom(chatInput);
   style(viewCss);
 });
 
-function initDom(input) {
-  input.el.html(chatInputTemplate(input.typeInfo,
-                                  { renderInput: renderInput }));
-  input.listenerHandle = listen(listener, input, input.el);
+function initDom(chatInput) {
+  chatInput.el.html(chatInputTemplate(chatInput.typeInfo,
+                                      { renderInput: renderInput }));
+  chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
 }
 
 /*
@@ -54,7 +54,7 @@ function sendMessage(chatInput, _el, event) {
 }
 
 /*
- * Toggle between input types
+ * Cycle between input types
  */
 const TAB = 9;
 function keyPressed(chatInput, _el, event) {
