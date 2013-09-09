@@ -24,13 +24,14 @@ let listener = clone(EventListener, {
   keydown: keyPressed
 });
 
+// NOTE: Yeah, it has to be added in multiple places.
 let inputTypes = ["line", "system"];
-
-let chatInputTemplate = require("./chatInput.mustache");
 let inputTemplates = {
   line: require("./inputs/line.mustache"),
   system: require("./inputs/system.mustache")
 };
+
+let chatInputTemplate = require("./chatInput.mustache");
 
 addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
   chatInput.el = el;
@@ -44,6 +45,7 @@ function initDom(chatInput) {
   chatInput.el.html(
     chatInputTemplate({ type: chatInput.type }, { renderInput: renderInput }));
   chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
+  chatInput.el.find(".content").focus();
 }
 
 /*
