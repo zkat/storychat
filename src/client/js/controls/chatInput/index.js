@@ -22,7 +22,8 @@ let ChatInput = clone();
 let listener = clone(EventListener, {
   "form submit": sendMessage,
   "form keydown": keyPressed,
-  "select change": selectChanged
+  "select change": selectChanged,
+  "input.actor input": actorChanged
 });
 
 // NOTE: Yeah, it has to be added in multiple places.
@@ -89,6 +90,10 @@ function cycleInputType(chatInput) {
 
 function selectChanged(chatInput, select) {
   chatInput.type(select.val());
+}
+
+function actorChanged(chatInput, inputEl) {
+  chatInput.actor(inputEl.val());
 }
 
 /*
