@@ -8,7 +8,7 @@ let Sock = window.SockJS,
     Genfun = require("genfun"),
     {addMethod} = Genfun,
     {clone, init} = require("./proto"),
-    _ = require("lodash");
+    {partial, forEach, contains, without} = require("lodash");
 
 let SocketConn = clone(),
     onOpen = new Genfun(),
@@ -19,9 +19,9 @@ addMethod(init, [SocketConn], function(conn, url) {
   conn.url = url;
   conn.observers = {};
   conn.socket = new Sock(url);
-  conn.socket.onopen = _.partial(notifyObservers, conn, onOpen);
-  conn.socket.onmessage = _.partial(notifyObservers, conn, onMessage);
-  conn.socket.onclose = _.partial(notifyObservers, conn, onClose);
+  conn.socket.onopen = partial(notifyObservers, conn, onOpen);
+  conn.socket.onmessage = partial(notifyObservers, conn, onMessage);
+  conn.socket.onclose = partial(notifyObservers, conn, onClose);
 });
 
 addMethod(onOpen, [], function() {});
@@ -34,12 +34,12 @@ function notifyObservers(conn, handler, msg) {
         observers = conn.observers[data.namespace] ||
           (console.warn("Unknown namespace: ", data.namespace),
            []);
-    _.each(observers, function(obs) {
+    forEach(observers, function(obs) {
       return handler.call(conn, obs, data.data);
     });
   } else {
-    _.each(conn.observers, function(arr) {
-      _.each(arr, function(obs) {
+    forEach(conn.observers, function(arr) {
+      forEach(arr, function(obs) {
         return handler.call(conn, obs);
       });
     });
@@ -48,13 +48,13 @@ function notifyObservers(conn, handler, msg) {
 
 function listen(conn, observer, namespace) {
   if (!conn.observers[namespace]) { conn.observers[namespace] = []; }
-  if (!_.contains(conn.observers[namespace], observer)) {
+  if (!contains(conn.observers[namespace], observer)) {
     conn.observers[namespace].push(observer);
   }
 }
 
 function unlisten(conn, observer) {
-  conn.observers = _.without(conn.observers, observer);
+  conn.observers = without(conn.observers, observer);
 }
 
 function send(conn, namespace, data) {

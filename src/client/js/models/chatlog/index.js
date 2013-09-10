@@ -5,7 +5,7 @@
 let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
     {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
-    _ = require("lodash"),
+    {extend} = require("lodash"),
     can = require("../../shims/can");
 
 /**
@@ -43,8 +43,8 @@ addMethod(onClose, [Chatlog], function(log) {
 });
 
 function submitMessage(log, type, opts) {
-  let msg = _.extend({_sent: (new Date()).getTime()},
-                     {entryType: type }, opts || {});
+  let msg = extend({_sent: (new Date()).getTime()},
+                   {entryType: type }, opts || {});
   send(log.conn, log.namespace, msg);
 }
 
@@ -53,7 +53,7 @@ function submitMessage(log, type, opts) {
  */
 function addEntry(log, entryInfo) {
   log.lines.push(
-    new LogLine(_.extend({_received: (new Date()).getTime()}, entryInfo)));
+    new LogLine(extend({_received: (new Date()).getTime()}, entryInfo)));
 }
 
 /*

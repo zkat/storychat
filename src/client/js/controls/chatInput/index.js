@@ -4,7 +4,7 @@
 
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
-    _ = require("lodash");
+    {extend, forEach} = require("lodash");
 
 let can = require("../../shims/can");
 require("../../shims/can.view.mustache");
@@ -89,12 +89,11 @@ function keyPressed(chatInput, _el, event) {
 function cycleInputType(chatInput, goForward) {
   let typeIndex = inputTypes.indexOf(chatInput.type()),
       form = chatInput.el.find("form");
-  _.extend(chatInput.defaults,
-           can.deparam(form.serialize()));
+  extend(chatInput.defaults, can.deparam(form.serialize()));
   chatInput.type(
     inputTypes[(typeIndex + (goForward ? 1 : inputTypes.length - 1)) %
                inputTypes.length]);
-  _.forEach(chatInput.defaults, function(v, k) {
+  forEach(chatInput.defaults, function(v, k) {
     form.find("[name="+k+"]").val(v);
   });
   chatInput.el.find("[name=content]").focus();

@@ -3,22 +3,22 @@
 "use strict";
 
 let can = require("../shims/can"),
-    _ = require("lodash"),
+    {forEach, extend} = require("lodash"),
     {addMethod} = require("genfun"),
     {clone, init} = require("./proto");
 
 let EventListener = clone();
 
 addMethod(init, [EventListener], function(ctrl, events) {
-  events = _.each(_.extend({}, events), wrapCallback);
+  events = forEach(extend({}, events), wrapCallback);
   ctrl._canControl = can.Control.extend({}, events);
 });
 init(EventListener, {});
 
 function listen(listener, observer, domNode, extraData) {
   return new (listener._canControl)(domNode,
-                                    _.extend({__observer: observer},
-                                             extraData));
+                                    extend({__observer: observer},
+                                           extraData));
   
 }
 
