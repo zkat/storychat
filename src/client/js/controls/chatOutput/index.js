@@ -22,7 +22,10 @@ let chatTemplate = require("./chatOutput.mustache");
 let entryTemplates = {
   system: require("./entries/system.mustache"),
   dialogue: require("./entries/dialogue.mustache"),
-  action: require("./entries/action.mustache")
+  action: require("./entries/action.mustache"),
+  slug: require("./entries/slug.mustache"),
+  heading: require("./entries/heading.mustache"),
+  ooc: require("./entries/ooc.mustache")
 };
 
 /*
