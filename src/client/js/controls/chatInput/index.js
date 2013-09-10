@@ -43,7 +43,7 @@ addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
   chatInput.el = el;
   chatInput.log = chatlog;
   chatInput.type = can.compute(inputTypes[0]);
-  chatInput.actor = can.compute("Mr. 名無しさん");
+  chatInput.actor = can.compute("Mr.名無しさん");
   chatInput.defaults = {};
   initDom(chatInput);
   style(viewCss);
