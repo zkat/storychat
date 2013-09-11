@@ -1,4 +1,4 @@
-* archive [25/25]
+* archive [30/30]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -87,21 +87,14 @@
    CLOSED: [2013-09-09 Mon 09:24]
    Have a start and end timestamp right in the message which chatlog
    handles. Later on, we can use this to test latency from the server.
-* backlog [0/2]
-** TODO Force scoping of control css to individual controls           :build:
-   May need to hack stylify to force wrapping of stuff, or something like
-   that.
-** TODO Generic wrapper for can.Model                                 :proto:
-* active [3/11]
 ** DONE Add slug lines                                                 :chat:
    CLOSED: [2013-09-09 Mon 19:51]
 ** DONE Add scene heading                                              :chat:
    CLOSED: [2013-09-09 Mon 19:51]
 ** DONE Add OOC                                                        :chat:
    CLOSED: [2013-09-09 Mon 19:51]
-** TODO Add parentheticals                                             :chat:
-   This is just an extension to the dialogue input.
-** TODO MessageGroups                                                  :chat:
+** DONE MessageGroups                                                  :chat:
+   CLOSED: [2013-09-11 Wed 00:37]
    Instead of having each item in the Chatlog be an individual message,
    have the chatlog consist of groups of messages of the same type/source
    -- so if the same source sends a message multiple times in a row, it'll
@@ -109,6 +102,15 @@
    multiple dom nodes, but close together so that they seem like they're
    part of a single, big message.
    Do this before styling.
+** DONE Add parentheticals                                             :chat:
+   CLOSED: [2013-09-11 Wed 01:11]
+   This is just an extension to the dialogue input.
+* backlog [0/2]
+** TODO Force scoping of control css to individual controls           :build:
+   May need to hack stylify to force wrapping of stuff, or something like
+   that.
+** TODO Generic wrapper for can.Model                                 :proto:
+* active [0/7]
 ** TODO Style chatOutput                                         :chat:style:
 ** TODO Style chatInput                                          :chat:style:
 ** TODO Auth                                                   :chat:infosec:
@@ -120,6 +122,9 @@
    Right now, it just keeps trying to reconnect over and over, as fast as
    possible. Instead, make the reconnect frequency lower and limit the n
    number of reconnect attempts before asking the user to refresh.
+** TODO Have server send back parentheticals                           :chat:
+   dialogue content will be delivered as-is, and parentheticals should be
+   extracted from that and sent back.
 ** TODO Set up a basic test with funcunit                   :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
