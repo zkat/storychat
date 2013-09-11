@@ -3,6 +3,9 @@
 </div>
 <div class=dialogue-entries>
 {{#each entries}}
+{{#if parenthetical}}
+<div class=dialogue-parenthetical>({{parenthetical}})</div>
+{{/if}}
 <span class=dialogue-entry>{{content}}</span>
 {{/each}}
 </div>
