@@ -5,8 +5,6 @@
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto");
 
-let $ = require("jquery");
-
 let style = require("../../lib/ensureStyle"),
     viewCss = require("./chatOutput.styl");
 
@@ -42,21 +40,12 @@ addMethod(init, [ChatOutput], function(chatOutput, el, chatlog) {
 function initDom(chatOutput) {
   chatOutput.el.html(chatTemplate(
     { log: chatOutput.log, debug: chatOutput.debug },
-    { renderEntry: renderEntry }));
+    { renderEntryGroup: renderEntryGroup }));
 }
 
-function renderEntry(opts) {
-  /*jshint validthis: true*/
-  let obj = this;
-  return function(el) {
-    $(el).html((entryTemplates[obj.entryType] || entryWarn)(obj))
-      .addClass(obj.entryType)
-      .data("entry", obj);
-    if (opts.contexts[0].debug && obj._sent) {
-      let diff = obj._received - obj._sent;
-      $("<span class=debug>").text(diff).appendTo(el);
-    }
-  };
+function renderEntryGroup() {
+  /*jshint validthis:true*/
+  return (entryTemplates[this.firstEntry.entryType] || entryWarn)(this);
 }
 
 function entryWarn(ctx) {

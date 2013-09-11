@@ -1,1 +1,8 @@
-{{actor}}: {{content}}
+<div class=dialogue-actor>
+  {{firstEntry.actor}}
+</div>
+<div class=dialogue-entries>
+{{#each entries}}
+<span class=dialogue-entry>{{content}}</span>
+{{/each}}
+</div>

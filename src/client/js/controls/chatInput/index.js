@@ -12,7 +12,7 @@ require("../../shims/can.view.mustache");
 let style = require("../../lib/ensureStyle"),
     viewCss = require("./chatInput.styl");
 
-let {submitMessage} = require("../../models/chatlog"),
+let {submitEntry} = require("../../models/chatlog"),
     {EventListener, listen} = require("../../lib/eventListener");
 
 /**
@@ -61,7 +61,7 @@ function initDom(chatInput) {
       isSelected: isSelected
     }));
   chatInput.listenerHandle = listen(listener, chatInput, chatInput.el);
-  chatInput.el.find("[name=content]").focus();
+  chatInput.el.find("form [name=content]").focus();
 }
 
 /*
@@ -71,7 +71,7 @@ function sendMessage(chatInput, _el, event) {
   event.preventDefault();
   let formVals = can.deparam(chatInput.el.find("form").serialize());
   formVals.actor = formVals.actor || chatInput.actor();
-  submitMessage(chatInput.log, chatInput.type(), formVals);
+  submitEntry(chatInput.log, chatInput.type(), formVals);
   chatInput.el.find("form").get(0).reset();
 }
 
@@ -96,7 +96,7 @@ function cycleInputType(chatInput, goForward) {
   forEach(chatInput.defaults, function(v, k) {
     form.find("[name="+k+"]").val(v);
   });
-  chatInput.el.find("[name=content]").focus();
+  chatInput.el.find("form [name=content]").focus();
 }
 
 function selectChanged(chatInput, select) {

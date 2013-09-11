@@ -42,9 +42,10 @@ addMethod(onClose, [Chatlog], function(log) {
   addEntry(log, {entryType: "system", content: "Disconnected..."});
 });
 
-function submitMessage(log, type, opts) {
+function submitEntry(log, type, opts) {
   let msg = extend({_sent: (new Date()).getTime()},
-                   {entryType: type }, opts || {});
+                   {entryType: type},
+                   opts || {});
   send(log.conn, log.namespace, msg);
 }
 
@@ -55,12 +56,12 @@ function addEntry(log, entryInfo) {
   let lastMsgGroup = last(log.entryGroups),
       entry = new Entry(extend({_received: (new Date()).getTime()}, entryInfo));
   if (lastMsgGroup &&
-      lastMsgGroup.type === entryInfo.type &&
-      lastMsgGroup.groupTag === entryInfo.groupTag) {
+      lastMsgGroup.firstEntry.entryType === entryInfo.entryType &&
+      lastMsgGroup.firstEntry.groupTag === entryInfo.groupTag) {
     lastMsgGroup.entries.push(entry);
   } else {
     log.entryGroups.push(
-      new EntryGroup({entries: new Entry.List([entry])}));
+      new EntryGroup({firstEntry: entry, entries: new Entry.List([entry])}));
   }
 }
 
@@ -71,4 +72,4 @@ var EntryGroup = can.Model.extend(),
     Entry = can.Model.extend();
 
 module.exports.Chatlog = Chatlog;
-module.exports.submitMessage = submitMessage;
+module.exports.submitEntry = submitEntry;

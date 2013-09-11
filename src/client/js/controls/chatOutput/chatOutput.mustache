@@ -1,7 +1,7 @@
-<div class=entry-list>
+<div class=entry-groups>
   {{#each log.entryGroups}}
-  {{#each entries}}
-  <div class=entry {{renderEntry}}/>
-  {{/each}}
+  <div class=entry-group>
+    {{{renderEntryGroup}}}
+  </div>
   {{/each}}
 </div>
