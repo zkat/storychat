@@ -70,6 +70,7 @@ function initDom(chatInput) {
 function sendMessage(chatInput, _el, event) {
   event.preventDefault();
   let formVals = can.deparam(chatInput.el.find("form").serialize());
+  if (!formVals.content) { return; }
   formVals.actor = formVals.actor || chatInput.actor();
   submitEntry(chatInput.log, chatInput.type(), formVals);
   chatInput.el.find("form").get(0).reset();
