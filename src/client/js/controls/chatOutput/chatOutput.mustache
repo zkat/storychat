@@ -1,5 +1,7 @@
 <div class=entry-list>
-  {{#each log.lines}}
+  {{#each log.entryGroups}}
+  {{#each entries}}
   <div class=entry {{renderEntry}}/>
+  {{/each}}
   {{/each}}
 </div>

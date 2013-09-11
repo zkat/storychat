@@ -5,7 +5,7 @@
 let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
     {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto"),
-    {extend} = require("lodash"),
+    {extend, last} = require("lodash"),
     can = require("../../shims/can");
 
 /**
@@ -24,7 +24,7 @@ addMethod(init, [Chatlog], function(log, conn, ns) {
 });
 
 function initModelList(log) {
-  log.lines = new LogLine.List([]);
+  log.entryGroups = new EntryGroup.List([]);
 }
 
 /*
@@ -52,14 +52,23 @@ function submitMessage(log, type, opts) {
  * Entries
  */
 function addEntry(log, entryInfo) {
-  log.lines.push(
-    new LogLine(extend({_received: (new Date()).getTime()}, entryInfo)));
+  let lastMsgGroup = last(log.entryGroups),
+      entry = new Entry(extend({_received: (new Date()).getTime()}, entryInfo));
+  if (lastMsgGroup &&
+      lastMsgGroup.type === entryInfo.type &&
+      lastMsgGroup.groupTag === entryInfo.groupTag) {
+    lastMsgGroup.entries.push(entry);
+  } else {
+    log.entryGroups.push(
+      new EntryGroup({entries: new Entry.List([entry])}));
+  }
 }
 
 /*
  * Canjs Model
  */
-var LogLine = can.Model.extend();
+var EntryGroup = can.Model.extend(),
+    Entry = can.Model.extend();
 
 module.exports.Chatlog = Chatlog;
 module.exports.submitMessage = submitMessage;
