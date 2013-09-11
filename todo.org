@@ -87,15 +87,20 @@
    CLOSED: [2013-09-09 Mon 09:24]
    Have a start and end timestamp right in the message which chatlog
    handles. Later on, we can use this to test latency from the server.
-* backlog [0/0]
-* active [0/14]
-** TODO Add slug lines                                                 :chat:
-** TODO Add scene heading                                              :chat:
+* backlog [0/2]
+** TODO Force scoping of control css to individual controls           :build:
+   May need to hack stylify to force wrapping of stuff, or something like
+   that.
+** TODO Generic wrapper for can.Model                                 :proto:
+* active [3/11]
+** DONE Add slug lines                                                 :chat:
+   CLOSED: [2013-09-09 Mon 19:51]
+** DONE Add scene heading                                              :chat:
+   CLOSED: [2013-09-09 Mon 19:51]
+** DONE Add OOC                                                        :chat:
+   CLOSED: [2013-09-09 Mon 19:51]
 ** TODO Add parentheticals                                             :chat:
-   The input for this one is going to be a bit more complex.
-** TODO Add OOC                                                        :chat:
-** TODO Style chatOutput                                         :chat:style:
-** TODO Style chatInput                                          :chat:style:
+   This is just an extension to the dialogue input.
 ** TODO MessageGroups                                                  :chat:
    Instead of having each item in the Chatlog be an individual message,
    have the chatlog consist of groups of messages of the same type/source
@@ -103,10 +108,10 @@
    get appended to the group. The views can then render these messages as
    multiple dom nodes, but close together so that they seem like they're
    part of a single, big message.
+   Do this before styling.
+** TODO Style chatOutput                                         :chat:style:
+** TODO Style chatInput                                          :chat:style:
 ** TODO Auth                                                   :chat:infosec:
-** TODO Force scoping of control css to individual controls           :build:
-   May need to hack stylify to force wrapping of stuff, or something like
-   that.
 ** TODO Reconnect logic for socketConn                             :sockConn:
    Bring back the reconnection logic, but think a bit about what it means
    to reconnect and handle connected/disconnected events when there's only
@@ -115,14 +120,6 @@
    Right now, it just keeps trying to reconnect over and over, as fast as
    possible. Instead, make the reconnect frequency lower and limit the n
    number of reconnect attempts before asking the user to refresh.
-** TODO Generic wrapper for can.Model                                 :proto:
-** TODO Work on backend architecture                                :backend:
-   When a websocket server receives a message, it should throw it into a
-   0mq queue, which will be read by another server dedicated to processing
-   user input. When that input is processed, a response is sent back on a
-   fanout queue which goes to all websocket servers, who then send out all
-   messages to appropriate clients. Might be good to key clients with some
-   tag so messages can be sent selectively.
 ** TODO Set up a basic test with funcunit                   :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
