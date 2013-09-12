@@ -15,3 +15,69 @@
   font-style: italic;
   font-size: 0.7em;
 }
+
+/*-----General styles-----*/
+
+html {
+	font-family: sans-serif;
+}
+
+/*font sizes*/
+
+$basefontsize = 1em;
+$smallfontsize = .8em;
+$largefontsize = 1.2em;
+
+
+/*colors*/
+
+$basegrey = #858585;
+$lightgrey= #cecece;
+$basemaroon = #700000;
+$baseblue = #006699;
+
+
+.entry-group {
+	padding-top: $basefontsize;
+	max-width: 30em;
+	/*-----Slugline Styles-----*/
+	.slug-entries {
+	background-color: $lightgrey;
+	text-transform:uppercase;
+	padding: .2em;
+	}
+
+	/*-----Dialogue Styles-----*/
+	.dialogue-actor {
+		font-size: $largefontsize;
+		font-weight: bold;
+		margin-left: 5%;
+	}
+	
+	.dialogue-entry {
+		margin-left: 10%;
+	}
+	
+	/*-----Action Styles-----*/
+	.verb {
+		color: $basemaroon;
+	}
+	.action-actor {
+		font-weight: bold;
+	}
+
+	/*-----OOC Chat styles-----*/
+	.ooc-entries, .ooc-actor {
+		font-size: $smallfontsize;
+		color: $basegrey;
+	}
+	
+	/*-----System styles-----*/
+	.system-entries {
+		font-size: $smallfontsize;
+		color: $basegrey;
+		font-style: italic;
+	}
+
+	
+}
