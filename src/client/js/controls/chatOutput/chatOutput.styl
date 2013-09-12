@@ -1,7 +1,7 @@
 .entry.system {
-      color: grey;
-      font-style: italic;
-      font-size: 0.8em;
+  color: grey;
+  font-style: italic;
+  font-size: 0.8em;
 }
 .entry .debug:before {
   content: "("
@@ -19,7 +19,7 @@
 /*-----General styles-----*/
 
 html {
-	font-family: sans-serif;
+  font-family: sans-serif;
 }
 
 /*font sizes*/
@@ -38,46 +38,48 @@ $baseblue = #006699;
 
 
 .entry-group {
-	padding-top: $basefontsize;
-	max-width: 30em;
-	/*-----Slugline Styles-----*/
-	.slug-entries {
-	background-color: $lightgrey;
-	text-transform:uppercase;
-	padding: .2em;
-	}
+  padding-top: $basefontsize;
+  max-width: 30em;
 
-	/*-----Dialogue Styles-----*/
-	.dialogue-actor {
-		font-size: $largefontsize;
-		font-weight: bold;
-		margin-left: 5%;
-	}
-	
-	.dialogue-entry {
-		margin-left: 10%;
-	}
-	
-	/*-----Action Styles-----*/
-	.verb {
-		color: $basemaroon;
-	}
-	.action-actor {
-		font-weight: bold;
-	}
+  /*-----Slugline Styles-----*/
+  .slug-entries {
+    background-color: $lightgrey;
+    text-transform: uppercase;
+    padding: .2em;
+  }
 
-	/*-----OOC Chat styles-----*/
-	.ooc-entries, .ooc-actor {
-		font-size: $smallfontsize;
-		color: $basegrey;
-	}
-	
-	/*-----System styles-----*/
-	.system-entries {
-		font-size: $smallfontsize;
-		color: $basegrey;
-		font-style: italic;
-	}
+  /*-----Dialogue Styles-----*/
+  .dialogue-actor {
+    font-size: $largefontsize;
+    font-weight: bold;
+    margin-left: 5%;
+  }
 
-	
+  .dialogue-entry {
+    margin-left: 10%;
+    + .dialogue-entry {
+      margin-left: 0;
+    }
+  }
+
+  /*-----Action Styles-----*/
+  .verb {
+    color: $basemaroon;
+  }
+  .action-actor {
+    font-weight: bold;
+  }
+
+  /*-----OOC Chat styles-----*/
+  .ooc-entries, .ooc-actor {
+    font-size: $smallfontsize;
+    color: $basegrey;
+  }
+
+  /*-----System styles-----*/
+  .system-entries {
+    font-size: $smallfontsize;
+    color: $basegrey;
+    font-style: italic;
+  }
 }
