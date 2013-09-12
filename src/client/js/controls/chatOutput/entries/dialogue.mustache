@@ -1,11 +1,11 @@
-<div class=dialogue-actor>
+<div class=actor>
   {{firstEntry.actor}}
 </div>
-<div class=dialogue-entries>
+<div class=entries>
 {{#each entries}}
 {{#if parenthetical}}
-<div class=dialogue-parenthetical>({{parenthetical}})</div>
+<div class=parenthetical>({{parenthetical}})</div>
 {{/if}}
-<span class=dialogue-entry>{{content}}</span>
+<span class=entry>{{content}}</span>
 {{/each}}
 </div>

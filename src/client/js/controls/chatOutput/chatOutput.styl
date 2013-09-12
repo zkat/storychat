@@ -41,40 +41,49 @@ $baseblue = #006699;
   padding-top: $basefontsize;
   max-width: 30em;
 
-  /*-----Slugline Styles-----*/
-  .slug-entries {
-    background-color: $lightgrey;
-    text-transform: uppercase;
-    padding: .2em;
+  &.slug {
+    .entries {
+      background-color: $lightgrey;
+      text-transform: uppercase;
+      padding: .2em;
+    }
   }
 
-  /*-----Dialogue Styles-----*/
-  .dialogue-entries {
-    margin-left: 10%;
+  &.dialogue {
+    .actor {
+      font-size: $largefontsize;
+      font-weight: bold;
+      margin-left: 5%;
+    }
+    .entries {
+      margin-left: 10%;
+    }
   }
 
-  .dialogue-actor {
-    font-size: $largefontsize;
-    font-weight: bold;
-    margin-left: 5%;
+  &.action {
+    .verb {
+      color: $basemaroon;
+    }
+    .actor {
+      font-weight: bold;
+    }
   }
 
-  /*-----Action Styles-----*/
-  .verb {
-    color: $basemaroon;
-  }
-  .action-actor {
-    font-weight: bold;
-  }
-
-  /*-----OOC Chat styles-----*/
-  .ooc-entries, .ooc-actor {
+  &.ooc {
+    &:before {
+      content: "(( OOC "
+    }
+    &:after {
+      content: "))"
+    }
+    .actor:after {
+      content: ":"
+    }
     font-size: $smallfontsize;
     color: $basegrey;
   }
 
-  /*-----System styles-----*/
-  .system-entries {
+  &.system {
     font-size: $smallfontsize;
     color: $basegrey;
     font-style: italic;
