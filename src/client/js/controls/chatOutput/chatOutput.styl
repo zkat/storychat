@@ -1,26 +1,4 @@
-.entry.system {
-  color: grey;
-  font-style: italic;
-  font-size: 0.8em;
-}
-.entry .debug:before {
-  content: "("
-}
-.entry .debug:after {
-  content: "ms)"
-}
-.entry .debug {
-  margin-left: 1em;
-  color: grey;
-  font-style: italic;
-  font-size: 0.7em;
-}
-
 /*-----General styles-----*/
-
-html {
-  font-family: sans-serif;
-}
 
 /*font sizes*/
 
@@ -38,8 +16,23 @@ $baseblue = #006699;
 
 
 .entry-group {
+  font-family: sans-serif;
   padding-top: $basefontsize;
   max-width: 30em;
+
+  .debug {
+    margin-left: 1em;
+    color: $lightgrey;
+    font-style: italic;
+    font-size: $smallfontsize;
+
+    &:before {
+      content: "("
+    }
+    &:after {
+      content: "ms)"
+    }
+  }
 
   &.slug {
     .entries {
