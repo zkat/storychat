@@ -1,4 +1,4 @@
-* archive [30/30]
+* archive [32/32]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -105,15 +105,17 @@
 ** DONE Add parentheticals                                             :chat:
    CLOSED: [2013-09-11 Wed 01:11]
    This is just an extension to the dialogue input.
-* backlog [0/2]
+** DONE Style chatOutput                                         :chat:style:
+   CLOSED: [2013-09-11 Wed 23:51]
+** DONE Get rid of inputs that won't be used                           :chat:
+   CLOSED: [2013-09-12 Thu 00:14]
+   Not all the inputs listed will actually be used -- get rid of the
+   irrelevant ones before doing any more work.
+* backlog [0/5]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
    that.
 ** TODO Generic wrapper for can.Model                                 :proto:
-* active [0/7]
-** TODO Style chatOutput                                         :chat:style:
-** TODO Style chatInput                                          :chat:style:
-** TODO Auth                                                   :chat:infosec:
 ** TODO Reconnect logic for socketConn                             :sockConn:
    Bring back the reconnection logic, but think a bit about what it means
    to reconnect and handle connected/disconnected events when there's only
@@ -122,9 +124,15 @@
    Right now, it just keeps trying to reconnect over and over, as fast as
    possible. Instead, make the reconnect frequency lower and limit the n
    number of reconnect attempts before asking the user to refresh.
+** TODO Set up a basic test with testee                     :qa:architecture:
+   Just something that tests that connections are established properly and
+   the like.
+* active [0/3]
+** TODO Style chatInput                                          :chat:style:
+   Is there a way to reuse the styles in chatOutput somehow? They're
+   obviously at least partly specific to output, but the various entry
+   types are supposed to look somewhat similar.
 ** TODO Have server send back parentheticals                           :chat:
    dialogue content will be delivered as-is, and parentheticals should be
    extracted from that and sent back.
-** TODO Set up a basic test with funcunit                   :qa:architecture:
-   Just something that tests that connections are established properly and
-   the like.
+** TODO Start working on the backend for reals                      :backend:
