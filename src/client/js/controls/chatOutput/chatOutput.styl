@@ -15,9 +15,8 @@ $basemaroon = #700000;
 $baseblue = #006699;
 
 
-.entry-group {
+.chat-output {
   font-family: sans-serif;
-  padding-top: $basefontsize;
   max-width: 30em;
 
   .debug {
@@ -34,51 +33,55 @@ $baseblue = #006699;
     }
   }
 
-  &.slug {
-    .entries {
-      background-color: $lightgrey;
-      text-transform: uppercase;
-      padding: .2em;
-    }
-  }
+  .entry-group {
+    padding-top: $basefontsize;
 
-  &.dialogue {
-    .actor {
-      font-size: $largefontsize;
-      font-weight: bold;
-      margin-left: 2em;
+    &.slug {
+      .entries {
+        background-color: $lightgrey;
+        text-transform: uppercase;
+        padding: .2em;
+      }
     }
-    .entries {
-      margin-left: 4em;
-    }
-  }
 
-  &.action {
-    .verb {
-      color: $basemaroon;
+    &.dialogue {
+      .actor {
+        font-size: $largefontsize;
+        font-weight: bold;
+        margin-left: 2em;
+      }
+      .entries {
+        margin-left: 4em;
+      }
     }
-    .actor {
-      font-weight: bold;
-    }
-  }
 
-  &.ooc {
-    &:before {
-      content: "(( OOC "
+    &.action {
+      .verb {
+        color: $basemaroon;
+      }
+      .actor {
+        font-weight: bold;
+      }
     }
-    &:after {
-      content: "))"
-    }
-    .actor:after {
-      content: ":"
-    }
-    font-size: $smallfontsize;
-    color: $basegrey;
-  }
 
-  &.system {
-    font-size: $smallfontsize;
-    color: $basegrey;
-    font-style: italic;
+    &.ooc {
+      &:before {
+        content: "(( OOC "
+      }
+      &:after {
+        content: "))"
+      }
+      .actor:after {
+        content: ":"
+      }
+      font-size: $smallfontsize;
+      color: $basegrey;
+    }
+
+    &.system {
+      font-size: $smallfontsize;
+      color: $basegrey;
+      font-style: italic;
+    }
   }
 }

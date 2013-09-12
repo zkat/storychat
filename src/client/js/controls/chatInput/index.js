@@ -48,7 +48,7 @@ addMethod(init, [ChatInput], function(chatInput, el, chatlog) {
 });
 
 function initDom(chatInput) {
-  chatInput.el.html(
+  chatInput.el.addClass("chat-input").html(
     chatInputTemplate({
       types: inputTypes,
       type: chatInput.type,

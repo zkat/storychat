@@ -38,7 +38,7 @@ addMethod(init, [ChatOutput], function(chatOutput, el, chatlog) {
 });
 
 function initDom(chatOutput) {
-  chatOutput.el.html(chatTemplate(
+  chatOutput.el.addClass("chat-output").html(chatTemplate(
     { log: chatOutput.log, debug: chatOutput.debug },
     { renderEntryGroup: renderEntryGroup }));
 }
