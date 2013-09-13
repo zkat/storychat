@@ -29,19 +29,23 @@ var server = http.createServer(app),
 
 function parenthetical() {
   return mona.sequence(function(s) {
-    s(mona.zeroOrMore(mona.whitespace()));
-    s(mona.character("("));
-    var text = s(mona.stringOf(mona.zeroOrMore(
-      mona.unless(mona.character(")"), mona.item()))));
-    s(mona.character(")"));
+    s(mona.and(mona.ws(), mona.character("("), mona.ws()));
+    var text = s(
+      mona.stringOf(
+        mona.zeroOrMore(
+          mona.unless(
+            mona.and(mona.ws(), mona.character(")")),
+            mona.item()))));
+    s(mona.and(mona.ws(), mona.character(")")));
     return mona.result(text);
   });
 }
 
 function dialogue() {
   return mona.sequence(function(s) {
-    var p = s(mona.maybe(parenthetical())),
-        d = s(mona.stringOf(mona.zeroOrMore(mona.item())));
+    var p = s(mona.maybe(parenthetical()));
+    s(mona.ws());
+    var d = s(mona.stringOf(mona.zeroOrMore(mona.item())));
     return mona.result({ parenthetical: p,
                          dialogue: d });
   });

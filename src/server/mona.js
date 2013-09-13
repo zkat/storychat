@@ -13,6 +13,9 @@ var mona = {
     };
   },
 
+  // TODO - We could add a message here, to provide better failure
+  // messagess, but it might need some restructuring of the value data
+  // structure.
   fail:  function() {
     return function() {
       return [];
@@ -207,6 +210,10 @@ var mona = {
 
   whitespace: function() {
     return mona.oneOf(" \t\n\r");
+  },
+
+  ws: function() {
+    return mona.zeroOrMore(mona.whitespace());
   },
 
   stringOf: function(parser) {
