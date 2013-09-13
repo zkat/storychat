@@ -1,4 +1,4 @@
-* archive [32/32]
+* archive [36/36]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -111,28 +111,38 @@
    CLOSED: [2013-09-12 Thu 00:14]
    Not all the inputs listed will actually be used -- get rid of the
    irrelevant ones before doing any more work.
-* backlog [0/5]
+** DONE Basic port of smug to JS                                     :parser:
+   CLOSED: [2013-09-13 Fri 00:37]
+** DONE Have server send back parentheticals                    :chat:parser:
+   CLOSED: [2013-09-13 Fri 01:19]
+   dialogue content will be delivered as-is, and parentheticals should be
+   extracted from that and sent back.
+** DONE Fix parenthetical rendering                                    :chat:
+   CLOSED: [2013-09-13 Fri 01:22]
+** DONE Style parentheticals                                           :chat:
+   CLOSED: [2013-09-13 Fri 02:04]
+* backlog [0/3]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
    that.
 ** TODO Generic wrapper for can.Model                                 :proto:
-** TODO Reconnect logic for socketConn                             :sockConn:
-   Bring back the reconnection logic, but think a bit about what it means
-   to reconnect and handle connected/disconnected events when there's only
-   a single shared connection.
-** TODO Smarter disconnect handling                                :sockConn:
-   Right now, it just keeps trying to reconnect over and over, as fast as
-   possible. Instead, make the reconnect frequency lower and limit the n
-   number of reconnect attempts before asking the user to refresh.
 ** TODO Set up a basic test with testee                     :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
-* active [0/3]
+* active [0/6]
+** TODO Write unit tests for chat parser                             :parser:
+** TODO Move parser stuff outside of index.js                        :parser:
+** TODO Improve 'routing' for socket data                            :server:
+** TODO Reconnect logic for socketConn                             :sockConn:
+   On disconnect, try to reconnect (in the background) by polling for a
+   certain amount of time. Emit a 'reconnecting' event of some sort in the
+   meantime. If the timeout passes, cancel the reconnection attempt and
+   emit the disconnected event.
+
+   Add a button to the chat afterwards that allows for a manual reconnect
+   attempt, so people don't have to refresh to try again.
 ** TODO Style chatInput                                          :chat:style:
    Is there a way to reuse the styles in chatOutput somehow? They're
    obviously at least partly specific to output, but the various entry
    types are supposed to look somewhat similar.
-** TODO Have server send back parentheticals                           :chat:
-   dialogue content will be delivered as-is, and parentheticals should be
-   extracted from that and sent back.
-** TODO Start working on the backend for reals                      :backend:
+** TODO Write unit tests for mona                                    :parser:
