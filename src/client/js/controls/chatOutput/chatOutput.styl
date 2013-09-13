@@ -45,13 +45,30 @@ $baseblue = #006699;
     }
 
     &.dialogue {
+      .actor-container > * {
+        display: inline-block;
+      }
       .actor {
         font-size: $largefontsize;
         font-weight: bold;
         margin-left: 2em;
       }
+      .parenthetical {
+        color: $basegrey;
+        font-size: $smallfontsize;
+        font-weight: normal;
+        font-style: italic;
+        &:before { content: "("; }
+        &:after { content: ")"; }
+      }
       .entries {
         margin-left: 4em;
+        .parenthetical {
+          margin-left: 2em;
+          &:first-child {
+            display: none;
+          }
+        }
       }
     }
 

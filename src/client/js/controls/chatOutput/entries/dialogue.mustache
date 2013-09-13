@@ -1,11 +1,16 @@
-<div class=actor>
-  {{firstEntry.actor}}
+<div class=actor-container>
+  <div class=actor>
+    {{firstEntry.actor}}
+  </div>
+  {{#if firstEntry.content.parenthetical}}
+  <div class=parenthetical>{{firstEntry.content.parenthetical}}</div>
+  {{/if}}
 </div>
-<div class=entries>
+  <div class=entries>
 {{#each entries}}
-{{#if parenthetical}}
-<div class=parenthetical>({{parenthetical}})</div>
+{{#if content.parenthetical}}
+<div class=parenthetical>{{content.parenthetical}}</div>
 {{/if}}
-<span class=entry>{{content}}</span>
+<span class=entry>{{content.dialogue}}</span>
 {{/each}}
 </div>
