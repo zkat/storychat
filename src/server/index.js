@@ -5,7 +5,8 @@
 var express = require("express"),
     http = require("http"),
     Sockjs = require("sockjs"),
-    _ = require("lodash");
+    _ = require("lodash"),
+    mona = require("./mona");
 
 var port = process.env.PORT || 8080;
 
@@ -26,10 +27,35 @@ var server = http.createServer(app),
     sock = Sockjs.createServer(),
     connections = [];
 
+function parenthetical() {
+  return mona.sequence(function(s) {
+    s(mona.zeroOrMore(mona.whitespace()));
+    s(mona.character("("));
+    var text = s(mona.stringOf(mona.zeroOrMore(
+      mona.unless(mona.character(")"), mona.item()))));
+    s(mona.character(")"));
+    return mona.result(text);
+  });
+}
+
+function dialogue() {
+  return mona.sequence(function(s) {
+    var p = s(mona.maybe(parenthetical())),
+        d = s(mona.stringOf(mona.zeroOrMore(mona.item())));
+    return mona.result({ parenthetical: p,
+                         dialogue: d });
+  });
+}
+
 sock.on("connection", function(socket) {
   console.log("Received connection from "+socket.remoteAddress+".");
   connections.push(socket);
   socket.on("data", function(data) {
+    var json = JSON.parse(data);
+    if (json.data.entryType === "dialogue") {
+      json.data.content = mona.run(dialogue(), json.data.content).val;
+    }
+    data = JSON.stringify(json);
     _.each(connections, function(conn) {
       conn.write(data);
     });
