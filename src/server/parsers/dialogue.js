@@ -4,16 +4,17 @@
 
 var mona = require("../mona");
 
+var sws = mona.skipWhitespace();
+
 function parenthetical() {
   return mona.sequence(function(s) {
-    s(mona.and(mona.ws(), mona.character("("), mona.ws()));
+    s(mona.and(sws, mona.character("("), sws));
     var text = s(
       mona.stringOf(
         mona.zeroOrMore(
-          mona.unless(
-            mona.and(mona.ws(), mona.character(")")),
-            mona.item()))));
-    s(mona.and(mona.ws(), mona.character(")")));
+          mona.unless(mona.and(sws, mona.character(")")),
+                      mona.item()))));
+    s(mona.and(sws, mona.character(")")));
     return mona.result(text);
   });
 }
@@ -21,10 +22,12 @@ function parenthetical() {
 function dialogue() {
   return mona.sequence(function(s) {
     var p = s(mona.maybe(parenthetical()));
-    s(mona.ws());
-    var d = s(mona.stringOf(mona.zeroOrMore(mona.item())));
-    return mona.result({ parenthetical: p,
-                         dialogue: d });
+    s(sws);
+    var d = s(mona.or(mona.text(), mona.result("")));
+    return mona.result({
+      parenthetical: p,
+      dialogue: d
+    });
   });
 }
 
