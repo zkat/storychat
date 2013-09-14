@@ -11,14 +11,14 @@ var sws = mona.skipWhitespace();
  * @returns {String}
  */
 function parenthetical() {
+  function parenEnd() {
+    return mona.and(sws, mona.character(")"));
+  }
   return mona.sequence(function(s) {
     s(mona.character("("));
     s(sws);
-    var text = s(mona.normalizedText(mona.unless(mona.character(")"),
-                                                 mona.item())));
-    text = text.trim();
-    s(sws);
-    s(mona.character(")"));
+    var text = s(mona.normalizedText(mona.unless(parenEnd(), mona.item())));
+    s(parenEnd());
     return mona.result(text);
   });
 }
