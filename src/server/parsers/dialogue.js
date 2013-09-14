@@ -8,25 +8,29 @@ var sws = mona.skipWhitespace();
 
 function parenthetical() {
   return mona.sequence(function(s) {
-    s(mona.and(sws, mona.character("("), sws));
-    var text = s(
-      mona.stringOf(
-        mona.zeroOrMore(
-          mona.unless(mona.and(sws, mona.character(")")),
-                      mona.item()))));
-    s(mona.and(sws, mona.character(")")));
+    s(mona.character("("));
+    s(sws);
+    var text = s(mona.text(mona.unless(mona.character(")"), mona.item())));
+    text = text.trim();
+    s(sws);
+    s(mona.character(")"));
     return mona.result(text);
   });
 }
 
 function dialogue() {
   return mona.sequence(function(s) {
-    var p = s(mona.maybe(parenthetical()));
     s(sws);
-    var d = s(mona.text());
+    var p = s(mona.maybe(parenthetical())) || undefined;
+    s(sws);
+    var d = s(mona.text()).trim();
+    d = d.trim();
+    d = d + (d[d.length-1] === "."?"":".");
+    s(sws);
+    s(mona.endOfInput());
     return mona.result({
-      parenthetical: p || undefined,
-      dialogue: d.trim()
+      parenthetical: p,
+      dialogue: d
     });
   });
 }
