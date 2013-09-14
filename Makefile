@@ -31,6 +31,7 @@ client-static-resource-files = \
 	$(shell find $(client-src-dir) -type f \
 		-not -path "$(client-src-dir)/js/*")
 client-main-file = src/client/js/storychat.js
+client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*-test.js")
 resource-dir = static
 static-resources = \
 	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
@@ -41,6 +42,7 @@ browserify-bundle = $(build-dir)/storychat.js
 # Backend files
 #
 source-files = $(shell find src/server -iname "*.js")
+server-test-files = $(shell find src/server -iname "*-test.js")
 node-main = $(shell grep main package.json | \
 				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
 linter-config = jshint.conf.json
@@ -120,16 +122,16 @@ distclean:
 test: test-spec
 
 .PHONY: test-spec
-test-spec: $(source-files)
-	$(mocha) --reporter spec
+test-spec: $(source-files) $(client-src-files)
+	$(mocha) --reporter spec $(server-test-files) $(client-test-files)
 
 .PHONY: test-quiet
-test-quiet: $(source-files)
-	$(mocha) --reporter dot
+test-quiet: $(source-files) $(client-src-files)
+	$(mocha) --reporter dot $(server-test-files) $(client-test-files)
 
 .PHONY: test-watch
-test-watch: $(source-files)
-	$(mocha) --reporter min --watch
+test-watch: $(source-files) $(client-src-files)
+	$(mocha) --reporter min --watch $(server-test-files) $(client-test-files)
 
 .PHONY: lint
 lint: $(source-files) $(linter-config) $(client-src-files) deps

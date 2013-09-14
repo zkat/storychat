@@ -3,7 +3,7 @@
 "use strict";
 
 var assert = require("assert"),
-    dialogueParser = require("../../../src/server/parsers/dialogue")();
+    dialogueParser = require("./dialogue")();
 
 function parse(str) {
   return dialogueParser(str);
