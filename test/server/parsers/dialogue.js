@@ -51,9 +51,12 @@ describe("dialogue", function() {
   describe("period auto-insertion", function() {
     it("adds a period to the dialogue if punctuation was missing", function() {
       assert.equal("foo bar.", parse("foo bar")[0].val.dialogue);
-      assert.equal("foo bar!", parse("foo bar!")[0].val.dialogue);
-      assert.equal("foo bar?", parse("foo bar?")[0].val.dialogue);
-      assert.equal("foo bar;", parse("foo bar;")[0].val.dialogue);
+    });
+    it("leaves existing punctuation if it was already there", function() {
+      function testPunctuation(punc) {
+        assert.equal("foo bar"+punc, parse("foo bar"+punc)[0].val.dialogue);
+      }
+      [].forEach.call(".!?;", testPunctuation);
     });
     it("adds the period after trimming whitespace", function() {
       assert.equal("foo bar.", parse("foo bar     ")[0].val.dialogue);
