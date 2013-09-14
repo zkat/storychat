@@ -14,7 +14,8 @@ function parenthetical() {
   return mona.sequence(function(s) {
     s(mona.character("("));
     s(sws);
-    var text = s(mona.text(mona.unless(mona.character(")"), mona.item())));
+    var text = s(mona.normalizedText(mona.unless(mona.character(")"),
+                                                 mona.item())));
     text = text.trim();
     s(sws);
     s(mona.character(")"));
@@ -41,7 +42,7 @@ function dialogueEnd() {
  * @returns {String}
  */
 function dialogueText() {
-  return mona.text(mona.unless(dialogueEnd(), mona.item()));
+  return mona.normalizedText(mona.unless(dialogueEnd(), mona.item()));
 }
 
 /**

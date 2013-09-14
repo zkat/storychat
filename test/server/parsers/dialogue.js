@@ -25,6 +25,10 @@ describe("dialogue", function() {
     assert.equal("foo bar.", parse("foo bar.    ")[0].val.dialogue);
     assert.equal("foo bar.", parse("    foo bar.    ")[0].val.dialogue);
   });
+  it("normalizes multiple consecutive whitespaces into one space", function() {
+    assert.equal("foo bar.", parse("foo      bar.")[0].val.dialogue);
+    assert.equal("foo bar.", parse("foo  \n\t\r \nbar.")[0].val.dialogue);
+  });
   describe("parenthetical support", function() {
     it("parses parentheticals out of the string", function() {
       var results = parse("(foo) bar baz.");
