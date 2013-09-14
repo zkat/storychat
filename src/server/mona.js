@@ -222,6 +222,20 @@ var mona = {
 
   stringOf: function(parser) {
     return mona.bind(parser, function(xs) { return mona.result(xs.join("")); });
+  },
+
+  word: function() {
+    return mona.stringOf(
+      mona.oneOrMore(mona.unless(mona.whitespace(), mona.item())));
+  },
+
+  prog1: function(parser) {
+    var parsers = [].slice.call(arguments, 1);
+    return mona.bind(parser, function(result) {
+      return mona.bind(mona.and.apply(null, parsers), function() {
+        return mona.result(result);
+      });
+    });
   }
 };
 
