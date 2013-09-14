@@ -217,11 +217,11 @@ var mona = {
   },
 
   ws: function() {
-    return mona.skipWhitespace();
+    return mona.oneOrMore(mona.whitespace());
   },
 
   skipWhitespace: function() {
-    return mona.zeroOrMore(mona.whitespace());
+    return mona.maybe(mona.ws());
   },
 
   stringOf: function(parser) {
@@ -245,6 +245,12 @@ var mona = {
   text: function(parser) {
     parser = parser || mona.item();
     return mona.stringOf(mona.oneOrMore(parser));
+  },
+
+  normalizedText: function(parser) {
+    return mona.bind(mona.text(parser), function(txt) {
+      return mona.result(txt.replace(/\s+/g, ' '));
+    });
   }
 };
 
