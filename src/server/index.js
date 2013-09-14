@@ -33,7 +33,8 @@ sock.on("connection", function(socket) {
   connections.push(socket);
   socket.on("data", function(data) {
     var json = JSON.parse(data);
-    json.data.parsedContent = chatParser.parse("dialogue", json.data.content);
+    json.data.parsedContent = chatParser.parse(json.data.entryType,
+                                               json.data.content);
     data = JSON.stringify(json);
     _.each(connections, function(conn) {
       conn.write(data);
