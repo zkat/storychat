@@ -6,6 +6,10 @@ var mona = require("../mona");
 
 var sws = mona.skipWhitespace();
 
+/**
+ * @grammar "(" sws text sws ")"
+ * @returns {String}
+ */
 function parenthetical() {
   return mona.sequence(function(s) {
     s(mona.character("("));
@@ -22,16 +26,28 @@ function punctuation() {
   return mona.oneOf(".!?;");
 }
 
+/**
+ * @grammar [punctuation] sws eof
+ * @returns {String}
+ */
 function dialogueEnd() {
   return mona.prog1(mona.or(punctuation(), mona.result(".")),
                     sws,
                     mona.endOfInput());
 }
 
+/**
+ * @grammar text dialogueEnd
+ * @returns {String}
+ */
 function dialogueText() {
   return mona.text(mona.unless(dialogueEnd(), mona.item()));
 }
 
+/**
+ * @grammar sws [parenthetical] sws dialogueText dialogueEnd
+ * @returns {{parenthetical: String | undefined, dialogue: string}}
+ */
 function dialogue() {
   return mona.sequence(function(s) {
     s(sws);
