@@ -23,10 +23,10 @@ function dialogue() {
   return mona.sequence(function(s) {
     var p = s(mona.maybe(parenthetical()));
     s(sws);
-    var d = s(mona.or(mona.text(), mona.result("")));
+    var d = s(mona.text());
     return mona.result({
-      parenthetical: p,
-      dialogue: d
+      parenthetical: p || undefined,
+      dialogue: d.trim()
     });
   });
 }
