@@ -249,7 +249,7 @@ var mona = {
 
   normalizedText: function(parser) {
     return mona.bind(mona.text(parser), function(txt) {
-      return mona.result(txt.replace(/\s+/g, ' '));
+      return mona.result(txt.replace(/\s+/g, " "));
     });
   }
 };
