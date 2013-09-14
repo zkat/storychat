@@ -57,13 +57,13 @@ var mona = {
       }, []);
     };
   },
-  
+
   endOfInput: function() {
     return function(input) {
       return isEmpty(input) ? [{val: true, input: input}] : [];
     };
   },
-  
+
   or: function() {
     function orHelper() {
       var parsers = [].slice.call(arguments);
@@ -98,7 +98,7 @@ var mona = {
     var moreParsers = [].slice.call(arguments, 1);
     return mona.and.apply(null, [mona.not(parser)].concat(moreParsers));
   },
-  
+
   character: function(x) {
     return mona.satisfies(function(y) { return x === y; });
   },
