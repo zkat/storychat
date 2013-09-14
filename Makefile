@@ -11,6 +11,7 @@ module-root = ./node_modules
 uglify = $(module-root)/uglify-js/bin/uglifyjs
 browserify = $(module-root)/$(browserify-name)/bin/cmd.js
 jsdoc = $(module-root)/jsdoc/jsdoc
+mocha = $(module-root)/mocha/bin/mocha $(mocha-opts)
 linter = $(module-root)/jshint/bin/jshint $(linter-opts)
 semver = $(module-root)/semver/bin/semver
 node = node
@@ -55,6 +56,7 @@ bower-spec = bower.json
 comma:= ,
 empty:=
 space:= $(empty) $(empty)
+mocha-opts = --check-leaks --recursive
 linter-opts =
 browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
@@ -113,6 +115,21 @@ distclean:
 	-rm -rf $(build-dir)
 	-rm -rf $(npm-dep-dir)
 	-rm -rf $(bower-dep-dir)
+
+.PHONY: test
+test: test-spec
+
+.PHONY: test-spec
+test-spec: $(source-files)
+	$(mocha) --reporter spec
+
+.PHONY: test-quiet
+test-quiet: $(source-files)
+	$(mocha) --reporter dot
+
+.PHONY: test-watch
+test-watch: $(source-files)
+	$(mocha) --reporter min --watch
 
 .PHONY: lint
 lint: $(source-files) $(linter-config) $(client-src-files) deps
