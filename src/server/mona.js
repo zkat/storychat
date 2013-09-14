@@ -217,6 +217,10 @@ var mona = {
   },
 
   ws: function() {
+    return mona.skipWhitespace();
+  },
+
+  skipWhitespace: function() {
     return mona.zeroOrMore(mona.whitespace());
   },
 
@@ -236,6 +240,11 @@ var mona = {
         return mona.result(result);
       });
     });
+  },
+
+  text: function(parser) {
+    parser = parser || mona.item();
+    return mona.stringOf(mona.oneOrMore(parser));
   }
 };
 
