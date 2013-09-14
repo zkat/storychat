@@ -146,12 +146,16 @@ var mona = {
     return mona.or(parser, mona.result(false));
   },
 
+  // TODO - This won't handle ambiguous parses made with amb.
   sequence: function(fun) {
     return function(input) {
       var state, failwhale = {};
       function s(parser) {
         state = parser(input);
-        if (state.length) {
+        if (state.length > 1) {
+          throw new Error("sequence does not currently support "+
+                          "ambiguous results. Use bind manually, instead.");
+        } else if (state.length) {
           input = state[0].input;
           return state[0].val;
         } else {
