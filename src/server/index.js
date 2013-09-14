@@ -31,14 +31,21 @@ var server = http.createServer(app),
 sock.on("connection", function(socket) {
   console.log("Received connection from "+socket.remoteAddress+".");
   connections.push(socket);
-  socket.on("data", function(data) {
-    var json = JSON.parse(data);
-    json.data.parsedContent = chatParser.parse(json.data.entryType,
-                                               json.data.content);
-    data = JSON.stringify(json);
-    _.each(connections, function(conn) {
-      conn.write(data);
-    });
+  socket.on("data", function(msg) {
+    try {
+      var json = JSON.parse(msg);
+      json.data.parsedContent = chatParser.parse(json.data.entryType,
+                                                 json.data.content);
+      var output = JSON.stringify(json);
+      _.each(connections, function(conn) {
+        conn.write(output);
+      });
+    } catch (e) {
+      console.error("An error occurred while processing user input.", {
+        error: e,
+        input: msg
+      });
+    }
   });
   socket.on("close", function() {
     console.log("Client at "+socket.remoteAddress+" disconnected.");
