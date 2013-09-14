@@ -49,7 +49,7 @@ var mona = {
     });
   },
 
-  plus: function() {
+  amb: function() {
     var parsers = [].slice.call(arguments);
     return function(input) {
       return parsers.reduce(function(acc, parser) {
