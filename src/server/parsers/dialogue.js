@@ -18,19 +18,30 @@ function parenthetical() {
   });
 }
 
+function punctuation() {
+  return mona.oneOf(".!?;");
+}
+
+function dialogueEnd() {
+  return mona.prog1(mona.or(punctuation(), mona.result(".")),
+                    sws,
+                    mona.endOfInput());
+}
+
+function dialogueText() {
+  return mona.text(mona.unless(dialogueEnd(), mona.item()));
+}
+
 function dialogue() {
   return mona.sequence(function(s) {
     s(sws);
     var p = s(mona.maybe(parenthetical())) || undefined;
     s(sws);
-    var d = s(mona.text()).trim();
-    d = d.trim();
-    d = d + (d[d.length-1] === "."?"":".");
-    s(sws);
-    s(mona.endOfInput());
+    var d = s(dialogueText());
+    var end = s(dialogueEnd());
     return mona.result({
       parenthetical: p,
-      dialogue: d
+      dialogue: d + end
     });
   });
 }
