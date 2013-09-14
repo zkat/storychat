@@ -9,7 +9,9 @@ var parsers = {
 };
 
 function parse(type, content) {
-  return parsers[type] && mona.run(parsers[type], content).val;
+  var parser = parsers[type];
+  if (!parser) { throw new Error("No parser for type "+type); }
+  return mona.run(parser, content).val;
 }
 
 module.exports.parse = parse;
