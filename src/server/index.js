@@ -38,6 +38,9 @@ sock.on("connection", function(socket) {
                                                  json.data.content);
       var output = JSON.stringify(json);
       _.each(connections, function(conn) {
+        // TODO - what happens if a conn is disconnected and we try to
+        //        write to it? Is there a race condition here or can I
+        //        assume a write will always succeed?
         conn.write(output);
       });
     } catch (e) {
