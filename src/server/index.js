@@ -2,11 +2,11 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
+let clone = require("../client/js/lib/proto").clone;
+
 let express = require("express"),
     http = require("http"),
-    Sockjs = require("sockjs"),
-    _ = require("lodash"),
-    chatParser = require("./chatParser");
+    SocketServer = require("./socketServer").SocketServer;
 
 let port = process.env.PORT || 8080;
 
@@ -27,39 +27,9 @@ app.get("/wsauth", function(req, res) {
   res.send("http://" + req.headers.host + "/ws");
 });
 
-let server = http.createServer(app),
-    sock = Sockjs.createServer(),
-    connections = [];
+let server = http.createServer(app);
 
-sock.on("connection", function(socket) {
-  console.log("Received connection from "+socket.remoteAddress+".");
-  connections.push(socket);
-  socket.on("data", function(msg) {
-    try {
-      let json = JSON.parse(msg);
-      json.data.parsedContent = chatParser.parse(json.data.entryType,
-                                                 json.data.content);
-      let output = JSON.stringify(json);
-      _.each(connections, function(conn) {
-        // TODO - what happens if a conn is disconnected and we try to
-        //        write to it? Is there a race condition here or can I
-        //        assume a write will always succeed?
-        conn.write(output);
-      });
-    } catch (e) {
-      console.error("An error occurred while processing user input.", {
-        error: e,
-        input: msg
-      });
-    }
-  });
-  socket.on("close", function() {
-    console.log("Client at "+socket.remoteAddress+" disconnected.");
-    connections = _.without(connections, socket);
-  });
-});
-
-sock.installHandlers(server, {prefix: "/ws"});
+clone(SocketServer, server, {prefix: "/ws"});
 
 server.listen(port, function() {
   console.log("Listening on "+port);
