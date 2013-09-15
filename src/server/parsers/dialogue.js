@@ -58,7 +58,7 @@ function dialogue() {
     let end = s(dialogueEnd());
     return mona.result({
       parenthetical: p,
-      dialogue: d + end
+      dialogue: d.charAt(0).toUpperCase() + d.slice(1) + end
     });
   });
 }

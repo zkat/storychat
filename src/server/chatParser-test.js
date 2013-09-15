@@ -11,8 +11,8 @@ describe("chatParser", function() {
     it("Parses a string into a results object, given a valid type", function() {
       assert.deepEqual({
         parenthetical: "foo",
-        dialogue: "bar."
-      }, chatParser.parse("dialogue", "(foo) bar."));
+        dialogue: "Bar."
+      }, chatParser.parse("dialogue", "(foo) Bar."));
       assert.throws(function() { chatParser.parse("NO_SUCH_TYPE", "foo"); });
     });
   });
