@@ -17,6 +17,7 @@ let SocketConn = clone(),
 
 addMethod(init, [SocketConn], function(conn, url) {
   conn.url = url;
+  conn.state = can.compute("close");
   conn.observers = {};
   conn.socket = new Sock(url);
   conn.socket.onopen = partial(notifyObservers, conn, onOpen);
@@ -38,6 +39,7 @@ function notifyObservers(conn, handler, msg) {
       return handler.call(conn, obs, data.data);
     });
   } else {
+    conn.state(msg.type);
     forEach(conn.observers, function(arr) {
       forEach(arr, function(obs) {
         return handler.call(conn, obs);
