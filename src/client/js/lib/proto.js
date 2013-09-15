@@ -3,7 +3,7 @@
 "use strict";
 
 let Genfun = require("genfun"),
-    {addMethod} = Genfun;
+    addMethod = Genfun.addMethod;
 
 let init = new Genfun();
 addMethod(init, [], function(){});
