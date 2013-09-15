@@ -13,7 +13,9 @@ describe("chatParser", function() {
         parenthetical: "foo",
         dialogue: "Bar."
       }, chatParser.parse("dialogue", "(foo) Bar."));
-      assert.throws(function() { chatParser.parse("NO_SUCH_TYPE", "foo"); });
+    });
+    it("Returns an empty object if no parser is defined", function() {
+      assert.deepEqual({}, chatParser.parse("NO_SUCH_TYPE", "foo"));
     });
   });
 });

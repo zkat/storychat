@@ -10,7 +10,7 @@ var parsers = {
 
 function parse(type, content) {
   var parser = parsers[type];
-  if (!parser) { throw new Error("No parser for type "+type); }
+  if (!parser) { console.warn("No parser for type "+type); return {}; }
   return mona.run(parser, content).val;
 }
 
