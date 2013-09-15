@@ -4,37 +4,15 @@
 
 let clone = require("../client/js/lib/proto").clone;
 
-let express = require("express"),
-    http = require("http"),
-    SocketServer = require("./socketServer").SocketServer;
+let webServer = require("./webServer");
 
 let port = process.env.PORT || 8080;
 
-/*
- * App Setup
- */
-let app = express();
-app.configure(function(){
-	app.use(express.logger());
-	app.use(express.bodyParser());
-	app.use(express.cookieParser());
-	app.use(express.session({secret: "super-secret-cookie-omg"}));
-	//app.use(connect.compress());
-	app.use(express["static"](__dirname + "/../../static"));
+let web = clone(webServer.WebServer, {
+  sessionSecret: "omgsupersecretlol",
+  staticDir: __dirname + "/../../static"
 });
 
-app.get("/wsauth", function(req, res) {
-  let authInfo = {
-    wsUrl: "http://" + req.headers.host + "/ws",
-    auth: "letmein"
-  };
-  res.send({data: authInfo});
-});
+clone(require("./socketServer").SocketServer, web.http, {prefix: "/ws"});
 
-let server = http.createServer(app);
-
-clone(SocketServer, server, {prefix: "/ws"});
-
-server.listen(port, function() {
-  console.log("Listening on "+port);
-});
+webServer.listen(web, port);
