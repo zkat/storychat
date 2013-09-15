@@ -37,8 +37,19 @@ function initSocket(srv, http, opts) {
 function onConnection(srv, conn) {
   console.log("Received connection from "+conn.remoteAddress+".");
   // TODO - wait to push until the client has been verified.
-  srv.connections.push(conn);
-  initConn(srv, conn);
+  conn.once("data", function(auth) {
+    if (validAuth(srv, conn, auth)) {
+      srv.connections.push(conn);
+      initConn(srv, conn);
+    } else {
+      conn.write("Invalid auth");
+      conn.end();
+    }
+  });
+}
+
+function validAuth(srv, conn, auth) {
+  return auth === "letmein";
 }
 
 function initConn(srv, conn) {

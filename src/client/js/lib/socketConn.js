@@ -24,8 +24,9 @@ addMethod(init, [SocketConn], function(conn, authUrl) {
 });
 
 function initSock(conn) {
-  $.get(conn.authUrl, function(wsUrl) {
-    conn.url = wsUrl;
+  $.get(conn.authUrl, function(resp) {
+    conn.url = resp.data.wsUrl;
+    conn.auth = resp.data.auth;
     conn.socket = new Sock(conn.url);
     conn.socket.onopen = partial(notifyObservers, conn, onOpen);
     conn.socket.onmessage = partial(notifyObservers, conn, onMessage);
@@ -47,6 +48,9 @@ function notifyObservers(conn, handler, msg) {
     });
   } else {
     conn.state(msg.type);
+    if (msg.type === "open") {
+      conn.socket.send(conn.auth);
+    }
     forEach(conn.observers, function(arr) {
       forEach(arr, function(obs) {
         return handler.call(conn, obs);

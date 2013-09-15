@@ -24,7 +24,11 @@ app.configure(function(){
 });
 
 app.get("/wsauth", function(req, res) {
-  res.send("http://" + req.headers.host + "/ws");
+  let authInfo = {
+    wsUrl: "http://" + req.headers.host + "/ws",
+    auth: "letmein"
+  };
+  res.send({data: authInfo});
 });
 
 let server = http.createServer(app);
