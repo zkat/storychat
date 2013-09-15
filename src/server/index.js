@@ -23,10 +23,13 @@ app.configure(function(){
 	app.use(express["static"](__dirname + "/../../static"));
 });
 
+app.get("/wsauth", function(req, res) {
+  res.send("http://" + req.headers.host + "/ws");
+});
+
 var server = http.createServer(app),
     sock = Sockjs.createServer(),
     connections = [];
-
 
 sock.on("connection", function(socket) {
   console.log("Received connection from "+socket.remoteAddress+".");

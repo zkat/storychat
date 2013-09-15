@@ -2,10 +2,11 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
-
 require("sockjs");
 let Sock = window.SockJS,
     Genfun = require("genfun"),
+    can = require("../shims/can"),
+    $ = require("jquery"),
     {addMethod} = Genfun,
     {clone, init} = require("./proto"),
     {partial, forEach, contains, without} = require("lodash");
@@ -15,16 +16,22 @@ let SocketConn = clone(),
     onMessage = new Genfun(),
     onClose = new Genfun();
 
-addMethod(init, [SocketConn], function(conn, url) {
-  conn.url = url;
+addMethod(init, [SocketConn], function(conn, authUrl) {
+  conn.authUrl = authUrl;
   conn.state = can.compute("close");
   conn.observers = {};
-  conn.socket = new Sock(url);
-  conn.socket.onopen = partial(notifyObservers, conn, onOpen);
-  conn.socket.onmessage = partial(notifyObservers, conn, onMessage);
-  conn.socket.onclose = partial(notifyObservers, conn, onClose);
+  initSock(conn);
 });
 
+function initSock(conn) {
+  $.get(conn.authUrl, function(wsUrl) {
+    conn.url = wsUrl;
+    conn.socket = new Sock(conn.url);
+    conn.socket.onopen = partial(notifyObservers, conn, onOpen);
+    conn.socket.onmessage = partial(notifyObservers, conn, onMessage);
+    conn.socket.onclose = partial(notifyObservers, conn, onClose);
+  });
+}
 addMethod(onOpen, [], function() {});
 addMethod(onMessage, [], function() {});
 addMethod(onClose, [], function() {});

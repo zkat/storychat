@@ -11,7 +11,7 @@ let $ = require("jquery"),
 
 $(function() {
   let origin = window.location.protocol + "//" + window.location.host;
-  window.socketConn = clone(SocketConn, origin + "/ws");
+  window.socketConn = clone(SocketConn, origin + "/wsauth");
   window.chatlog = clone(Chatlog, window.socketConn, "chat");
   window.chatOutput = clone(ChatOutput, $("#chat-output"), window.chatlog);
   window.chatInput = clone(ChatInput, $("#chat-input"), window.chatlog);
