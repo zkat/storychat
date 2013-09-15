@@ -69,9 +69,9 @@ describe("dialogue", function() {
   });
   describe("auto-capitalization", function() {
     it("capitalizes the first letter of the whole dialogue", function() {
-	  assert.equal("Foo bar.", parse("foo bar.")[0].val.dialogue);
+      assert.equal("Foo bar.", parse("foo bar.")[0].val.dialogue);
     });
-	it("capitalizes after left-trim", function() {
+    it("capitalizes after left-trim", function() {
       assert.equal("Foo bar.", parse("    foo bar.")[0].val.dialogue);
     });
   });
