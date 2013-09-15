@@ -2,9 +2,9 @@
 /* vim: set ft=javascript ts=2 et sw=2 tw=80; */
 "use strict";
 
-var mona = require("../mona");
+let mona = require("../mona");
 
-var sws = mona.skipWhitespace();
+let sws = mona.skipWhitespace();
 
 /**
  * @grammar "(" sws text sws ")"
@@ -17,7 +17,7 @@ function parenthetical() {
   return mona.sequence(function(s) {
     s(mona.character("("));
     s(sws);
-    var text = s(mona.normalizedText(mona.unless(parenEnd(), mona.item())));
+    let text = s(mona.normalizedText(mona.unless(parenEnd(), mona.item())));
     s(parenEnd());
     return mona.result(text);
   });
@@ -52,10 +52,10 @@ function dialogueText() {
 function dialogue() {
   return mona.sequence(function(s) {
     s(sws);
-    var p = s(mona.maybe(parenthetical())) || undefined;
+    let p = s(mona.maybe(parenthetical())) || undefined;
     s(sws);
-    var d = s(dialogueText());
-    var end = s(dialogueEnd());
+    let d = s(dialogueText());
+    let end = s(dialogueEnd());
     return mona.result({
       parenthetical: p,
       dialogue: d + end

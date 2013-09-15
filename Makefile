@@ -11,7 +11,7 @@ module-root = ./node_modules
 uglify = $(module-root)/uglify-js/bin/uglifyjs
 browserify = $(module-root)/$(browserify-name)/bin/cmd.js
 jsdoc = $(module-root)/jsdoc/jsdoc
-mocha = $(module-root)/mocha/bin/mocha $(mocha-opts)
+mocha = $(module-root)/mocha/bin/mocha $(node-opts) $(mocha-opts)
 linter = $(module-root)/jshint/bin/jshint $(linter-opts)
 semver = $(module-root)/semver/bin/semver
 node = node
@@ -61,6 +61,7 @@ space:= $(empty) $(empty)
 mocha-opts = --check-leaks --recursive
 linter-opts =
 browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
+node-opts = --harmony
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
 
 #
@@ -79,11 +80,11 @@ run-deps = $(npm-spec) $(npm-dep-dir) build
 
 .PHONY: run
 run: $(run-deps)
-	$(node) .
+	$(node) $(node-opts) .
 
 .PHONY: run-dev
 run-dev: $(run-deps)
-	$(supervisor) $(supervisor-opts) .
+	$(supervisor) $(supervisor-opts)  -- $(node-opts) .
 
 .PHONY: compile
 compile: $(browserify-bundle)
