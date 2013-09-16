@@ -1,3 +1,81 @@
+#
+# Vars
+#
+
+#
+# Binaries
+#
+ifdef watch
+browserify-name = watchify
+else
+browserify-name = browserify
+endif
+
+module-root = ./node_modules
+uglify = $(module-root)/uglify-js/bin/uglifyjs
+browserify = $(module-root)/$(browserify-name)/bin/cmd.js
+jsdoc = $(module-root)/jsdoc/jsdoc
+mocha = $(module-root)/mocha/bin/mocha $(node-opts) $(mocha-opts)
+linter = $(module-root)/jshint/bin/jshint $(linter-opts)
+semver = $(module-root)/semver/bin/semver
+node = node
+supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
+npm = npm
+bower = $(module-root)/bower/bin/bower
+sequelize = $(module-root)/sequelize/bin/sequelize
+
+#
+# Frontend files
+#
+client-src-dir = ./src/client
+client-src-files = \
+	$(shell find $(client-src-dir)/js -type f -iname "*.js")
+client-view-stylesheets = \
+	$(shell find $(client-src-dir)/js -type f -iname "*.styl")
+client-static-resource-files = \
+	$(shell find $(client-src-dir) -type f \
+		-not -path "$(client-src-dir)/js/*")
+client-main-file = src/client/js/storychat.js
+client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*-test.js")
+resource-dir = static
+static-resources = \
+	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
+build-dir = $(resource-dir)/js
+browserify-bundle = $(build-dir)/storychat.js
+
+#
+# Backend files
+#
+source-files = $(shell find src/server -iname "*.js")
+server-test-files = $(shell find src/server -iname "*-test.js")
+node-main = $(shell grep main package.json | \
+				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
+linter-config = $(config-dir)/jshint.conf.json
+readme = README.md
+npm-dep-dir = node_modules
+bower-dep-dir = bower_components
+npm-spec = package.json
+bower-spec = bower.json
+db-config = $(config-dir)/db.json
+
+#
+# Opts
+#
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+config-dir = config
+mocha-opts = --check-leaks --recursive
+linter-opts =
+browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
+node-opts = --harmony
+supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
+db-host = localhost
+db-name = storychat
+
+#
+# Targets
+#
 .PHONY: all
 all: build
 
@@ -117,77 +195,3 @@ test-watch: $(source-files) $(client-src-files)
 lint: $(source-files) $(linter-config) $(client-src-files) deps
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
-#
-# Vars
-#
-
-#
-# Binaries
-#
-ifdef watch
-browserify-name = watchify
-else
-browserify-name = browserify
-endif
-
-module-root = ./node_modules
-uglify = $(module-root)/uglify-js/bin/uglifyjs
-browserify = $(module-root)/$(browserify-name)/bin/cmd.js
-jsdoc = $(module-root)/jsdoc/jsdoc
-mocha = $(module-root)/mocha/bin/mocha $(node-opts) $(mocha-opts)
-linter = $(module-root)/jshint/bin/jshint $(linter-opts)
-semver = $(module-root)/semver/bin/semver
-node = node
-supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
-npm = npm
-bower = $(module-root)/bower/bin/bower
-sequelize = $(module-root)/sequelize/bin/sequelize
-
-#
-# Frontend files
-#
-client-src-dir = ./src/client
-client-src-files = \
-	$(shell find $(client-src-dir)/js -type f -iname "*.js")
-client-view-stylesheets = \
-	$(shell find $(client-src-dir)/js -type f -iname "*.styl")
-client-static-resource-files = \
-	$(shell find $(client-src-dir) -type f \
-		-not -path "$(client-src-dir)/js/*")
-client-main-file = src/client/js/storychat.js
-client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*-test.js")
-resource-dir = static
-static-resources = \
-	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
-build-dir = $(resource-dir)/js
-browserify-bundle = $(build-dir)/storychat.js
-
-#
-# Backend files
-#
-source-files = $(shell find src/server -iname "*.js")
-server-test-files = $(shell find src/server -iname "*-test.js")
-node-main = $(shell grep main package.json | \
-				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
-linter-config = $(config-dir)/jshint.conf.json
-readme = README.md
-npm-dep-dir = node_modules
-bower-dep-dir = bower_components
-npm-spec = package.json
-bower-spec = bower.json
-db-config = $(config-dir)/db.json
-
-#
-# Opts
-#
-comma:= ,
-empty:=
-space:= $(empty) $(empty)
-config-dir = config
-mocha-opts = --check-leaks --recursive
-linter-opts =
-browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
-node-opts = --harmony
-supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
-db-host = localhost
-db-name = storychat
