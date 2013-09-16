@@ -1,4 +1,4 @@
-* archive [40/40]
+* archive [42/42]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -133,7 +133,17 @@
    CLOSED: [2013-09-14 Sat 15:40]
    Keep tests in the same directory as their source code and have the test
    runner find them from there.
-* backlog [0/3]
+** DONE Start structuring node code                                  :server:
+   CLOSED: [2013-09-15 Sun 15:22]
+   Right now, the whole damn thing is shoved into a single index.js
+   file. Organize it into multiple modules. Note that we're going to use
+   websockets to communicate with the client instead of AJAX!
+** DONE Set up sequelize                                                 :db:
+   CLOSED: [2013-09-15 Sun 21:40]
+   Play with it, set up a sample migration, see how it feels. Do it in a
+   branch so it's easy to throw that garbage away when it turns out it
+   sucks.
+* backlog [0/5]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
    that.
@@ -141,14 +151,25 @@
 ** TODO Set up a basic test with testee                     :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
-* active [0/7]
-** TODO Start structuring node code                                  :server:
-   Right now, the whole damn thing is shoved into a single index.js
-   file. Organize it into multiple modules.
+** TODO Write unit tests for mona                                      :mona:
+** TODO Extract mona into a separate project                           :mona:
+* active [0/8]
+** TODO User accounts                                                :server:
+   Need database support for accounts with secure password hashing (just
+   use postgres' support for this), a service (over websockets!) to manage
+   them, and controls for creating and managing user accounts on the
+   client-side.
+   Look at https://github.com/chriso/node-validator for validation!
+** TODO Basic character creation and management                  :characters:
+   Need database support for characters, a service (over websockets?) to
+   manage them, and a control on the client-side for management.
+** TODO Secure auth for sockjs clients                       :server:infosec:
+   Basically, all sockjs connections must be made using a unique token
+   received from a crossdomain-safe request.
 ** TODO Error report messages                                        :parser:
    If the parser fails, let the user know why.
 ** TODO Improve 'routing' for socket data                            :server:
-** TODO Reconnect logic for socketConn                             :sockConn:
+** TODO Reconnect logic for socketConn                           :socketConn:
    On disconnect, try to reconnect (in the background) by polling for a
    certain amount of time. Emit a 'reconnecting' event of some sort in the
    meantime. If the timeout passes, cancel the reconnection attempt and
@@ -156,9 +177,10 @@
 
    Add a button to the chat afterwards that allows for a manual reconnect
    attempt, so people don't have to refresh to try again.
+** TODO Observable connection state                              :socketConn:
+   Instead of forcing everything to attach to on* events, let them simply
+   observe some kind of connectionState attribute.
 ** TODO Style chatInput                                          :chat:style:
    Is there a way to reuse the styles in chatOutput somehow? They're
    obviously at least partly specific to output, but the various entry
    types are supposed to look somewhat similar.
-** TODO Write unit tests for mona                                      :mona:
-** TODO Extract mona into a separate project                           :mona:
