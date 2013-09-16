@@ -15,6 +15,11 @@ function create(email, displayName, password, passwordVerification) {
   return db.create(email, displayName, password);
 }
 
+function verify(email, password) {
+  return db.verify(email, password);
+}
+
 module.exports = {
-  create: create
+  create: create,
+  verify: verify
 };

@@ -47,4 +47,33 @@ describe("user", function() {
       });
     });
   });
+  describe("verify", function() {
+    let email = "testuser1000@example.com",
+        displayName =  "Test User 1000",
+        password = "testpassword";
+
+    function dieUsersDie(done) {
+      rawDb.query("DELETE FROM \"user\" WHERE email LIKE '%example.com'")
+        .then(function(){done();}, done);
+    }
+    before(dieUsersDie);
+    afterEach(dieUsersDie);
+
+    it("returns true if the password is correct for this user", function(done) {
+      user.create(email, displayName, password, password).then(function() {
+        return user.verify(email, password);
+      }).then(function(verified) {
+        assert.ok(verified);
+        done();
+      }, function(err) { done(err); });
+    });
+    it("returns false if the password is incorrect for this user", function(done) {
+      user.create(email, displayName, password, password).then(function() {
+        return user.verify(email, "badpassword");
+      }).then(function(verified) {
+        assert.ok(!verified);
+        done();
+      }, function(err) { done(err); });
+    });
+  });
 });

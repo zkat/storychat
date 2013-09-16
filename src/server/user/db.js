@@ -21,6 +21,19 @@ function create(email, displayName, password) {
   });
 }
 
+function verify(email, password) {
+  let q = ("SELECT true FROM \"user\""+
+           "  WHERE email = :email"+
+           "    AND password = crypt(:password, password)");
+  return db.query(q, {
+    email: email,
+    password: password + config.passwordSalt
+  }).then(function(result) {
+    return !!result.length;
+  }, function(err) { console.log(err); });
+}
+
 module.exports = {
-  create: create
+  create: create,
+  verify: verify
 };
