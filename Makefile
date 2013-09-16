@@ -36,7 +36,7 @@ client-static-resource-files = \
 	$(shell find $(client-src-dir) -type f \
 		-not -path "$(client-src-dir)/js/*")
 client-main-file = src/client/js/storychat.js
-client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*-test.js")
+client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*test.js")
 resource-dir = static
 static-resources = \
 	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
@@ -47,7 +47,7 @@ browserify-bundle = $(build-dir)/storychat.js
 # Backend files
 #
 source-files = $(shell find src/server -iname "*.js")
-server-test-files = $(shell find src/server -iname "*-test.js")
+server-test-files = $(shell find src/server -iname "*test.js")
 node-main = $(shell grep main package.json | \
 				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
 linter-config = $(config-dir)/jshint.conf.json
