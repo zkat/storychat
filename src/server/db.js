@@ -8,7 +8,7 @@ let Sequelize = require("sequelize"),
     extend = require("lodash").extend,
     promises = require("node-promise"),
     config = JSON.parse(
-      fs.readFileSync(__dirname + "/../../config/config.json"))[env];
+      fs.readFileSync(__dirname + "/../../config/db.json"))[env];
 
 /*jshint camelcase:false*/
 if (config.use_env_variable) {
