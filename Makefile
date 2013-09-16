@@ -169,13 +169,13 @@ source-files = $(shell find src/server -iname "*.js")
 server-test-files = $(shell find src/server -iname "*-test.js")
 node-main = $(shell grep main package.json | \
 				sed -E 's/.*"main".*:.*"([^"]*)".*/\1/')
-linter-config = jshint.conf.json
+linter-config = $(config-dir)/jshint.conf.json
 readme = README.md
 npm-dep-dir = node_modules
 bower-dep-dir = bower_components
 npm-spec = package.json
 bower-spec = bower.json
-db-config = config/db.json
+db-config = $(config-dir)/db.json
 
 #
 # Opts
@@ -183,6 +183,7 @@ db-config = config/db.json
 comma:= ,
 empty:=
 space:= $(empty) $(empty)
+config-dir = config
 mocha-opts = --check-leaks --recursive
 linter-opts =
 browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
