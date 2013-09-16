@@ -44,7 +44,7 @@ function query(q, args) {
     deferred.resolve(results);
   }).error(function(err) {
     console.error("Error while processing query '", q, "', ", err);
-    deferred.reject(err);
+    deferred.reject(err, true);
   });
   return deferred.promise;
 }
