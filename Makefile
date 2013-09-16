@@ -1,3 +1,126 @@
+.PHONY: all
+all: build
+
+#
+# Compiling
+#
+.PHONY: build
+build: static lint compile
+
+.PHONY: static
+static: $(static-resources)
+
+.PHONY: compile
+compile: $(browserify-bundle)
+
+$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets) deps
+	@mkdir -p $(@D)
+	$(browserify) $< $(browserify-opts) -o $@
+
+$(resource-dir)/%: $(client-src-dir)/%
+	@mkdir -p $(@D)
+	cp $< $@
+
+#
+# Dependencies
+#
+.PHONY: deps
+deps: $(npm-dep-dir) $(bower-dep-dir)
+
+$(npm-dep-dir): $(npm-spec)
+	$(npm) install
+
+$(bower): $(npm-dep-dir)
+
+$(bower-dep-dir): $(bower) $(bower-spec)
+	$< install
+
+#
+# Running node
+#
+run-deps = $(npm-spec) $(npm-dep-dir) build
+
+.PHONY: run
+run: $(run-deps)
+	$(node) $(node-opts) .
+
+.PHONY: run-dev
+run-dev: $(run-deps)
+	$(supervisor) $(supervisor-opts)  -- $(node-opts) .
+
+#
+# Project releases
+#
+.PHONY: release-%
+release-%: all
+	npm version $* -m "Upgrading storychat to %s" ;
+	git checkout master ; \
+	git merge develop --ff-only ; \
+	git checkout develop
+
+.PHONY: publish
+publish:
+	git push
+	git push --tags
+	npm publish .
+
+#
+# DB
+#
+.PHONY: db
+db: $(migrations-dir) $(db-config)
+	$(sequelize) --migrate --config $(db-config)
+
+.PHONY: db-undo
+db-undo: $(migrations-dir) $(db-config)
+	$(sequelize) --migrate --undo --config $(db-config)
+
+.PHONY: psql
+psql:
+	psql -h $(db-host) -d $(db-name)
+
+migrations/%:
+	$(sequelize) --create-migration $* --config $(db-config)
+
+#
+# Cleanup
+#
+.PHONY: clean
+clean:
+	-rm -rf $(resource-dir)
+
+.PHONY: distclean
+distclean:
+	-rm -rf $(build-dir)
+	-rm -rf $(npm-dep-dir)
+	-rm -rf $(bower-dep-dir)
+
+#
+# Tests and quality
+#
+.PHONY: test
+test: test-spec
+
+.PHONY: test-spec
+test-spec: $(source-files) $(client-src-files)
+	$(mocha) --reporter spec $(server-test-files) $(client-test-files)
+
+.PHONY: test-quiet
+test-quiet: $(source-files) $(client-src-files)
+	$(mocha) --reporter dot $(server-test-files) $(client-test-files)
+
+.PHONY: test-watch
+test-watch: $(source-files) $(client-src-files)
+	$(mocha) --reporter min --watch $(server-test-files) $(client-test-files)
+
+.PHONY: lint
+lint: $(source-files) $(linter-config) $(client-src-files) deps
+	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
+
+#
+# Vars
+#
+
 #
 # Binaries
 #
@@ -67,106 +190,3 @@ node-opts = --harmony
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
 db-host = localhost
 db-name = storychat
-
-#
-# Targets
-#
-.PHONY: all
-all: build
-
-.PHONY: build
-build: static lint compile
-
-.PHONY: static
-static: $(static-resources)
-
-run-deps = $(npm-spec) $(npm-dep-dir) build
-
-.PHONY: run
-run: $(run-deps)
-	$(node) $(node-opts) .
-
-.PHONY: run-dev
-run-dev: $(run-deps)
-	$(supervisor) $(supervisor-opts)  -- $(node-opts) .
-
-.PHONY: compile
-compile: $(browserify-bundle)
-
-.PHONY: release-%
-release-%: all
-	npm version $* -m "Upgrading storychat to %s" ;
-	git checkout master ; \
-	git merge develop --ff-only ; \
-	git checkout develop
-
-.PHONY: publish
-publish:
-	git push
-	git push --tags
-	npm publish .
-
-$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets) deps
-	@mkdir -p $(@D)
-	$(browserify) $< $(browserify-opts) -o $@
-
-$(build-dir):
-	mkdir -p $@
-
-.PHONY: db
-db: $(migrations-dir) $(db-config)
-	$(sequelize) --migrate --config $(db-config)
-
-.PHONY: db-undo
-db-undo: $(migrations-dir) $(db-config)
-	$(sequelize) --migrate --undo --config $(db-config)
-
-.PHONY: psql
-psql:
-	psql -h $(db-host) -d $(db-name)
-
-migrations/%:
-	$(sequelize) --create-migration $* --config $(db-config)
-
-.PHONY: clean
-clean:
-	-rm -rf $(resource-dir)
-
-.PHONY: distclean
-distclean:
-	-rm -rf $(build-dir)
-	-rm -rf $(npm-dep-dir)
-	-rm -rf $(bower-dep-dir)
-
-.PHONY: test
-test: test-spec
-
-.PHONY: test-spec
-test-spec: $(source-files) $(client-src-files)
-	$(mocha) --reporter spec $(server-test-files) $(client-test-files)
-
-.PHONY: test-quiet
-test-quiet: $(source-files) $(client-src-files)
-	$(mocha) --reporter dot $(server-test-files) $(client-test-files)
-
-.PHONY: test-watch
-test-watch: $(source-files) $(client-src-files)
-	$(mocha) --reporter min --watch $(server-test-files) $(client-test-files)
-
-.PHONY: lint
-lint: $(source-files) $(linter-config) $(client-src-files) deps
-	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
-
-.PHONY: deps
-deps: $(npm-dep-dir) $(bower-dep-dir)
-
-$(npm-dep-dir): $(npm-spec)
-	$(npm) install
-
-$(bower): $(npm-dep-dir)
-$(bower-dep-dir): $(bower) $(bower-spec)
-	$< install
-
-$(resource-dir)/%: $(client-src-dir)/%
-	mkdir -p $(@D)
-	cp $< $@
