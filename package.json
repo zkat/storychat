@@ -32,6 +32,7 @@
     "sequelize": "~2.0.0-beta.0",
     "pg": "~2.6.2",
     "node-promise": "~0.5.8",
-    "validator": "~1.5.1"
+    "validator": "~1.5.1",
+    "bcrypt": "~0.7.7"
   }
 }

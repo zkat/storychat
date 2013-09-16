@@ -4,23 +4,17 @@
 
 module.exports = {
   up: function(m, types, done) {
-    var q = "CREATE EXTENSION IF NOT EXISTS \"pgcrypto\"";
-    m.queryAndEmit(q).success(function() {
-      console.log("extension created");
-      m.createTable("user", {
-        email: { type: types.STRING, primaryKey: true },
-        password: types.STRING,
-        display_name:  types.STRING
-      }).success(function() {
+    m.createTable("user", {
+      email: { type: types.STRING, primaryKey: true },
+      password: types.STRING,
+      display_name:  types.STRING
+    }).success(function() {
         done();
-      });
     });
   },
   down: function(m, types, done) {
-    m.queryAndEmit("DROP EXTENSION IF EXISTS \"pgcrypto\"").success(function() {
-      m.queryAndEmit("DROP TABLE IF EXISTS \"user\"").success(function() {
-        done();
-      });
+    m.queryAndEmit("DROP TABLE IF EXISTS \"user\"").success(function() {
+      done();
     });
   }
 }
