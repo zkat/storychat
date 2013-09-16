@@ -18,6 +18,7 @@ node = node
 supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 npm = npm
 bower = $(module-root)/bower/bin/bower
+sequelize = $(module-root)/sequelize/bin/sequelize
 
 #
 # Frontend files
@@ -51,6 +52,7 @@ npm-dep-dir = node_modules
 bower-dep-dir = bower_components
 npm-spec = package.json
 bower-spec = bower.json
+db-config = config/db.json
 
 #
 # Opts
@@ -63,6 +65,8 @@ linter-opts =
 browserify-opts = -t es6ify -t debowerify -t ./src/server/can.viewify -t stylify -t brfs -d
 node-opts = --harmony
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
+db-host = localhost
+db-name = storychat
 
 #
 # Targets
@@ -108,6 +112,21 @@ $(browserify-bundle): $(client-main-file) $(client-src-files) $(client-styleshee
 
 $(build-dir):
 	mkdir -p $@
+
+.PHONY: db
+db: $(migrations-dir) $(db-config)
+	$(sequelize) --migrate --config $(db-config)
+
+.PHONY: db-undo
+db-undo: $(migrations-dir) $(db-config)
+	$(sequelize) --migrate --undo --config $(db-config)
+
+.PHONY: psql
+psql:
+	psql -h $(db-host) -d $(db-name)
+
+migrations/%:
+	$(sequelize) --create-migration $* --config $(db-config)
 
 .PHONY: clean
 clean:
