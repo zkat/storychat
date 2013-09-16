@@ -4,7 +4,7 @@
 
 let db = require("../db");
 
-let bfIterations = 15;
+let bfIterations = 9;
 
 function create(email, displayName, password) {
   let q = ("INSERT INTO \"user\" (email, display_name, password)"+
