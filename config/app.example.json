@@ -1,0 +1,4 @@
+{
+    "sessionSecret": "omgsupersecretpleasechangeme",
+    "passwordSalt": "omgalsosupersecretchangemetoo"
+}
