@@ -6,14 +6,15 @@ var fiber = require("fibers"),
     promises = require("node-promise");
 
 function spawn(cb) {
-  let deferred = promises.defer();
-  fiber(function() {
-    try {
-      deferred.resolve(cb());
-    } catch(e) {
-      deferred.reject(e);
-    }
-  }).run();
+  let deferred = promises.defer(),
+      fib = fiber(function() {
+        try {
+          deferred.resolve(cb());
+        } catch(e) {
+          deferred.reject(e);
+        }
+      });
+  process.nextTick(fib.run.bind(fib));
   return deferred.promise;
 }
 

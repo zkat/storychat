@@ -22,6 +22,13 @@ describe("task", function() {
         }
       }, 1000);
     });
+    it("executes asynchronously", function() {
+      let called = false;
+      task.spawn(function() {
+        called = true;
+      });
+      assert.ok(!called);
+    });
     it("returns a promise", function(done) {
       task.spawn(function() {
         return "hey there";
