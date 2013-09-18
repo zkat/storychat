@@ -29,6 +29,14 @@ describe("task", function() {
       });
       assert.ok(!called);
     });
+    it("passes any extra arguments into the callback", function(done) {
+      task.spawn(function(a, b, c) {
+        return a+b+c;
+      }, 1, 2, 3).then(function(sum) {
+        assert.equal(sum, 6);
+        done();
+      });
+    });
     it("returns a promise", function(done) {
       task.spawn(function() {
         return "hey there";

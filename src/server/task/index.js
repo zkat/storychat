@@ -6,14 +6,16 @@ var fiber = require("fibers"),
     promises = require("node-promise");
 
 function spawn(cb) {
-  let deferred = promises.defer(),
-      fib = fiber(function() {
-        try {
-          deferred.resolve(cb());
-        } catch(e) {
-          deferred.reject(e);
-        }
-      });
+  let cbArgs = [].slice.call(arguments, 1),
+      deferred = promises.defer();
+  function execCallback() {
+    try {
+      deferred.resolve(cb.apply(this, arguments));
+    } catch(e) {
+      deferred.reject(e);
+    }
+  }
+  let fib = fiber(execCallback.bind.apply(execCallback, [this].concat(cbArgs)));
   process.nextTick(fib.run.bind(fib));
   return deferred.promise;
 }
