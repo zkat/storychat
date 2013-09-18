@@ -1,4 +1,4 @@
-* archive [42/42]
+* archive [48/48]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -143,6 +143,23 @@
    Play with it, set up a sample migration, see how it feels. Do it in a
    branch so it's easy to throw that garbage away when it turns out it
    sucks.
+** DONE Move config files to config/                                  :build:
+   CLOSED: [2013-09-15 Sun 22:35]
+** DONE Create a password hashing salt external to the db            :server:
+   CLOSED: [2013-09-16 Mon 08:08]
+   Like the sessionSecret token, create an additional salt that will be
+   stored in an external config file that the system can use to improve
+   the hashing for passwords.
+** DONE Use node-bcrypt                                              :server:
+   CLOSED: [2013-09-16 Mon 09:21]
+   Instead of postgres' crypto. Things might end up in db logs this way.
+** DONE Basic user API                                         :users:server:
+   CLOSED: [2013-09-16 Mon 22:07]
+   API for creating users and check their login credentials.
+** DONE Pull in node-fibers and experiment                           :server:
+   CLOSED: [2013-09-18 Wed 01:09]
+** DONE Convert user tests to task module                             :tests:
+   CLOSED: [2013-09-18 Wed 01:31]
 * backlog [0/5]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
@@ -153,13 +170,19 @@
    the like.
 ** TODO Write unit tests for mona                                      :mona:
 ** TODO Extract mona into a separate project                           :mona:
-* active [0/8]
-** TODO User accounts                                                :server:
+* active [0/15]
+** TODO Login "page"                                             :login:page:
+** TODO Account creation page                                     :user:page:
+** TODO chat page                                                 :chat:page:
+** TODO User accounts                                          :users:server:
    Need database support for accounts with secure password hashing (just
    use postgres' support for this), a service (over websockets!) to manage
    them, and controls for creating and managing user accounts on the
    client-side.
    Look at https://github.com/chriso/node-validator for validation!
+** TODO Use assert properly D:                                        :tests:
+   I've been putting the actual/expecteds in the wrong place. :\
+** TODO Transaction support for db.js                                    :db:
 ** TODO Basic character creation and management                  :characters:
    Need database support for characters, a service (over websockets?) to
    manage them, and a control on the client-side for management.
@@ -184,3 +207,6 @@
    Is there a way to reuse the styles in chatOutput somehow? They're
    obviously at least partly specific to output, but the various entry
    types are supposed to look somewhat similar.
+** TODO Use redis for express session storage                        :server:
+   The default session storage system is neither persistent nor secure.
+** TODO Move sessionSecret to an external config                     :server:
