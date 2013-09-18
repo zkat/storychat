@@ -11,7 +11,7 @@ function PromiseValidator() {
   this._errors = [];
 }
 
-PromiseValidator.prototype = new Validator;
+PromiseValidator.prototype = new Validator();
 PromiseValidator.prototype.constructor = PromiseValidator;
 
 PromiseValidator.prototype.error = function(msg) {
