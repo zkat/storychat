@@ -48,8 +48,20 @@ function sleep(ms) {
   fiber.yield();
 }
 
+function wrap(fn) {
+  return function() {
+    return _yield(fn.apply(this, arguments));
+  };
+}
+
+function isInTask() {
+  return typeof fiber.current !== "undefined";
+}
+
 module.exports = {
   spawn: spawn,
   yield: _yield,
-  sleep: sleep
+  sleep: sleep,
+  wrap: wrap,
+  isInTask: isInTask
 };

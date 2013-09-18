@@ -87,4 +87,24 @@ describe("task", function() {
       }, 1000);
     });
   });
+  describe("wrap", function() {
+    it("wraps a function with yield", function(done) {
+      let deferred = promises.defer(),
+          frob = task.wrap(function() { return deferred.promise; });
+      task.spawn(function() {
+        assert.equal(frob(), "success!");
+        done();
+      });
+      deferred.resolve("success!");
+    });
+  });
+  describe("isInTask", function() {
+    it("returns true if called in the context of a task", function(done) {
+      task.spawn(function() {
+        assert.ok(task.yield(task.isInTask()));
+        done();
+      });
+      assert.ok(!task.isInTask());
+    });
+  });
 });
