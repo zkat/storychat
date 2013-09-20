@@ -11,6 +11,11 @@ let web = clone(webServer.WebServer, {
   staticDir: __dirname + "/../../static"
 });
 
+if (process.env.NODE_ENV !== "production") {
+  // Pieces together stack traces for promises. Has a performance hit.
+  require("q").longStackSupport = true;
+}
+
 clone(require("./socketServer").SocketServer, web.http, {prefix: "/ws"});
 
 webServer.listen(web, port);

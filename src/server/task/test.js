@@ -3,7 +3,7 @@
 
 var assert = require("assert"),
     task = require("./index"),
-    promises = require("node-promise");
+    Q = require("q");
 
 describe("task", function() {
   describe("spawn", function() {
@@ -69,7 +69,7 @@ describe("task", function() {
       }, 1000);
     });
     it("waits for a promise if given one as an argument", function(done) {
-      let deferred = promises.defer(),
+      let deferred = Q.defer(),
           result = false;
       task.spawn(function() {
         result = task.yield(deferred.promise);
@@ -82,7 +82,7 @@ describe("task", function() {
       }, 1000);
     });
     it("throws an error in the task if a promise fails", function(done) {
-      let deferred = promises.defer(),
+      let deferred = Q.defer(),
           ran = false;
       task.spawn(function() {
         try {
@@ -102,7 +102,7 @@ describe("task", function() {
   });
   describe("wrap", function() {
     it("wraps a function with yield", function(done) {
-      let deferred = promises.defer(),
+      let deferred = Q.defer(),
           frob = task.wrap(function() { return deferred.promise; });
       task.spawn(function() {
         assert.equal(frob(), "success!");

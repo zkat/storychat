@@ -1,11 +1,11 @@
 "use strict";
 
 var fiber = require("fibers"),
-    promises = require("node-promise");
+    Q = require("q");
 
 function spawn(cb) {
   let cbArgs = [].slice.call(arguments, 1),
-      deferred = promises.defer();
+      deferred = Q.defer();
   function execCallback() {
     try {
       deferred.resolve(cb.apply(this, arguments));

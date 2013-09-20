@@ -2,9 +2,12 @@
 
 let db = require("../db"),
     bcrypt = require("bcrypt"),
-    promises = require("node-promise"),
+    Q = require("q"),
     fs = require("fs"),
     config = JSON.parse(fs.readFileSync(__dirname+"/../../../config/app.json"));
+
+let hash = Q.denodeify(bcrypt.hash),
+    compare = Q.denodeify(bcrypt.compare);
 
 let iterations = 11;
 
@@ -13,15 +16,7 @@ function create(email, displayName, password) {
            "    (email, display_name, password)"+
            "  VALUES"+
            "    (:email, :displayName, :password)");
-  let deferred = promises.defer();
-  bcrypt.hash(password + config.passwordSalt, iterations, function(err, hash) {
-    if (err) {
-      deferred.reject(err);
-    } else {
-      deferred.resolve(hash);
-    }
-  });
-  return deferred.promise.then(function(hash) {
+  return hash(password + config.passwordSalt, iterations).then(function(hash) {
     return db.query(q, {
       email: email,
       displayName: displayName,
@@ -33,17 +28,8 @@ function create(email, displayName, password) {
 function verify(email, password) {
   let q = ("SELECT password FROM \"user\""+
            "  WHERE email = :email");
-  let deferred = promises.defer();
   return db.query(q, {email: email}).then(function(result) {
-    let salted = password + config.passwordSalt;
-    bcrypt.compare(salted, result[0].password, function(err, res) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        deferred.resolve(res);
-      }
-    });
-    return deferred.promise;
+    return compare(password + config.passwordSalt, result[0].password);
   });
 }
 

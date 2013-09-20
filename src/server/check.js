@@ -1,10 +1,10 @@
 "use strict";
 
 let Validator = require("validator").Validator,
-    promises = require("node-promise");
+    Q = require("q");
 
 function PromiseValidator() {
-  this._deferred = promises.defer();
+  this._deferred = Q.defer();
   this.promise = this._deferred.promise;
   this._errors = [];
 }

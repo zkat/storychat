@@ -4,7 +4,7 @@ let Sequelize = require("sequelize"),
     fs = require("fs"),
     env = process.env.NODE_ENV || "development",
     extend = require("lodash").extend,
-    promises = require("node-promise"),
+    Q = require("q"),
     config = JSON.parse(
       fs.readFileSync(__dirname + "/../../config/db.json"))[env];
 
@@ -37,7 +37,7 @@ function connect() {
 
 let db = connect();
 function query(q, args) {
-  let deferred = promises.defer();
+  let deferred = Q.defer();
   db.query(q, null, {raw: true}, args).success(function(results) {
     deferred.resolve(results);
   }).error(function(err) {
