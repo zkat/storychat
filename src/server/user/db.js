@@ -15,8 +15,9 @@ function create(email, displayName, password) {
   let q = ("INSERT INTO \"user\""+
            "    (email, display_name, password)"+
            "  VALUES"+
-           "    (:email, :displayName, :password)");
-  return hash(password + config.passwordSalt, iterations).then(function(hash) {
+           "    (:email, :displayName, :password)"),
+      pass = password + config.passwordSecret;
+  return hash(pass, iterations).then(function(hash) {
     return db.query(q, {
       email: email,
       displayName: displayName,
@@ -29,7 +30,7 @@ function verify(email, password) {
   let q = ("SELECT password FROM \"user\""+
            "  WHERE email = :email");
   return db.query(q, {email: email}).then(function(result) {
-    return compare(password + config.passwordSalt, result[0].password);
+    return compare(password + config.passwordSecret, result[0].password);
   });
 }
 
