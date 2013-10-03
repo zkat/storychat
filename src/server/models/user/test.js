@@ -27,7 +27,7 @@ describe("user", function() {
         task.yield(user.create(em, name, pw, pw));
         let q = "SELECT count(*) FROM \"user\" WHERE email = :email",
             result = task.yield(rawDb.query(q, {email: em}));
-        assert.equal(1, result.length);
+        assert.equal(result.length, 1);
         done();
       });
     });
