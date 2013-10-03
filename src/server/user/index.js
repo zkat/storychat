@@ -1,7 +1,7 @@
 "use strict";
 
 let db = require("./db"),
-    check = require("../check"),
+    check = require("../util/check"),
     sanitize = require("validator").sanitize;
 
 function create(email, displayName, password, passwordVerification) {
