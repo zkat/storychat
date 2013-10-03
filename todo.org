@@ -1,4 +1,4 @@
-* archive [52/52]
+* archive [56/56]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -170,7 +170,22 @@
    CLOSED: [2013-09-19 Thu 23:18]
 ** DONE rename passwordSalt to passwordSecret                       :infosec:
    CLOSED: [2013-09-19 Thu 23:22]
-* backlog [0/15]
+** DONE Extract mona into a separate project                           :mona:
+   CLOSED: [2013-10-02 Wed 22:48]
+   Mona lives in a separate project now, but storychat now has to pull it in as
+   a dependency. :)
+** DONE Move server utils into a util/ dir                            :utils:
+   CLOSED: [2013-10-02 Wed 22:58]
+   There's a number of different utils in the project that are just kinda
+   sitting around and could potentially turn into external projects. Move them
+   to a util/ folder to clean up the src/server root.
+** DONE Reorganize server files                                    :refactor:
+   CLOSED: [2013-10-02 Wed 23:19]
+** DONE socketServer multiplexing                                    :server:
+   CLOSED: [2013-10-03 Thu 00:09]
+   Set up a feathers-style multiplexing system for installing services into
+   socketServer that will handle different kinds of messages.
+* backlog [0/13]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
    that.
@@ -178,8 +193,6 @@
 ** TODO Set up a basic test with testee                     :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
-** TODO Write unit tests for mona                                      :mona:
-** TODO Extract mona into a separate project                           :mona:
 ** TODO Use Q in the frontend instead of $.deferred                  :client:
 ** TODO Can OTP be implemented on top of node-fibers?                :server:
 ** TODO Use assert properly D:                                        :tests:
@@ -207,7 +220,12 @@
 ** TODO Secure auth for sockjs clients                       :server:infosec:
    Basically, all sockjs connections must be made using a unique token
    received from a crossdomain-safe request.
-* active [0/6]
+* active [0/8]
+** TODO Improve socketServer messaging                               :server:
+   Probably improve the client-side API, too. How should messages be broadcast?
+   Filtered? Should raw clients be provided? Is access to the socketServer
+   itself necessary? (probably).
+** TODO Move proto into a shared lib                                  :proto:
 ** TODO can.route, pushState, and pages                        :pages:server:
    Set up the whole shebang that will allow use of pushState,
    can.route-based routing, and easy configuration of pages based on
