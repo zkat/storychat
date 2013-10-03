@@ -1,18 +1,16 @@
 "use strict";
 
-let addMethod = require("genfun").addMethod,
+let Genfun = require("genfun"),
+    addMethod = Genfun.addMethod,
     proto = require("../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
 
 let _ = require("lodash"),
-    each = _.each,
     partial = _.partial,
     without = _.without;
 
 let Sockjs = require("sockjs");
-
-let chatParser = require("./services/chat/parser");
 
 /**
  * Handles websocket-ish connections from storychat clients and takes care
@@ -22,6 +20,7 @@ let SocketServer = clone();
 
 addMethod(init, [SocketServer], function(srv, http, opts) {
   srv.connections = [];
+  srv.services = opts.services;
   initSocket(srv, http, opts);
 });
 
@@ -55,20 +54,20 @@ function initConn(srv, conn) {
   conn.on("close", partial(onClientClose, srv, conn));
 }
 
+let onMessage = new Genfun();
+addMethod(onMessage, [], function() {});
+
 function onClientMessage(srv, conn, msg) {
   try {
-    let json = JSON.parse(msg);
-    json.data.parsedContent = chatParser.parse(json.data.entryType,
-                                               json.data.content);
-    let output = JSON.stringify(json);
-    each(srv.connections, function(conn) {
-      // TODO - what happens if a conn is disconnected and we try to
-      //        write to it? Is there a race condition here or can I
-      //        assume a write will always succeed?
-      conn.write(output);
-    });
+    let json = JSON.parse(msg),
+        service = srv.services[json.namespace];
+    if (service) {
+      onMessage(service, json.namespace, srv, conn, json.data);
+    } else {
+      throw new Error("Invalid service: "+json.namespace);
+    }
   } catch (e) {
-    console.error("An error occurred while processing user input.", {
+    console.error("An error occurred while processing socket message:", {
       error: e,
       input: msg
     });
@@ -80,4 +79,12 @@ function onClientClose(srv, conn) {
   srv.connections = without(srv.connections, conn);
 }
 
-module.exports.SocketServer = SocketServer;
+function send(conn, data) {
+  conn.write(JSON.stringify(data));
+}
+
+module.exports = {
+  SocketServer: SocketServer,
+  onMessage: onMessage,
+  send: send
+};
