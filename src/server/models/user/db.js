@@ -18,11 +18,11 @@ function create(email, displayName, password) {
            "  VALUES"+
            "    (:email, :displayName, :password)"),
       pass = password + config.passwordSecret;
-  return hash(pass, iterations).then(function(hash) {
+  return hash(pass, iterations).then(function(pwhash) {
     return db.query(q, {
       email: email,
       displayName: displayName,
-      password: hash
+      password: pwhash
     });
   });
 }

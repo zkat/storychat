@@ -4,6 +4,7 @@ var fiber = require("fibers"),
     Q = require("q");
 
 function spawn(cb) {
+  /*jshint validthis: true*/
   let cbArgs = [].slice.call(arguments, 1),
       deferred = Q.defer();
   function execCallback() {

@@ -4,7 +4,7 @@ let mona = require("mona-parser");
 
 function normalizedText(parser) {
   return mona.map(function(txt) {
-    return txt.replace(/\s+/g, ' ');
+    return txt.replace(/\s+/g, " ");
   }, mona.trim(mona.text(parser)));
 }
 
