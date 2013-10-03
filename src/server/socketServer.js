@@ -12,7 +12,7 @@ let _ = require("lodash"),
 
 let Sockjs = require("sockjs");
 
-let chatParser = require("./chatParser");
+let chatParser = require("./services/chat/parser");
 
 /**
  * Handles websocket-ish connections from storychat clients and takes care

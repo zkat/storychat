@@ -2,7 +2,7 @@
 "use strict";
 
 var assert = require("assert"),
-    chatParser = require("./chatParser");
+    chatParser = require("./index");
 
 describe("chatParser", function() {
   describe("parse", function() {
