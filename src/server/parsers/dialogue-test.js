@@ -2,43 +2,39 @@
 "use strict";
 
 var assert = require("assert"),
-    dialogueParser = require("./dialogue")();
+    mona = require("mona-parser"),
+    dialogue = require("./dialogue");
 
 function parse(str) {
-  return dialogueParser(str);
+  return mona.parse(dialogue(), str);
 }
 
 describe("dialogue", function() {
   it("parses plain old dialogue strings into mona results", function() {
-    var results = parse("Foo bar baz.");
-    assert.deepEqual([{
-      val: {
-        dialogue: "Foo bar baz.",
-        parenthetical: undefined
-      },
-      input: ""
-    }], results);
+    assert.deepEqual(parse("Foo bar baz."), {
+      dialogue: "Foo bar baz.",
+      parenthetical: undefined
+    });
   });
   it("trims whitespace from both ends", function() {
-    assert.equal("Foo bar.", parse("    Foo bar.")[0].val.dialogue);
-    assert.equal("Foo bar.", parse("Foo bar.    ")[0].val.dialogue);
-    assert.equal("Foo bar.", parse("    Foo bar.    ")[0].val.dialogue);
+    assert.equal(parse("    Foo bar.").dialogue, "Foo bar.");
+    assert.equal(parse("Foo bar.    ").dialogue, "Foo bar.");
+    assert.equal(parse("    Foo bar.    ").dialogue, "Foo bar.");
   });
   it("normalizes multiple consecutive whitespaces into one space", function() {
-    assert.equal("Foo bar.", parse("Foo      bar.")[0].val.dialogue);
-    assert.equal("Foo bar.", parse("Foo  \n\t\r \nbar.")[0].val.dialogue);
+    assert.equal(parse("Foo      bar.").dialogue, "Foo bar.");
+    assert.equal(parse("Foo  \n\t\r \nbar.").dialogue, "Foo bar.");
   });
   describe("parenthetical support", function() {
     it("parses parentheticals out of the string", function() {
       var results = parse("(foo) Bar baz.");
-      assert.equal(1, results.length);
-      assert.equal("foo", results[0].val.parenthetical);
-      assert.equal("Bar baz.", results[0].val.dialogue);
+      assert.equal(results.parenthetical, "foo");
+      assert.equal(results.dialogue, "Bar baz.");
     });
     function check(sample) {
-      var res = parse(sample)[0].val;
-      assert.equal("foo bar", res.parenthetical);
-      assert.equal("Baz quux.", res.dialogue);
+      var res = parse(sample);
+      assert.equal(res.parenthetical, "foo bar");
+      assert.equal(res.dialogue, "Baz quux.");
     }
     it("trims whitespace within the parenthetical", function() {
       check("(   foo bar)Baz quux.");
@@ -53,24 +49,24 @@ describe("dialogue", function() {
   });
   describe("period auto-insertion", function() {
     it("adds a period to the dialogue if punctuation was missing", function() {
-      assert.equal("Foo bar.", parse("Foo bar")[0].val.dialogue);
+      assert.equal(parse("Foo bar").dialogue, "Foo bar.");
     });
     it("leaves existing punctuation if it was already there", function() {
       function testPunctuation(punc) {
-        assert.equal("Foo bar"+punc, parse("Foo bar"+punc)[0].val.dialogue);
+        assert.equal(parse("Foo bar"+punc).dialogue, "Foo bar"+punc);
       }
       [].forEach.call(".!?;", testPunctuation);
     });
     it("adds the period after trimming whitespace", function() {
-      assert.equal("Foo bar.", parse("Foo bar     ")[0].val.dialogue);
+      assert.equal(parse("Foo bar     ").dialogue, "Foo bar.");
     });
   });
   describe("auto-capitalization", function() {
     it("capitalizes the first letter of the whole dialogue", function() {
-      assert.equal("Foo bar.", parse("foo bar.")[0].val.dialogue);
+      assert.equal(parse("foo bar.").dialogue, "Foo bar.");
     });
     it("capitalizes after left-trim", function() {
-      assert.equal("Foo bar.", parse("    foo bar.")[0].val.dialogue);
+      assert.equal(parse("    foo bar.").dialogue, "Foo bar.");
     });
   });
 });

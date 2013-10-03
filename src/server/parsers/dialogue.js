@@ -1,24 +1,24 @@
 "use strict";
 
-let mona = require("../mona");
+let mona = require("mona-parser");
 
-let sws = mona.skipWhitespace();
+function normalizedText(parser) {
+  return mona.map(function(txt) {
+    return txt.replace(/\s+/g, ' ');
+  }, mona.trim(mona.text(parser)));
+}
 
 /**
  * @grammar "(" sws text sws ")"
  * @returns {String}
  */
 function parenthetical() {
-  function parenEnd() {
-    return mona.and(sws, mona.character(")"));
-  }
-  return mona.sequence(function(s) {
-    s(mona.character("("));
-    s(sws);
-    let text = s(mona.normalizedText(mona.unless(parenEnd(), mona.item())));
-    s(parenEnd());
-    return mona.result(text);
-  });
+  return mona.between(mona.string("("),
+                      mona.string(")"),
+                      normalizedText(
+                        mona.unless(mona.and(mona.maybe(mona.spaces()),
+                                             mona.string(")")),
+                                    mona.token())));
 }
 
 function punctuation() {
@@ -30,9 +30,9 @@ function punctuation() {
  * @returns {String}
  */
 function dialogueEnd() {
-  return mona.prog1(mona.or(punctuation(), mona.result(".")),
-                    sws,
-                    mona.endOfInput());
+  return mona.followedBy(
+    mona.trim(mona.or(punctuation(), mona.value("."))),
+    mona.eof());
 }
 
 /**
@@ -40,7 +40,7 @@ function dialogueEnd() {
  * @returns {String}
  */
 function dialogueText() {
-  return mona.normalizedText(mona.unless(dialogueEnd(), mona.item()));
+  return normalizedText(mona.unless(dialogueEnd(), mona.token()));
 }
 
 /**
@@ -49,12 +49,10 @@ function dialogueText() {
  */
 function dialogue() {
   return mona.sequence(function(s) {
-    s(sws);
-    let p = s(mona.maybe(parenthetical())) || undefined;
-    s(sws);
+    let p = s(mona.trim(mona.maybe(parenthetical())));
     let d = s(dialogueText());
     let end = s(dialogueEnd());
-    return mona.result({
+    return mona.value({
       parenthetical: p,
       dialogue: d.charAt(0).toUpperCase() + d.slice(1) + end
     });

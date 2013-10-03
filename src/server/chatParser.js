@@ -1,6 +1,6 @@
 "use strict";
 
-var mona = require("./mona");
+var mona = require("mona-parser");
 
 var parsers = {
   dialogue: require("./parsers/dialogue")()
@@ -9,7 +9,7 @@ var parsers = {
 function parse(type, content) {
   var parser = parsers[type];
   if (!parser) { console.warn("No parser for type "+type); return {}; }
-  return mona.run(parser, content).val;
+  return mona.parse(parser, content);
 }
 
 module.exports.parse = parse;
