@@ -2,18 +2,19 @@
 "use strict";
 
 var assert = require("assert"),
-    chatParser = require("./index");
+    parser = require("./index");
 
-describe("chatParser", function() {
+describe("parser", function() {
   describe("parse", function() {
     it("Parses a string into a results object, given a valid type", function() {
-      assert.deepEqual({
+      assert.deepEqual(parser.parse("dialogue", "(foo) Bar."), {
         parenthetical: "foo",
         dialogue: "Bar."
-      }, chatParser.parse("dialogue", "(foo) Bar."));
+      });
     });
     it("Returns an empty object if no parser is defined", function() {
-      assert.deepEqual({}, chatParser.parse("NO_SUCH_TYPE", "foo"));
+      // TODO - test that this actually does a log message.
+      assert.deepEqual(parser.parse("NO_SUCH_TYPE", "foo"), {});
     });
   });
 });
