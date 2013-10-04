@@ -5,7 +5,7 @@ let {addMethod} = require("genfun"),
     {extend, forEach} = require("lodash");
 
 let can = require("../../shims/can");
-require("../../shims/can.view.mustache");
+require("../../shims/can.mustache");
 
 let style = require("../../lib/ensureStyle"),
     viewCss = require("./chatInput.styl");

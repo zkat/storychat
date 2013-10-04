@@ -6,7 +6,7 @@ let {addMethod} = require("genfun"),
 let style = require("../../lib/ensureStyle"),
     viewCss = require("./chatOutput.styl");
 
-require("../../shims/can.view.mustache");
+require("../../shims/can.mustache");
 
 /**
  * ChatOutput Controller
