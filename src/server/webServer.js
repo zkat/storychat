@@ -54,6 +54,14 @@ defRoute("get", "/wsauth", function(srv, req, res) {
   res.send({data: authInfo});
 });
 
+defRoute("get", "*", function(srv, req, res) {
+  // Any other URLs, reroute to /#/url, to allow can.route/pushState to
+  // make things awesome.
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.redirect("#"+req.url);
+});
+
 /*
  * Util
  */
