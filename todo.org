@@ -1,4 +1,4 @@
-* archive [56/56]
+* archive [58/58]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -185,6 +185,11 @@
    CLOSED: [2013-10-03 Thu 00:09]
    Set up a feathers-style multiplexing system for installing services into
    socketServer that will handle different kinds of messages.
+** DONE Basic pages setup with can.route                       :pages:server:
+   CLOSED: [2013-10-03 Thu 23:02]
+** DONE Try and get deamdify to work                                    :can:
+   CLOSED: [2013-10-03 Thu 23:39]
+   Basically can/amd is fucked.
 * backlog [0/13]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
@@ -221,18 +226,15 @@
    Basically, all sockjs connections must be made using a unique token
    received from a crossdomain-safe request.
 * active [0/8]
+** TODO pushState/history support for pages                    :pages:server:
+** TODO Login "page"                                             :login:page:
+** TODO chat page                                                 :chat:page:
 ** TODO Improve socketServer messaging                               :server:
    Probably improve the client-side API, too. How should messages be broadcast?
    Filtered? Should raw clients be provided? Is access to the socketServer
    itself necessary? (probably).
 ** TODO Move proto into a shared lib                                  :proto:
-** TODO can.route, pushState, and pages                        :pages:server:
-   Set up the whole shebang that will allow use of pushState,
-   can.route-based routing, and easy configuration of pages based on
-   controls.
-** TODO Login "page"                                             :login:page:
 ** TODO Account creation page                                     :user:page:
-** TODO chat page                                                 :chat:page:
 ** TODO User accounts                                          :users:server:
    Need database support for accounts with secure password hashing (just
    use postgres' support for this), a service (over websockets!) to manage
