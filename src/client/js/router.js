@@ -4,6 +4,7 @@ let {addMethod} = require("genfun"),
     {clone, init} = require("./lib/proto");
 
 let can = require("./shims/can");
+let $ = require("jquery");
 let {EventListener, listen} = require("./lib/eventListener");
 
 /**
@@ -18,16 +19,20 @@ let listener = clone(EventListener, {
   "route": page
 });
 
-addMethod(init, [Router], function(router) {
+let pages = {
+  "home": require("./pages/home"),
+  "404": require("./pages/404")
+};
+
+addMethod(init, [Router], function(router, conn) {
   router.listenerHandle = listen(listener, router, window);
+  router.conn = conn;
 });
 
-let pages = {
-  "index": require("./pages/index"),
-  "404": require("./pages/notfound")
-};
 function page(router, data) {
-  console.log("Routed to page: ", can.route.attr("page"));
+  let nextPage = pages[data.page || "home"] || pages["404"];
+  $("#page").remove();
+  nextPage(router.conn, $("<div id=page>").appendTo("body"));
 }
 
 module.exports.Router = Router;
