@@ -10,12 +10,12 @@ let pageTemplate = require("./template.mustache");
 
 let NotFound = clone();
 
-addMethod(init, [NotFound], function(page, conn, el) {
+addMethod(init, [NotFound], function(page, el, conn) {
   page.conn = conn;
   style(viewCss);
   el.html(pageTemplate());
 });
 
-module.exports = function(conn, el) {
-  return clone(NotFound, conn, el);
+module.exports = function(el, conn) {
+  return clone(NotFound, el, conn);
 };

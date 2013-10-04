@@ -14,7 +14,7 @@ let pageTemplate = require("./template.mustache");
 
 let Home = clone();
 
-addMethod(init, [Home], function(page, conn, el) {
+addMethod(init, [Home], function(page, el, conn) {
   style(viewCss);
   el.html(pageTemplate());
   page.chatlog = clone(Chatlog, conn, "chat");
@@ -22,6 +22,6 @@ addMethod(init, [Home], function(page, conn, el) {
   page.chatInput = clone(ChatInput, el.find(".chat-input"), page.chatlog);
 });
 
-module.exports = function(conn, el) {
-  return clone(Home, conn, el);
+module.exports = function(el, conn) {
+  return clone(Home, el, conn);
 };

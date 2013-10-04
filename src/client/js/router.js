@@ -32,7 +32,7 @@ addMethod(init, [Router], function(router, conn) {
 function page(router, data) {
   let nextPage = pages[data.page || "home"] || pages["404"];
   $("#page").remove();
-  nextPage(router.conn, $("<div id=page>").appendTo("body"));
+  nextPage($("<div id=page>").appendTo("body"), router.conn, data);
 }
 
 module.exports.Router = Router;
