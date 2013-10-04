@@ -2,13 +2,16 @@
 
 let can = require("../shims/can"),
     {forEach, extend} = require("lodash"),
-    {addMethod} = require("genfun"),
+    Genfun = require("genfun"),
+    {addMethod} = Genfun,
     {clone, init} = require("./proto");
 
-let EventListener = clone();
+let EventListener = clone(),
+    teardown = new Genfun();
+addMethod(teardown, [], function() {});
 
 addMethod(init, [EventListener], function(ctrl, events) {
-  events = forEach(extend({}, events), wrapCallback);
+  events = forEach(extend({destroy: teardown}, events), wrapCallback);
   ctrl._canControl = can.Control.extend({}, events);
 });
 init(EventListener, {});
@@ -29,3 +32,4 @@ function wrapCallback(callback, pattern, evs) {
 
 module.exports.EventListener = EventListener;
 module.exports.listen = listen;
+module.exports.teardown = teardown;
