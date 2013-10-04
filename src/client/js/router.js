@@ -3,7 +3,6 @@
 let {addMethod} = require("genfun"),
     {clone, init} = require("./lib/proto");
 
-let can = require("./shims/can");
 let $ = require("jquery");
 let {EventListener, listen} = require("./lib/eventListener");
 
