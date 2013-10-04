@@ -6,6 +6,8 @@ let {addMethod} = require("genfun"),
 let $ = require("jquery");
 let {EventListener, listen} = require("./lib/eventListener");
 
+require("./shims/can.route.pushstate");
+
 /**
  * Storychat router
  *
