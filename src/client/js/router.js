@@ -7,6 +7,7 @@ let $ = require("jquery");
 let {EventListener, listen} = require("./lib/eventListener");
 
 let can = require("./shims/can");
+require("./shims/can.route.pushstate");
 
 /**
  * Storychat router
@@ -28,8 +29,28 @@ let pages = {
 addMethod(init, [Router], function(router, conn) {
   router.listenerHandle = listen(listener, router, window);
   router.conn = conn;
-  can.route.ready();
+  initCanRoute();
 });
+
+function initCanRoute() {
+  if (window.history && window.history.pushState && window.location.hash) {
+    let oldPushState,
+        oldSetURL;
+    window.history.replaceState(null, null, window.location.hash.substr(2));
+    window.location.hash = "";
+    // XXX HACK - This maneuver is done to prevent the initial route event from
+    //            pushing an unnecessary entry into the browser's history.
+    oldPushState = window.history.pushState;
+    oldSetURL = can.route.bindings.pushstate.setURL;
+    can.route.bindings.pushstate.setURL = function() {
+      window.history.pushState = window.history.replaceState;
+      oldSetURL.apply(this, arguments);
+      window.history.pushState = oldPushState;
+      can.route.bindings.pushstate.setURL = oldSetURL;
+    };
+  }
+  can.route.ready();
+}
 
 function page(router, data) {
   let nextPage = pages[data.page || "home"] || pages["404"];
