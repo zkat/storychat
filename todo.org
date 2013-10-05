@@ -190,7 +190,7 @@
 ** DONE Try and get deamdify to work                                    :can:
    CLOSED: [2013-10-03 Thu 23:39]
    Basically can/amd is fucked.
-* backlog [0/13]
+* backlog [0/14]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
    that.
@@ -225,8 +225,17 @@
 ** TODO Secure auth for sockjs clients                       :server:infosec:
    Basically, all sockjs connections must be made using a unique token
    received from a crossdomain-safe request.
-* active [0/8]
-** TODO pushState/history support for pages                    :pages:server:
+** TODO server-side rendering protocol for pages               :pages:server:
+   Now that we have pushstate stuff, it should be possible (and not too hard) to
+   figure out a protocol for src/client/js/pages where any pages there can
+   optionally have some file or set of files, or a folder, that the server can
+   look at to determine whether it can render a direct http request to that
+   page.
+* active [2/9]
+** DONE Host canjs fork                                                 :can:
+   CLOSED: [2013-10-04 Fri 19:33]
+** DONE pushState/history support for pages                    :pages:server:
+   CLOSED: [2013-10-04 Fri 21:40]
 ** TODO Login "page"                                             :login:page:
 ** TODO chat page                                                 :chat:page:
 ** TODO Improve socketServer messaging                               :server:
