@@ -1,4 +1,4 @@
-* archive [58/58]
+* archive [65/65]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -190,6 +190,23 @@
 ** DONE Try and get deamdify to work                                    :can:
    CLOSED: [2013-10-03 Thu 23:39]
    Basically can/amd is fucked.
+** DONE Host canjs fork                                                 :can:
+   CLOSED: [2013-10-04 Fri 19:33]
+** DONE pushState/history support for pages                    :pages:server:
+   CLOSED: [2013-10-04 Fri 21:40]
+** DONE License as AGPL                                               :legal:
+   CLOSED: [2013-10-04 Fri 22:03]
+** DONE query/response system for sockets                           :sockets:
+   CLOSED: [2013-10-04 Fri 22:54]
+   Add a system for attaching responses to client-side requests (and
+   vice-versa!), like socket.io supports.
+** DONE Use Q in the frontend instead of $.deferred                  :client:
+   CLOSED: [2013-10-04 Fri 23:15]
+** DONE Use assert properly D:                                        :tests:
+   CLOSED: [2013-10-04 Fri 23:17]
+   I've been putting the actual/expecteds in the wrong place. :\
+** DONE broadcast support for socketServer                     :socketServer:
+   CLOSED: [2013-10-04 Fri 23:20]
 * backlog [0/14]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
@@ -198,10 +215,7 @@
 ** TODO Set up a basic test with testee                     :qa:architecture:
    Just something that tests that connections are established properly and
    the like.
-** TODO Use Q in the frontend instead of $.deferred                  :client:
 ** TODO Can OTP be implemented on top of node-fibers?                :server:
-** TODO Use assert properly D:                                        :tests:
-   I've been putting the actual/expecteds in the wrong place. :\
 ** TODO Error report messages                                        :parser:
    If the parser fails, let the user know why.
 ** TODO Transaction support for db.js                                    :db:
@@ -220,29 +234,32 @@
    Is there a way to reuse the styles in chatOutput somehow? They're
    obviously at least partly specific to output, but the various entry
    types are supposed to look somewhat similar.
-** TODO Use redis for express session storage                        :server:
-   The default session storage system is neither persistent nor secure.
-** TODO Secure auth for sockjs clients                       :server:infosec:
-   Basically, all sockjs connections must be made using a unique token
-   received from a crossdomain-safe request.
 ** TODO server-side rendering protocol for pages               :pages:server:
    Now that we have pushstate stuff, it should be possible (and not too hard) to
    figure out a protocol for src/client/js/pages where any pages there can
    optionally have some file or set of files, or a folder, that the server can
    look at to determine whether it can render a direct http request to that
    page.
-* active [2/9]
-** DONE Host canjs fork                                                 :can:
-   CLOSED: [2013-10-04 Fri 19:33]
-** DONE pushState/history support for pages                    :pages:server:
-   CLOSED: [2013-10-04 Fri 21:40]
-** TODO Login "page"                                             :login:page:
-** TODO chat page                                                 :chat:page:
 ** TODO Improve socketServer messaging                               :server:
    Probably improve the client-side API, too. How should messages be broadcast?
    Filtered? Should raw clients be provided? Is access to the socketServer
    itself necessary? (probably).
+** TODO Basic character creation and management                  :characters:
+   Need database support for characters, a service (over websockets?) to
+   manage them, and a control on the client-side for management.
+** TODO chat page                                                 :chat:page:
+   Move the chat page to something other than home (mostly just rename that
+   page, and make / something more homey).
 ** TODO Move proto into a shared lib                                  :proto:
+* active [0/6]
+** TODO Session management                                    :sessions:auth:
+   Set up a login/session management system with proper redirects.
+** TODO Use redis for express session storage                 :sessions:auth:
+   The default session storage system is neither persistent nor secure.
+** TODO Secure auth for sockjs clients                         :sockets:auth:
+   Basically, all sockjs connections must be made using a unique token
+   received from a crossdomain-safe request.
+** TODO Login page                                                :page:auth:
 ** TODO Account creation page                                     :user:page:
 ** TODO User accounts                                          :users:server:
    Need database support for accounts with secure password hashing (just
@@ -250,6 +267,3 @@
    them, and controls for creating and managing user accounts on the
    client-side.
    Look at https://github.com/chriso/node-validator for validation!
-** TODO Basic character creation and management                  :characters:
-   Need database support for characters, a service (over websockets?) to
-   manage them, and a control on the client-side for management.
