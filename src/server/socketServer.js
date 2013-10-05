@@ -7,6 +7,7 @@ let Genfun = require("genfun"),
     init = proto.init;
 
 let _ = require("lodash"),
+    each = _.each,
     partial = _.partial,
     without = _.without;
 
@@ -50,6 +51,7 @@ function validAuth(srv, conn, auth) {
 }
 
 function initConn(srv, conn) {
+  conn.server = srv;
   conn.on("data", partial(onClientMessage, srv, conn));
   conn.on("close", partial(onClientClose, srv, conn));
 }
@@ -62,7 +64,7 @@ function onClientMessage(srv, conn, msg) {
     let json = JSON.parse(msg),
         service = srv.services[json.namespace];
     if (service) {
-      onMessage(service, json.namespace, srv, conn, json.data);
+      onMessage(service, conn, json);
     } else {
       throw new Error("Invalid service: "+json.namespace);
     }
@@ -83,8 +85,24 @@ function send(conn, data) {
   conn.write(JSON.stringify(data));
 }
 
+function broadcast(server, data) {
+  each(server.connections, function(conn) {
+    send(conn, data);
+  });
+}
+
+function broadcastFrom(srcConn, data) {
+  each(srcConn.server.connections, function(conn) {
+    if (srcConn !== conn) {
+      send(conn, data);
+    }
+  });
+}
+
 module.exports = {
   SocketServer: SocketServer,
   onMessage: onMessage,
-  send: send
+  send: send,
+  broadcast: broadcast,
+  broadcastFrom: broadcastFrom
 };

@@ -5,12 +5,9 @@ let addMethod = require("genfun").addMethod,
     clone = proto.clone,
     init = proto.init;
 
-let _ = require("lodash"),
-    each = _.each;
-
 let socketServer = require("../../socketServer"),
     onMessage = socketServer.onMessage,
-    send = socketServer.send;
+    broadcast = socketServer.broadcast;
 
 let parser = require("./parser");
 
@@ -20,11 +17,10 @@ addMethod(init, [ChatService], function(chat) {
   console.log("Initializing ChatService", chat);
 });
 
-addMethod(onMessage, [ChatService], function(chat, name, srv, conn, data) {
-  data.parsedContent = parser.parse(data.entryType, data.content);
-  each(srv.connections, function(conn) {
-    send(conn, {namespace: name, data: data});
-  });
+addMethod(onMessage, [ChatService], function(chat, client, msg) {
+  msg.data.parsedContent = parser.parse(msg.data.entryType,
+                                            msg.data.content);
+  broadcast(client.server, msg);
 });
 
 module.exports.service = ChatService;
