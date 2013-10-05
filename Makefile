@@ -195,3 +195,9 @@ test-watch: $(source-files) $(client-src-files)
 lint: $(source-files) $(linter-config) $(client-src-files) deps
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
+#
+# Misc
+#
+.PHONY: loc
+loc:
+	cloc src --by-file-by-lang --force-lang=css,styl --force-lang=html,mustache
