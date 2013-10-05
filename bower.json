@@ -12,6 +12,6 @@
     "genfun": "~0.1.0",
     "jquery": "~2.0.3",
     "sockjs": "~0.3.4",
-    "canjs": "~1.1.8"
+    "canjs": "git://github.com/zkat/canjs#storychat"
   }
 }

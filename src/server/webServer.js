@@ -59,7 +59,7 @@ defRoute("get", "*", function(srv, req, res) {
   // make things awesome.
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.redirect("#"+req.url);
+  res.redirect("#!"+req.url.substr(1));
 });
 
 /*
