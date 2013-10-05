@@ -19,6 +19,8 @@ addMethod(init, [SocketConn], function(conn, authUrl) {
   conn.authUrl = authUrl;
   conn.state = can.compute("close");
   conn.observers = {};
+  conn.reqNum = 0;
+  conn.reqs = {};
   initSock(conn);
 });
 
@@ -36,20 +38,27 @@ addMethod(onOpen, [], function() {});
 addMethod(onMessage, [], function() {});
 addMethod(onClose, [], function() {});
 
+function handleMessage(conn, handler, msg) {
+  let data = JSON.parse(msg.data);
+  if (data.req) {
+    let req = conn.reqs[data.req];
+    if (req) {
+      req.resolve(data.data);
+    }
+    delete conn.reqs[data.req];
+  } else {
+    let observers = conn.observers[data.namespace] ||
+          (console.warn("Unknown namespace: ", data.namespace),
+           []);
+    forEach(observers, function(obs) {
+      return handler.call(conn, obs, data.data);
+    });
+  }
+}
+
 function notifyObservers(conn, handler, msg) {
   if (msg.type === "message") {
-    let data = JSON.parse(msg.data);
-    if (data.req) {
-      reqs[data.req] && reqs[data.req].resolve(data.data);
-      delete reqs[data.req];
-    } else {
-      let observers = conn.observers[data.namespace] ||
-            (console.warn("Unknown namespace: ", data.namespace),
-             []);
-      forEach(observers, function(obs) {
-        return handler.call(conn, obs, data.data);
-      });
-    }
+    return handleMessage(conn, handler, msg);
   } else {
     conn.state(msg.type);
     if (msg.type === "open") {
@@ -78,15 +87,15 @@ function send(conn, namespace, data) {
   conn.socket.send(JSON.stringify({namespace: namespace, data: data}));
 }
 
-let reqNum = 0,
-    reqs = {};
 function request(conn, namespace, data) {
   let deferred = Q.defer(),
-      req = ++reqNum;
+      req = ++conn.reqNum;
   conn.socket.send(JSON.stringify({
-    namespace: namespace, req: req, data: data
+    namespace: namespace,
+    req: req,
+    data: data
   }));
-  reqs[req] = deferred;
+  conn.reqs[req] = deferred;
   return Q.timeout(deferred.promise, 30000);
 }
 
