@@ -113,7 +113,7 @@ function isSelected(type) {
 }
 
 function renderInput(opts) {
-  return inputTemplates[opts.contexts[0].type()](opts.contexts[0]);
+  return inputTemplates[opts.context.type()](opts.context);
 }
 
 /*
