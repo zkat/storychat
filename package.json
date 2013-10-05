@@ -7,7 +7,7 @@
     "test": "make test"
   },
   "author": "",
-  "license": "CC0",
+  "license": "AGPLv3",
   "devDependencies": {
     "jshint": "~2.1.10",
     "mocha": "~1.12.1",
