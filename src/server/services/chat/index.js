@@ -20,7 +20,7 @@ addMethod(init, [ChatService], function(chat) {
 addMethod(onMessage, [ChatService], function(chat, client, msg) {
   msg.data.parsedContent = parser.parse(msg.data.entryType,
                                             msg.data.content);
-  broadcast(client.server, msg);
+  broadcast(client, msg);
 });
 
 module.exports.service = ChatService;

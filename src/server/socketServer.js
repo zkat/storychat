@@ -25,20 +25,27 @@ addMethod(init, [SocketServer], function(srv, http, opts) {
   initSocket(srv, http, opts);
 });
 
+let onConnect = new Genfun(),
+    onMessage = new Genfun(),
+    onClose = new Genfun();
+addMethod(onConnect, [], function() {});
+addMethod(onMessage, [], function() {});
+addMethod(onClose, [], function() {});
+
 function initSocket(srv, http, opts) {
   console.log("Initializing socketServer");
   srv.socket = Sockjs.createServer();
-  srv.socket.on("connection", partial(onConnection, srv));
+  srv.socket.on("connection", partial(onClientConnection, srv));
   srv.socket.installHandlers(http, opts);
 }
 
-function onConnection(srv, conn) {
+function onClientConnection(srv, conn) {
   console.log("Received connection from "+conn.remoteAddress+".");
   // TODO - wait to push until the client has been verified.
   conn.once("data", function(auth) {
     if (validAuth(srv, conn, auth)) {
-      srv.connections.push(conn);
       initConn(srv, conn);
+      srv.connections.push(conn);
     } else {
       conn.write("Invalid auth");
       conn.end();
@@ -52,12 +59,12 @@ function validAuth(srv, conn, auth) {
 
 function initConn(srv, conn) {
   conn.server = srv;
+  each(srv.services, function(service) {
+    onConnect(service, conn);
+  });
   conn.on("data", partial(onClientMessage, srv, conn));
   conn.on("close", partial(onClientClose, srv, conn));
 }
-
-let onMessage = new Genfun();
-addMethod(onMessage, [], function() {});
 
 function onClientMessage(srv, conn, msg) {
   try {
@@ -78,15 +85,21 @@ function onClientMessage(srv, conn, msg) {
 
 function onClientClose(srv, conn) {
   console.log("Client at "+conn.remoteAddress+" disconnected.");
-  srv.connections = without(srv.connections, conn);
+  try {
+    each(srv.services, function(service) {
+      onClose(service, conn);
+    });
+  } finally {
+    srv.connections = without(srv.connections, conn);
+  }
 }
 
 function send(conn, data) {
   conn.write(JSON.stringify(data));
 }
 
-function broadcast(server, data) {
-  each(server.connections, function(conn) {
+function broadcast(conn, data) {
+  each(conn.server.connections, function(conn) {
     send(conn, data);
   });
 }
@@ -101,7 +114,9 @@ function broadcastFrom(srcConn, data) {
 
 module.exports = {
   SocketServer: SocketServer,
+  onConnect: onConnect,
   onMessage: onMessage,
+  onClose: onClose,
   send: send,
   broadcast: broadcast,
   broadcastFrom: broadcastFrom
