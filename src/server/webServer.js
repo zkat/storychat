@@ -29,8 +29,11 @@ function configureApp(srv, opts) {
   app.use(express.logger());
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({secret: opts.sessionSecret}));
-  //app.use(connect.compress());
+  app.use(express.cookieSession({
+    key: "storychat-sess",
+    secret: opts.sessionSecret
+  }));
+  // app.use(connect.compress());
   app.use(express["static"](opts.staticDir));
   each(routes, function(route) {
     app[route.method](route.path, partial(route.callback, srv));
