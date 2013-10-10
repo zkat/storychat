@@ -10,7 +10,8 @@ let lodash = require("lodash"),
     partial = lodash.partial;
 
 let express = require("express"),
-    http = require("http");
+    http = require("http"),
+    sessionStore = require("./util/session");
 
 /**
  * Handles web server connections and routing of http requests.
@@ -25,7 +26,7 @@ addMethod(init, [WebServer], function(srv, opts) {
 });
 
 function configureApp(srv, opts) {
-  srv.sessionStore = new express.session.MemoryStore();
+  srv.sessionStore = sessionStore();
   let app = srv.app;
   app.use(express.logger());
   app.use(express.bodyParser());
