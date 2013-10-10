@@ -25,11 +25,13 @@ addMethod(init, [WebServer], function(srv, opts) {
 });
 
 function configureApp(srv, opts) {
+  srv.sessionStore = new express.session.MemoryStore();
   let app = srv.app;
   app.use(express.logger());
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.cookieSession({
+  app.use(express.session({
+    store: srv.sessionStore,
     key: "storychat-sess",
     secret: opts.sessionSecret
   }));
