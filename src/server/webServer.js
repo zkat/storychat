@@ -34,7 +34,8 @@ function configureApp(srv, opts) {
   app.use(express.session({
     store: srv.sessionStore,
     key: "storychat-sess",
-    secret: opts.sessionSecret
+    secret: opts.sessionSecret,
+    cookie: { maxAge: 1000*60*60*24*45 }
   }));
   // app.use(connect.compress());
   app.use(express["static"](opts.staticDir));
