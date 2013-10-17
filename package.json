@@ -21,7 +21,8 @@
     "debowerify": "~0.1.4",
     "insert-css": "0.0.0",
     "stylify": "0.0.1",
-    "through": "~2.3.4"
+    "through": "~2.3.4",
+    "testee": "0.0.7"
   },
   "dependencies": {
     "genfun": "~0.1.0",
