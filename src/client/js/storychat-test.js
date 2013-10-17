@@ -3,7 +3,7 @@ let $ = require("jquery"),
     mocha = window.mocha;
 
 mocha.setup("bdd");
-mocha.globals(["$"]);
+mocha.globals(["$", "can"]);
 
 require("./lib/socketConn/test");
 
