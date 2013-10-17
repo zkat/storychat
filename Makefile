@@ -23,6 +23,7 @@ supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 npm = npm
 bower = $(module-root)/bower/bin/bower
 sequelize = $(module-root)/sequelize/bin/sequelize
+testee = $(module-root)/testee/bin/testee
 
 #
 # Frontend files
@@ -195,7 +196,10 @@ distclean:
 # Tests and quality
 #
 .PHONY: test
-test: test-spec
+test: test-server
+
+.PHONY: test-server
+test-server: test-spec
 
 .PHONY: test-spec
 test-spec: $(source-files) $(client-src-files)
@@ -212,6 +216,10 @@ test-watch: $(source-files) $(client-src-files)
 .PHONY: lint
 lint: $(source-files) $(linter-config) $(client-src-files) deps
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
+
+.PHONY: test-client
+test-client: $(browserify-test-bundle)
+	$(testee) --root static test.html
 
 #
 # Misc
