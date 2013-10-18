@@ -71,3 +71,4 @@ var EntryGroup = can.Model.extend(),
 
 module.exports.Chatlog = Chatlog;
 module.exports.submitEntry = submitEntry;
+module.exports.addEntry = addEntry;
