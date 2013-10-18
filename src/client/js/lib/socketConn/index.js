@@ -3,10 +3,10 @@
 require("sockjs");
 let Sock = window.SockJS,
     Genfun = require("genfun"),
-    can = require("../shims/can"),
+    can = require("../../shims/can"),
     $ = require("jquery"),
     {addMethod} = Genfun,
-    {clone, init} = require("./proto"),
+    {clone, init} = require("../proto"),
     {partial, forEach, contains, without} = require("lodash"),
     Q = require("q");
 

@@ -23,6 +23,7 @@ supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 npm = npm
 bower = $(module-root)/bower/bin/bower
 sequelize = $(module-root)/sequelize/bin/sequelize
+testee = $(module-root)/testee/bin/testee
 
 #
 # Frontend files
@@ -35,13 +36,17 @@ client-view-stylesheets = \
 client-static-resource-files = \
 	$(shell find $(client-src-dir) -type f \
 		-not -path "$(client-src-dir)/js/*")
+client-test-static-resource-files = \
+    $(module-root)/mocha/mocha.js $(module-root)/mocha/mocha.css
 client-main-file = src/client/js/storychat.js
+client-test-main-file = src/client/js/storychat-test.js
 client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*test.js")
 resource-dir = static
 static-resources = \
 	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
 build-dir = $(resource-dir)/js
 browserify-bundle = $(build-dir)/storychat.js
+browserify-test-bundle = $(build-dir)/storychat-test.js
 
 #
 # Backend files
@@ -91,13 +96,27 @@ static: $(static-resources)
 .PHONY: compile
 compile: $(browserify-bundle)
 
-$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets) deps
+.PHONY: compile-tests
+compile-tests: $(browserify-test-bundle)
+
+$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
+	@mkdir -p $(@D)
+	$(browserify) $< $(browserify-opts) -o $@
+
+$(browserify-test-bundle): $(client-test-main-file) $(client-main-file) \
+							$(client-src-files) $(client-stylesheets) \
+							$(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css
 	@mkdir -p $(@D)
 	$(browserify) $< $(browserify-opts) -o $@
 
 $(resource-dir)/%: $(client-src-dir)/%
 	@mkdir -p $(@D)
 	cp $< $@
+
+$(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css: $(module-root)/mocha/mocha.js \
+															$(module-root)/mocha/mocha.css
+	@mkdir -p $(@D)
+	cp $(module-root)/mocha/mocha.* $(resource-dir)/js/
 
 #
 # Dependencies
@@ -177,7 +196,10 @@ distclean:
 # Tests and quality
 #
 .PHONY: test
-test: test-spec
+test: test-server
+
+.PHONY: test-server
+test-server: test-spec
 
 .PHONY: test-spec
 test-spec: $(source-files) $(client-src-files)
@@ -192,8 +214,12 @@ test-watch: $(source-files) $(client-src-files)
 	$(mocha) --reporter min --watch $(server-test-files) $(client-test-files)
 
 .PHONY: lint
-lint: $(source-files) $(linter-config) $(client-src-files) deps
+lint: $(source-files) $(linter-config) $(client-src-files)
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
+
+.PHONY: test-client
+test-client: static $(browserify-test-bundle)
+	$(testee) --root static test.html
 
 #
 # Misc
