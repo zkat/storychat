@@ -38,6 +38,14 @@ addMethod(onOpen, [], function() {});
 addMethod(onMessage, [], function() {});
 addMethod(onClose, [], function() {});
 
+function disconnect(conn) {
+  if (conn.socket) {
+    conn.socket.close();
+  } else {
+    throw new Error("connection not initialized");
+  }
+}
+
 function handleMessage(conn, handler, msg) {
   let data = JSON.parse(msg.data);
   if (data.req) {
@@ -101,6 +109,8 @@ function request(conn, namespace, data) {
 
 module.exports = {
   SocketConn: SocketConn,
+  connect: partial(clone, SocketConn),
+  disconnect: disconnect,
   onOpen: onOpen,
   onMessage: onMessage,
   onClose: onClose,
