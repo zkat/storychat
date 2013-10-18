@@ -1,4 +1,4 @@
-* archive [65/65]
+* archive [66/66]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -207,14 +207,15 @@
    I've been putting the actual/expecteds in the wrong place. :\
 ** DONE broadcast support for socketServer                     :socketServer:
    CLOSED: [2013-10-04 Fri 23:20]
-* backlog [0/14]
+** DONE Set up a basic test with testee                     :qa:architecture:
+   CLOSED: [2013-10-17 Thu 22:43]
+   Just something that tests that connections are established properly and the
+   like. This might become very important to have, very soon.
+* backlog [0/17]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
    that.
 ** TODO Generic wrapper for can.Model                                 :proto:
-** TODO Set up a basic test with testee                     :qa:architecture:
-   Just something that tests that connections are established properly and
-   the like.
 ** TODO Can OTP be implemented on top of node-fibers?                :server:
 ** TODO Error report messages                                        :parser:
    If the parser fails, let the user know why.
@@ -251,14 +252,19 @@
    Move the chat page to something other than home (mostly just rename that
    page, and make / something more homey).
 ** TODO Move proto into a shared lib                                  :proto:
+** TODO Figure out why make is always triggering npm install          :build:
+** TODO Get testee to work with SockJS                                :tests:
+   Not sure why it isn't working. phantomjs can run the test file just fine.
+** TODO Upgrade to Can 2.0                                               :ui:
+   This may also mean I don't need the hack for can.route anymore.
+** TODO Try switching to can.component                        :components:ui:
 * active [0/6]
-** TODO Session management                                    :sessions:auth:
-   Set up a login/session management system with proper redirects.
-** TODO Use redis for express session storage                 :sessions:auth:
-   The default session storage system is neither persistent nor secure.
-** TODO Secure auth for sockjs clients                         :sockets:auth:
-   Basically, all sockjs connections must be made using a unique token
-   received from a crossdomain-safe request.
+** TODO session management for sockets                :sockets:sessions:auth:
+   Sockets involve some special considerations when it comes to sessions. The
+   client should not try to auto-reconnect, for example, if a socket was closed
+   due to an expired session. Likewise, socket connections must be shut down
+   immediately if a session is removed/canceled/expired. Think through what
+   this involves and work on an implementation.
 ** TODO Login page                                                :page:auth:
 ** TODO Account creation page                                     :user:page:
 ** TODO User accounts                                          :users:server:
@@ -267,3 +273,9 @@
    them, and controls for creating and managing user accounts on the
    client-side.
    Look at https://github.com/chriso/node-validator for validation!
+** TODO Permissions                                              :users:auth:
+   What kind of permission system is needed here? What's the minimum thing that
+   needs to be supported (aside from loggedIn/public page access)?
+** TODO What happened to source maps?                                 :build:
+   Did something get fucked? I thought I was generating source maps, but a
+   recent debugging session seems to imply that's not the case.
