@@ -218,7 +218,7 @@ lint: $(source-files) $(linter-config) $(client-src-files)
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
 .PHONY: test-client
-test-client: static $(browserify-test-bundle)
+test-client: static compile-tests
 	$(testee) --root static test.html
 
 #
