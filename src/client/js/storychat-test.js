@@ -6,6 +6,7 @@ mocha.setup("bdd");
 mocha.globals(["$"]);
 
 require("./lib/socketConn/test");
+require("./models/chatlog/test");
 
 $(function() {
   mocha.run();
