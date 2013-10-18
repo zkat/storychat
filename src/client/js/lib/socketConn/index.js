@@ -15,20 +15,20 @@ let SocketConn = clone(),
     onMessage = new Genfun(),
     onClose = new Genfun();
 
-addMethod(init, [SocketConn], function(conn, authUrl) {
+addMethod(init, [SocketConn], function(conn, authUrl, opts) {
   conn.authUrl = authUrl;
   conn.state = can.compute("close");
   conn.observers = {};
   conn.reqNum = 0;
   conn.reqs = {};
-  initSock(conn);
+  initSock(conn, opts);
 });
 
-function initSock(conn) {
+function initSock(conn, opts) {
   $.get(conn.authUrl, function(resp) {
     conn.url = resp.data.wsUrl;
     conn.auth = resp.data.auth;
-    conn.socket = new Sock(conn.url);
+    conn.socket = new Sock(conn.url, null, opts);
     conn.socket.onopen = partial(notifyObservers, conn, onOpen);
     conn.socket.onmessage = partial(notifyObservers, conn, onMessage);
     conn.socket.onclose = partial(notifyObservers, conn, onClose);
