@@ -99,7 +99,7 @@ compile: $(browserify-bundle)
 .PHONY: compile-tests
 compile-tests: $(browserify-test-bundle)
 
-$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets) deps
+$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
 	@mkdir -p $(@D)
 	$(browserify) $< $(browserify-opts) -o $@
 
@@ -107,14 +107,14 @@ $(browserify-test-bundle): $(client-test-main-file) $(client-main-file) \
 							$(client-src-files) $(client-stylesheets) \
 							$(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css
 	@mkdir -p $(@D)
-	@echo "test file: $<"
 	$(browserify) $< $(browserify-opts) -o $@
 
 $(resource-dir)/%: $(client-src-dir)/%
 	@mkdir -p $(@D)
 	cp $< $@
 
-$(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css: $(npm-dep-dir)
+$(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css: $(module-root)/mocha/mocha.js \
+															$(module-root)/mocha/mocha.css
 	@mkdir -p $(@D)
 	cp $(module-root)/mocha/mocha.* $(resource-dir)/js/
 
@@ -214,11 +214,11 @@ test-watch: $(source-files) $(client-src-files)
 	$(mocha) --reporter min --watch $(server-test-files) $(client-test-files)
 
 .PHONY: lint
-lint: $(source-files) $(linter-config) $(client-src-files) deps
+lint: $(source-files) $(linter-config) $(client-src-files)
 	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
 .PHONY: test-client
-test-client: $(browserify-test-bundle)
+test-client: static $(browserify-test-bundle)
 	$(testee) --root static test.html
 
 #
