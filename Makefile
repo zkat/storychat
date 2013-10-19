@@ -202,16 +202,16 @@ test: test-server
 test-server: test-spec
 
 .PHONY: test-spec
-test-spec: $(source-files) $(client-src-files)
-	$(mocha) --reporter spec $(server-test-files) $(client-test-files)
+test-spec: $(source-files)
+	$(mocha) --reporter spec $(server-test-files)
 
 .PHONY: test-quiet
-test-quiet: $(source-files) $(client-src-files)
-	$(mocha) --reporter dot $(server-test-files) $(client-test-files)
+test-quiet: $(source-files)
+	$(mocha) --reporter dot $(server-test-files)
 
 .PHONY: test-watch
-test-watch: $(source-files) $(client-src-files)
-	$(mocha) --reporter min --watch $(server-test-files) $(client-test-files)
+test-watch: $(source-files)
+	$(mocha) --reporter min --watch $(server-test-files)
 
 .PHONY: lint
 lint: $(source-files) $(linter-config) $(client-src-files)
