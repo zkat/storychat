@@ -38,7 +38,7 @@ describe("socketConn", function() {
   });
 
   describe("onMessage()", function() {
-    it("is called when a message is received opens", function(done) {
+    it("is called when a message is received", function(done) {
       let conn = connect(origin + "/wsauth"),
           observer = {};
       addMethod(onMessage, [conn, observer], function(conn1, obs, msg) {
@@ -48,8 +48,8 @@ describe("socketConn", function() {
         disconnect(conn1);
         done();
       });
-      listen(conn, observer, "test");
-      send(conn, "test", {content: "test"});
+      listen(conn, observer, "echo");
+      send(conn, "echo", {content: "test"});
     });
   });
 
@@ -61,23 +61,13 @@ describe("socketConn", function() {
         assert.ok(true);
         done();
       });
-      listen(conn, observer, "test");
-      send(conn, "test", {content: "test"});
+      listen(conn, observer, "echo");
+      send(conn, "echo", {content: "test"});
     });
   });
 
   describe("unlisten()", function() {
-    it("unregisters an observer with a connection", function(done) {
-      let conn = connect(origin + "/wsauth"),
-          observer = {};
-      addMethod(onMessage, [conn, observer], function() {
-        assert.ok(true);
-        done();
-      });
-      listen(conn, observer, "test");
-      unlisten(conn, observer, "test");
-      send(conn, "test", {content: "test"});
-    });
+    it("unregisters an observer with a connection");
   });
 
   describe("send()", function() {
@@ -89,15 +79,15 @@ describe("socketConn", function() {
         disconnect(conn1);
         done();
       });
-      listen(conn, observer, "test");
-      send(conn, "test", {content: "test"});
+      listen(conn, observer, "echo");
+      send(conn, "echo", {content: "test"});
     });
   });
 
   describe("request()", function() {
     it("returns a promise that resolves to a response", function(done) {
       let conn = connect(origin + "/wsauth"),
-          promise = request(conn, "test", {content: "test"});
+          promise = request(conn, "echo", {content: "test"});
       assert.equal(typeof promise.then, "function");
       promise.then(function(resp) {
         assert.equal(resp.content, "test");
