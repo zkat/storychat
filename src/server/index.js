@@ -13,15 +13,19 @@ let web = clone(webServer.WebServer, {
 
 let chatService = require("./services/chat").service;
 
+var echoService;
+
 if (process.env.NODE_ENV !== "production") {
   // Pieces together stack traces for promises. Has a performance hit.
   require("q").longStackSupport = true;
+  echoService = require("./services/echo").service;
 }
 
 clone(require("./socketServer").SocketServer, web.http, {
   prefix: "/ws",
   services: {
-    chat: chatService
+    chat: chatService,
+    echo: echoService
   }
 });
 
