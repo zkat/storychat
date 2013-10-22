@@ -5,7 +5,7 @@ let assert = require("assert");
 
 let socketConn = require("./index"),
     {connect, disconnect, onMessage,
-     listen, unlisten, send, request} = socketConn;
+     listen, send, request} = socketConn;
 
 let {addMethod} = require("genfun");
 
