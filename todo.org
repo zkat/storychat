@@ -1,4 +1,4 @@
-* archive [66/66]
+* archive [70/70]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -211,6 +211,22 @@
    CLOSED: [2013-10-17 Thu 22:43]
    Just something that tests that connections are established properly and the
    like. This might become very important to have, very soon.
+** DONE Improve socketConn API                                      :sockets:
+   CLOSED: [2013-10-21 Mon 21:08]
+   Need to hide the whole auth thing. As soon as connect() is called, users
+   should be able to pretend they can write to it, even if the first messages
+   before auth are buffered.
+** DONE What happened to source maps?                                 :build:
+   CLOSED: [2013-10-21 Mon 21:09]
+   Did something get fucked? I thought I was generating source maps, but a
+   recent debugging session seems to imply that's not the case.
+   UPDATE: I bet it's just a chrome/canary bug. Seems to be ok.
+** DONE Hook up chatlog to new socketConn API                  :chat:sockets:
+   CLOSED: [2013-10-21 Mon 23:02]
+   Nothing really needed doing
+** DONE Tests for chatlog                                             :tests:
+   CLOSED: [2013-10-21 Mon 23:21]
+   Get existing ones to work and fill out some of the empties
 * backlog [0/17]
 ** TODO Force scoping of control css to individual controls           :build:
    May need to hack stylify to force wrapping of stuff, or something like
@@ -258,7 +274,10 @@
 ** TODO Upgrade to Can 2.0                                               :ui:
    This may also mean I don't need the hack for can.route anymore.
 ** TODO Try switching to can.component                        :components:ui:
-* active [0/6]
+* active [0/8]
+** TODO Tests for chatinput                                           :tests:
+** TODO Tests for chatoutput                                          :tests:
+** TODO Tests for eventlistener                                       :tests:
 ** TODO session management for sockets                :sockets:sessions:auth:
    Sockets involve some special considerations when it comes to sessions. The
    client should not try to auto-reconnect, for example, if a socket was closed
@@ -276,6 +295,3 @@
 ** TODO Permissions                                              :users:auth:
    What kind of permission system is needed here? What's the minimum thing that
    needs to be supported (aside from loggedIn/public page access)?
-** TODO What happened to source maps?                                 :build:
-   Did something get fucked? I thought I was generating source maps, but a
-   recent debugging session seems to imply that's not the case.
