@@ -77,8 +77,38 @@ describe("ChatOutput", function() {
             parenthetical: "amusedly"
           }
         });
+        addEntry(log, {
+          entryType: "dialogue",
+          groupTag: "Kat",
+          actor: "Kat",
+          parsedContent: {
+            dialogue: "Yeah.",
+            parenthetical: "tiredly"
+          }
+        });
         domEqual(div.children(),
                  $(dialogueTest).filter(".consecutive-groups").children());
+      });
+      it("omits parentheticals if they're not in entry", function() {
+        clearEntries(log);
+        addEntry(log, {
+          entryType: "dialogue",
+          groupTag: "Kat",
+          actor: "Kat",
+          parsedContent: {
+            dialogue: "Hi."
+          }
+        });
+        addEntry(log, {
+          entryType: "dialogue",
+          groupTag: "Kat",
+          actor: "Kat",
+          parsedContent: {
+            dialogue: "Yeah."
+          }
+        });
+        domEqual(div.children(),
+                 $(dialogueTest).filter(".no-paren").children());
       });
     });
     describe("action", function() {
