@@ -3,16 +3,21 @@
 
 let assert = require("assert");
 
-let {Chatlog, addEntry} = require("../../models/chatlog"),
+let {Chatlog, addEntry, clearEntries} = require("../../models/chatlog"),
+    {ChatOutput} = require("./index"),
     {clone} = require("../../lib/proto"),
+    {domEqual} = require("../../lib/testlib.js"),
     $ = require("jquery"),
+    fs = require("fs"),
     {connect, disconnect} = require("../../lib/socketConn");
 
 let socketUrl = "http://localhost:8080/wsauth";
 
+let dialogueTest = fs.readFileSync(__dirname + "/entries/dialogue-test.html");
+
 describe("ChatOutput", function() {
   let conn = connect(socketUrl),
-      log = clone(Chatlog, "test", conn);
+      log = clone(Chatlog, conn, "chat");
   console.log(addEntry, log, assert, $);
   after(function() {
     disconnect(conn);
@@ -22,16 +27,59 @@ describe("ChatOutput", function() {
   describe("cloning", function() {
     it("attaches to a parent element");
     it("expects a chatlog instance argument");
+    it("renders its template into the parent element", function() {
+      let div = $("<div class=container>");
+      clone(ChatOutput, div, log);
+      clearEntries(log);
+      domEqual(div.children(), "<div class=entry-groups></div>");
+    });
   });
 
   describe("entries", function() {
+    let div = $("<div class=container>");
+    clone(ChatOutput, div, log);
     describe("dialogue", function() {
-      it("renders the actor name");
-      it("renders the dialogue");
-      it("renders the parenthetical if there is one");
-      it("omits parenthetical if there isn't one in the group");
-      it("concatenates dialogue content in the same group");
-      it("renders consecutive dialogue groups as new dialogue structures");
+      clearEntries(log);
+      it("renders a dialogue entry", function() {
+        // TODO - is this really synchronous?
+        addEntry(log, {
+          entryType: "dialogue",
+          groupTag: "Kat",
+          actor: "Kat",
+          parsedContent: {
+            dialogue: "Hey there, how's it going?",
+            parenthetical: "skeptically"
+          }
+        });
+        domEqual(div.children(),
+                 $(dialogueTest).filter(".one-entry").children());
+      });
+      it("concatenates dialogue content in the same group", function() {
+        addEntry(log, {
+          entryType: "dialogue",
+          groupTag: "Kat",
+          actor: "Kat",
+          parsedContent: {
+            dialogue: "Today is a damn good day.",
+            parenthetical: "happily"
+          }
+        });
+        domEqual(div.children(),
+                 $(dialogueTest).filter(".same-group-entries").children());
+      });
+      it("renders consecutive groups separately", function() {
+        addEntry(log, {
+          entryType: "dialogue",
+          groupTag: "Kat",
+          actor: "Kat",
+          parsedContent: {
+            dialogue: "I'm glad things are going well.",
+            parenthetical: "amusedly"
+          }
+        });
+        domEqual(div.children(),
+                 $(dialogueTest).filter(".consecutive-groups").children());
+      });
     });
     describe("action", function() {
       it("renders the action as a single sentence");
