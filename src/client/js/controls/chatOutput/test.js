@@ -41,7 +41,6 @@ describe("ChatOutput", function() {
     describe("dialogue", function() {
       clearEntries(log);
       it("renders a dialogue entry", function() {
-        // TODO - is this really synchronous?
         addEntry(log, {
           entryType: "dialogue",
           groupTag: "Kat",
