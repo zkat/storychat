@@ -53,9 +53,9 @@ function initCanRoute() {
 }
 
 function page(router, data) {
-  let nextPage = pages[data.page || "home"] || pages["404"];
+  let next = pages[data.page || "home"] || pages["404"];
   $("#page").remove();
-  nextPage($("<div id=page>").appendTo("body"), router.conn, data);
+  router.page = next($("<div id=page>").appendTo("body"), router.conn, data);
 }
 
 module.exports.Router = Router;
