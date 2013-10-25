@@ -40,7 +40,9 @@ client-test-static-resource-files = \
     $(module-root)/mocha/mocha.js $(module-root)/mocha/mocha.css
 client-main-file = src/client/js/storychat.js
 client-test-main-file = src/client/js/storychat-test.js
-client-test-files = $(shell find $(client-src-dir)/js -type f -iname "*test.js")
+client-test-files = $(shell find $(client-src-dir)/js -type f \
+                            -iname "*test.js" \
+                            -or -iname "*test.html" )
 resource-dir = static
 static-resources = \
 	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
