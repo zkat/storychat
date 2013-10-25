@@ -26,10 +26,23 @@ describe("Chatlog", function() {
       let cl = clone(Chatlog, conn, "test");
       assert.ok(cl.entryGroups);
     });
+
+    it("adds messages that come through the conn", function(done) {
+      let cl = clone(Chatlog, conn, "chat");
+      cl.entryGroups.bind("add", function() {
+        assert.deepEqual(cl.entryGroups.length, 1);
+        cl.entryGroups.unbind("add");
+        done();
+      });
+      submitEntry(cl, "action", {
+        content: "hops up and down",
+        groupTag: "Kat"
+      });
+    });
   });
 
   describe("submitEntry()", function() {
-    let log = clone(Chatlog, conn, "test");
+    let log = clone(Chatlog, conn, "chat");
     it("sends an entry to the server", function() {
       submitEntry(log, "action", {
         content: "hops up and down",
@@ -55,7 +68,7 @@ describe("Chatlog", function() {
     });
     it("groups entries with the same type and groupTag", function(done) {
       let newEntry = { entryType: "test", groupTag: "group", content: "bar" },
-          group = log.entryGroups[0];
+          group = log.entryGroups[log.entryGroups.length-1];
       group.entries.bind("add", function(_ev, newEntries) {
         /* jshint unused:vars */
         assert.equal(group.entries.length, 2);
