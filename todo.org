@@ -1,4 +1,4 @@
-* archive [70/70]
+* archive [71/71]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -227,11 +227,10 @@
 ** DONE Tests for chatlog                                             :tests:
    CLOSED: [2013-10-21 Mon 23:21]
    Get existing ones to work and fill out some of the empties
-* backlog [0/17]
-** TODO Force scoping of control css to individual controls           :build:
-   May need to hack stylify to force wrapping of stuff, or something like
-   that.
-** TODO Generic wrapper for can.Model                                 :proto:
+** DONE Upgrade to Can 2.0                                               :ui:
+   CLOSED: [2013-10-25 Fri 00:15]
+   This may also mean I don't need the hack for can.route anymore.
+* backlog [0/13]
 ** TODO Can OTP be implemented on top of node-fibers?                :server:
 ** TODO Error report messages                                        :parser:
    If the parser fails, let the user know why.
@@ -271,12 +270,14 @@
 ** TODO Figure out why make is always triggering npm install          :build:
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-** TODO Upgrade to Can 2.0                                               :ui:
-   This may also mean I don't need the hack for can.route anymore.
-** TODO Try switching to can.component                        :components:ui:
-* active [0/8]
-** TODO Tests for chatinput                                           :tests:
+* active [0/9]
+** TODO Switch controls to can.component                         :components:
+   can.Component seems actually pretty neat. It might be good to replace
+   controls/ with components/
+
+   This will also take care of style scoping -- to the tag for the component.
 ** TODO Tests for chatoutput                                          :tests:
+** TODO Tests for chatinput                                           :tests:
 ** TODO Tests for eventlistener                                       :tests:
 ** TODO session management for sockets                :sockets:sessions:auth:
    Sockets involve some special considerations when it comes to sessions. The
