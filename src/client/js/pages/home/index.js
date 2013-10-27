@@ -1,9 +1,9 @@
 "use strict";
 
-let {ChatInput} = require("../../controls/chatInput"),
-    {Chatlog} = require("../../models/chatlog");
+let {Chatlog} = require("../../models/chatlog");
 
 require("../../components/chatOutput").install();
+require("../../components/chatInput").install();
 
 let {addMethod} = require("genfun"),
     {clone, init} = require("../../lib/proto");
@@ -19,7 +19,6 @@ addMethod(init, [Home], function(page, el, conn) {
   style(viewCss);
   page.chatlog = clone(Chatlog, conn, "chat");
   el.html(pageTemplate({log: page.chatlog}));
-  page.chatInput = clone(ChatInput, el.find(".chat-input"), page.chatlog);
 });
 
 module.exports = function(el, conn) {
