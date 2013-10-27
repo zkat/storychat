@@ -1,11 +1,19 @@
 "use strict";
 
-let can = require("../../shims/can");
+let element = require("../../lib/customElement");
 
-let style = require("../../lib/ensureStyle"),
-    viewCss = require("./chatOutput.styl");
+let ChatOutput = element.define("chat-output", {
+  style: require("./chatOutput.styl"),
+  template: require("./chatOutput.mustache"),
+  scope: {
+    log: [],
+    debug: false
+  },
+  helpers: {
+    renderEntryGroup: renderEntryGroup
+  }
+});
 
-let chatTemplate = require("./chatOutput.mustache");
 let entryTemplates = {
   system: require("./entries/system.mustache"),
   dialogue: require("./entries/dialogue.mustache"),
@@ -24,23 +32,9 @@ function entryWarn(ctx) {
   console.warn("No template for entry type: ", ctx.entryType);
 }
 
-function install(tag) {
-  tag = tag || "chat-output";
-  style(viewCss);
-  can.Component.extend({
-    tag: "chat-output",
-    template: chatTemplate,
-    scope: {
-      log: [],
-      debug: false
-    },
-    helpers: {
-      renderEntryGroup: renderEntryGroup
-    }
-  });
-}
-
 /*
  * Exports
  */
-module.exports.install = install;
+module.exports.install = function(tag) {
+  element.install(ChatOutput, tag);
+};
