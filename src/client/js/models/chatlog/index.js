@@ -9,34 +9,28 @@ let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
 /**
  * Chatlog Model
  */
-let Chatlog = clone();
-
-/*
- * Init
- */
-addMethod(init, [Chatlog], function(log, conn, ns) {
-  log.conn = conn;
-  log.namespace = ns;
-  listen(conn, log, ns);
-  initModelList(log);
+let Chatlog = can.Map.extend({
+  init: function(conn, ns) {
+    let log = this;
+    log.conn = conn;
+    log.namespace = ns;
+    listen(conn, log, ns);
+    log.entryGroups = new EntryGroup.List([]);
+  }
 });
-
-function initModelList(log) {
-  log.entryGroups = new EntryGroup.List([]);
-}
 
 /*
  * Event handling
  */
-addMethod(onOpen, [,Chatlog], function(_conn, log) {
+addMethod(onOpen, [,Chatlog.prototype], function(_conn, log) {
   addEntry(log, {entryType: "system", content: "Connected"});
 });
 
-addMethod(onMessage, [,Chatlog], function(_conn, log, data) {
+addMethod(onMessage, [,Chatlog.prototype], function(_conn, log, data) {
   addEntry(log, data);
 });
 
-addMethod(onClose, [,Chatlog], function(_conn, log) {
+addMethod(onClose, [,Chatlog.prototype], function(_conn, log) {
   addEntry(log, {entryType: "system", content: "Disconnected..."});
 });
 
@@ -73,7 +67,9 @@ function clearEntries(log) {
 var EntryGroup = can.Model.extend(),
     Entry = can.Model.extend();
 
-module.exports.Chatlog = Chatlog;
+module.exports.makeLog = function(conn, ns) {
+  return new Chatlog(conn, ns);
+};
 module.exports.submitEntry = submitEntry;
 module.exports.addEntry = addEntry;
 module.exports.clearEntries = clearEntries;

@@ -1,0 +1,12 @@
+<form class="{{type}}">
+  {{renderInput}}
+  <button>Send</button>
+</form>
+<label>Input type:
+  <select can-value=type>
+    {{#each inputs}}
+    <option>{{name}}</option>
+    {{/each}}
+  </select>
+</label>
+<label>Name: <input name=actor type=text can-value=actor></label>

@@ -1,0 +1,104 @@
+/*-----General styles-----*/
+
+/*font sizes*/
+
+$basefontsize = 1em;
+$smallfontsize = .8em;
+$largefontsize = 1.2em;
+
+
+/*colors*/
+
+$basegrey = #858585;
+$lightgrey= #cecece;
+$basemaroon = #700000;
+$baseblue = #006699;
+
+
+chat-output {
+  font-family: sans-serif;
+  max-width: 30em;
+
+  .debug {
+    margin-left: 1em;
+    color: $lightgrey;
+    font-style: italic;
+    font-size: $smallfontsize;
+
+    &:before {
+      content: "("
+    }
+    &:after {
+      content: "ms)"
+    }
+  }
+
+  .entry-group {
+    padding-top: $basefontsize;
+
+    &.slug {
+      .entries {
+        background-color: $lightgrey;
+        text-transform: uppercase;
+        padding: .2em;
+      }
+    }
+
+    &.dialogue {
+      .actor-container > * {
+        display: inline-block;
+      }
+      .actor {
+        font-size: $largefontsize;
+        font-weight: bold;
+        margin-left: 2em;
+      }
+      .parenthetical {
+        color: $basegrey;
+        font-size: $smallfontsize;
+        font-weight: normal;
+        font-style: italic;
+        &:before { content: "("; }
+        &:after { content: ")"; }
+      }
+      .entries {
+        margin-left: 4em;
+        .parenthetical {
+          margin-left: 2em;
+          &:first-child {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &.action {
+      .verb {
+        color: $basemaroon;
+      }
+      .actor {
+        font-weight: bold;
+      }
+    }
+
+    &.ooc {
+      &:before {
+        content: "(( OOC "
+      }
+      &:after {
+        content: "))"
+      }
+      .actor:after {
+        content: ":"
+      }
+      font-size: $smallfontsize;
+      color: $basegrey;
+    }
+
+    &.system {
+      font-size: $smallfontsize;
+      color: $basegrey;
+      font-style: italic;
+    }
+  }
+}
