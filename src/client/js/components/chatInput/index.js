@@ -3,6 +3,7 @@
 let {extend, forEach, find, findIndex} = require("lodash");
 
 let can = require("../../shims/can"),
+    $ = require("jquery"),
     element = require("../../lib/customElement");
 
 let {submitEntry} = require("../../models/chatlog");
@@ -79,8 +80,11 @@ function cycleInputType(chatInput, goForward) {
 /*
  * Mustache helpers
  */
-function renderInput(scope) {
-  return find(inputs, {name: scope.type}).template(scope);
+function renderInput() {
+  let scope = this;
+  return function(el) {
+    return $(el).html(find(inputs, {name: scope.type}).template(scope));
+  };
 }
 
 /*
