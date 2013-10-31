@@ -81,6 +81,7 @@ function cycleInputType(chatInput, goForward) {
  * Mustache helpers
  */
 function renderInput() {
+  /* jshint validthis: true */
   let scope = this;
   return function(el) {
     return $(el).html(find(inputs, {name: scope.type}).template(scope));
