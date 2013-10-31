@@ -2,20 +2,19 @@
 
 let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
     {addMethod} = require("genfun"),
-    {clone, init} = require("../../lib/proto"),
     {extend, last} = require("lodash"),
     can = require("../../shims/can");
 
 /**
  * Chatlog Model
  */
-let Chatlog = can.Map.extend({
+let Chatlog = can.Map.extend({}, {
   init: function(conn, ns) {
     let log = this;
-    log.conn = conn;
-    log.namespace = ns;
+    log.attr("conn", conn);
+    log.attr("namespace", ns);
     listen(conn, log, ns);
-    log.entryGroups = new EntryGroup.List([]);
+    log.attr("entryGroups", new EntryGroup.List([]));
   }
 });
 
