@@ -1,6 +1,6 @@
 "use strict";
 
-let {makeLog} = require("../../models/chatlog");
+let {Chatlog} = require("../../models/chatlog");
 
 require("../../components/chatOutput").install();
 require("../../components/chatInput").install();
@@ -17,7 +17,7 @@ let Home = clone();
 
 addMethod(init, [Home], function(page, el, conn) {
   style(viewCss);
-  page.chatlog = makeLog(conn, "chat");
+  page.chatlog = clone(Chatlog, conn, "chat");
   el.html(pageTemplate({log: page.chatlog}));
 });
 

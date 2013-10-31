@@ -1,6 +1,7 @@
 "use strict";
 
 let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
+    {clone, init} = require("../../lib/proto"),
     {addMethod} = require("genfun"),
     {extend, last} = require("lodash"),
     can = require("../../shims/can");
@@ -8,28 +9,34 @@ let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
 /**
  * Chatlog Model
  */
-let Chatlog = can.Map.extend({}, {
-  init: function(conn, ns) {
-    let log = this;
-    log.attr("conn", conn);
-    log.attr("namespace", ns);
-    listen(conn, log, ns);
-    log.attr("entryGroups", new EntryGroup.List([]));
-  }
+let Chatlog = clone();
+
+/*
+ * Init
+ */
+addMethod(init, [Chatlog], function(log, conn, ns) {
+  log.conn = conn;
+  log.namespace = ns;
+  listen(conn, log, ns);
+  initModelList(log);
 });
+
+function initModelList(log) {
+  log.entryGroups = new EntryGroup.List([]);
+}
 
 /*
  * Event handling
  */
-addMethod(onOpen, [,Chatlog.prototype], function(_conn, log) {
+addMethod(onOpen, [,Chatlog], function(_conn, log) {
   addEntry(log, {entryType: "system", content: "Connected"});
 });
 
-addMethod(onMessage, [,Chatlog.prototype], function(_conn, log, data) {
+addMethod(onMessage, [,Chatlog], function(_conn, log, data) {
   addEntry(log, data);
 });
 
-addMethod(onClose, [,Chatlog.prototype], function(_conn, log) {
+addMethod(onClose, [,Chatlog], function(_conn, log) {
   addEntry(log, {entryType: "system", content: "Disconnected..."});
 });
 
@@ -66,9 +73,7 @@ function clearEntries(log) {
 var EntryGroup = can.Model.extend(),
     Entry = can.Model.extend();
 
-module.exports.makeLog = function(conn, ns) {
-  return new Chatlog(conn, ns);
-};
+module.exports.Chatlog = Chatlog;
 module.exports.submitEntry = submitEntry;
 module.exports.addEntry = addEntry;
 module.exports.clearEntries = clearEntries;
