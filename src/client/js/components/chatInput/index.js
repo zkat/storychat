@@ -1,6 +1,6 @@
 "use strict";
 
-let {extend, forEach, find, findIndex} = require("lodash");
+let {forEach, find, findIndex} = require("lodash");
 
 let can = require("../../shims/can"),
     $ = require("jquery"),
@@ -23,16 +23,19 @@ let ChatInput = element.define("chat-input", {
   events: {
     "form submit": sendMessage,
     "form keydown": keyPressed,
-    init: function(chatInput) {
+    "select change": typeSelectorChanged,
+    "[name=actor] input": actorNameChanged,
+    "{scope} type": typeChanged,
+    inserted: function(chatInput) {
       chatInput.element.find("form [name=content]").focus();
     }
   },
-  scope: {
-    log: [],
-    type: inputs[0].name,
-    inputs: inputs,
-    actor: "Mr.名無しさん",
-    defaults: {}
+  attributes: {
+    log: { type: "lookup", required: true, observe: false },
+    type: { type: "string", default: inputs[0].name },
+    inputs: { default: inputs },
+    actor: { type: "string", default: "Mr.名無しさん"},
+    defaults: { internal: true, defaultMaker: Object.create }
   },
   helpers: {
     renderInput: renderInput
@@ -57,34 +60,50 @@ function sendMessage(chatInput, _el, event) {
 const TAB = 9;
 function keyPressed(chatInput, _el, event) {
   if (event.keyCode === TAB) {
-    console.log("tabity tab");
     event.preventDefault();
     cycleInputType(chatInput, !event.shiftKey);
   }
 }
 
 function cycleInputType(chatInput, goForward) {
-  let typeIndex = findIndex(inputs, {name: chatInput.scope.type}),
-      form = chatInput.element.find("form");
-  extend(chatInput.scope.defaults, can.deparam(form.serialize()));
+  let typeIndex = findIndex(inputs, {name: chatInput.scope.type});
   chatInput.scope.attr(
     "type",
     inputs[(typeIndex + (goForward ? 1 : inputs.length - 1)) %
            inputs.length].name);
+  chatInput.element.find("form [name=content]").focus();
+}
+
+function typeChanged(chatInput, scope) {
+  let form = chatInput.element.find("form");
+  chatInput.element.find("select").val(scope.type);
+  chatInput.scope.attr("defaults", can.deparam(form.serialize()));
   forEach(chatInput.scope.defaults, function(v, k) {
     form.find("[name="+k+"]").val(v);
   });
-  chatInput.element.find("form [name=content]").focus();
+}
+
+function typeSelectorChanged(chatInput, el) {
+  chatInput.scope.attr("type", el.val());
+}
+
+function actorNameChanged(chatInput, el) {
+  chatInput.scope.attr("actor", el.val());
 }
 
 /*
  * Mustache helpers
  */
-function renderInput() {
-  /* jshint validthis: true */
-  let scope = this;
+function renderInput(type, opts) {
+  let scope = opts.scope;
+  function render(el) {
+    $(el).html(find(inputs, {name: type()}).template(scope));
+  }
   return function(el) {
-    return $(el).html(find(inputs, {name: scope.type}).template(scope));
+    render(el);
+    type.bind("change", function() {
+      render(el);
+    });
   };
 }
 

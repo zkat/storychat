@@ -5,9 +5,9 @@ let element = require("../../lib/customElement");
 let ChatOutput = element.define("chat-output", {
   style: require("./chatOutput.styl"),
   template: require("./chatOutput.mustache"),
-  scope: {
-    log: [],
-    debug: false
+  attributes: {
+    log: { type: "lookup", required: true, observe: false },
+    debug: { type: "boolean", default: false }
   },
   helpers: {
     renderEntryGroup: renderEntryGroup
