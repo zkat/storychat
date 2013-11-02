@@ -1,4 +1,4 @@
-* archive [75/75]
+* archive [76/76]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -249,6 +249,10 @@
 ** DONE Figure out why inserted event isn't firing                      :bug:
    CLOSED: [2013-11-01 Fri 22:38]
    can2.0 doesn't support jquery2.0
+** DONE Patch can2.0 so it fires the inserted event on jq2.0         :bugfix:
+   CLOSED: [2013-11-02 Sat 00:00]
+   Do a monkey patch and submit a pull request. Take monkey patch out when
+   bower-can updates.
 * backlog [0/15]
 ** TODO Pull in jwerty for fancy keyboard events                         :ui:
 ** TODO Tests for chatoutput                                          :tests:
@@ -294,7 +298,10 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [0/8]
+* active [0/9]
+** TODO Remove the domManip monkey patch                             :bugfix:
+   as soon as it's accepted by upstream. I'd rather not keep my own build of
+   canjs again.
 ** TODO Tests for customElement                                       :tests:
    Most of these can probably wait, but it might help expose why the inserted
    event isn't firing.
