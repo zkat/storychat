@@ -1,4 +1,4 @@
-* archive [71/71]
+* archive [74/74]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -230,7 +230,28 @@
 ** DONE Upgrade to Can 2.0                                               :ui:
    CLOSED: [2013-10-25 Fri 00:15]
    This may also mean I don't need the hack for can.route anymore.
-* backlog [0/13]
+** DONE Switch controls to can.component                         :components:
+   CLOSED: [2013-10-31 Thu 23:30]
+   can.Component seems actually pretty neat. It might be good to replace
+   controls/ with components/
+
+   This will also take care of style scoping -- to the tag for the component.
+** DONE Server-side user account support                       :users:server:
+   CLOSED: [2013-11-01 Fri 22:22]
+   Need database support for accounts with secure password hashing (just
+   use postgres' support for this), a service (over websockets!) to manage
+   them, and controls for creating and managing user accounts on the
+   client-side.
+   Look at https://github.com/chriso/node-validator for validation!
+** DONE Figure out why make is always triggering npm install          :build:
+   CLOSED: [2013-11-01 Fri 22:26]
+   It was depending on deps, so duh.
+* backlog [0/15]
+** TODO Pull in jwerty for fancy keyboard events                         :ui:
+** TODO Tests for chatoutput                                          :tests:
+   There's a few already, but they need to be revived after the can.component
+   port.
+** TODO Tests for chatinput                                           :tests:
 ** TODO Can OTP be implemented on top of node-fibers?                :server:
 ** TODO Error report messages                                        :parser:
    If the parser fails, let the user know why.
@@ -267,18 +288,16 @@
    Move the chat page to something other than home (mostly just rename that
    page, and make / something more homey).
 ** TODO Move proto into a shared lib                                  :proto:
-** TODO Figure out why make is always triggering npm install          :build:
+   This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
 * active [0/9]
-** TODO Switch controls to can.component                         :components:
-   can.Component seems actually pretty neat. It might be good to replace
-   controls/ with components/
-
-   This will also take care of style scoping -- to the tag for the component.
-** TODO Tests for chatoutput                                          :tests:
-** TODO Tests for chatinput                                           :tests:
-** TODO Tests for eventlistener                                       :tests:
+** TODO Tests for customElement                                       :tests:
+   Most of these can probably wait, but it might help expose why the inserted
+   event isn't firing.
+** TODO can.Component-ify pages/router                                :pages:
+** TODO Figure out why inserted event isn't firing                      :bug:
+** TODO Treat chatInput more like a tabs component                     :chat:
 ** TODO session management for sockets                :sockets:sessions:auth:
    Sockets involve some special considerations when it comes to sessions. The
    client should not try to auto-reconnect, for example, if a socket was closed
@@ -287,12 +306,8 @@
    this involves and work on an implementation.
 ** TODO Login page                                                :page:auth:
 ** TODO Account creation page                                     :user:page:
-** TODO User accounts                                          :users:server:
-   Need database support for accounts with secure password hashing (just
-   use postgres' support for this), a service (over websockets!) to manage
-   them, and controls for creating and managing user accounts on the
-   client-side.
-   Look at https://github.com/chriso/node-validator for validation!
-** TODO Permissions                                              :users:auth:
-   What kind of permission system is needed here? What's the minimum thing that
-   needs to be supported (aside from loggedIn/public page access)?
+** TODO Client-side account management                         :users:client:
+** TODO Simple permissions                                       :users:auth:
+   Two permission types are actually needed: public (can be accessed by any
+   connections), and user, which is for logged-in site users. No need to worry
+   about admin stuff for now.
