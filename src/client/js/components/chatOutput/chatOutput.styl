@@ -33,24 +33,24 @@ chat-output {
     }
   }
 
-  > span > * {
+  entry-group-wrapper {
     display: block;
     padding-top: $basefontsize;
   }
 
-  system-entries {
+  system-entry-group {
     font-size: $smallfontsize;
     color: $basegrey;
     font-style: italic;
   }
 
-  slug-entries {
+  slug-entry-group {
     background-color: $lightgrey;
     text-transform: uppercase;
     padding: .2em;
   }
 
-  dialogue-entries {
+  dialogue-entry-group {
     actor-container > * {
       display: inline-block;
     }
@@ -67,7 +67,7 @@ chat-output {
       &:before { content: "("; }
       &:after { content: ")"; }
     }
-    entries-container {
+    entries {
       display: block;
       margin-left: 4em;
       parenthetical {
@@ -80,9 +80,9 @@ chat-output {
     }
   }
 
-  action-entries {
-    action-entry {
-      + action-entry {
+  action-entry-group {
+    entry {
+      + entry {
         padding-left: 0.4em;
       }
       verb {
@@ -95,7 +95,7 @@ chat-output {
     }
   }
 
-  ooc-entries {
+  ooc-entry-group {
     font-size: $smallfontsize;
     color: $basegrey;
     &:before {

@@ -28,7 +28,7 @@ let entryTemplates = {
 
 let entryGroups = {};
 forEach(entryTemplates, function(template, name) {
-  entryGroups[name] = element.define(name+"-entries", {
+  entryGroups[name] = element.define(name+"-entry-group", {
     template: template,
     attributes: {
       entries: { required: true }
@@ -39,7 +39,7 @@ forEach(entryTemplates, function(template, name) {
 function renderGroup(entryType, opts) {
   return function(tempTag) {
     $(tempTag).html(can.view.mustache(
-      "<"+entryType()+"-entries entries='entries'/>")(opts.context));
+      "<"+entryType()+"-entry-group entries='entries'/>")(opts.context));
   };
 }
 
