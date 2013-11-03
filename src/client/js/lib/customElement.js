@@ -64,7 +64,7 @@ function makeScopeFun(customEl) {
     let map = new can.Map({});
     forEach(customEl.attributes, function(config, name) {
       let defaultVal = config.defaultMaker ?
-            config.defaultMaker(customEl, attributes[name]) :
+            config.defaultMaker(el, attributes[name]) :
             config.default,
           elHasAttribute = el.hasAttribute(name),
           setter = config.observe ? attrSet : normalSet;
