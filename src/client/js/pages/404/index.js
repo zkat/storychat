@@ -1,21 +1,14 @@
 "use strict";
 
-let {addMethod} = require("genfun"),
-    {clone, init} = require("../../lib/proto");
+let element = require("../../lib/customElement");
+let can = require("../../shims/can");
 
-let style = require("../../lib/ensureStyle"),
-    viewCss = require("./styles.styl");
-
-let pageTemplate = require("./template.mustache");
-
-let NotFound = clone();
-
-addMethod(init, [NotFound], function(page, el, conn) {
-  page.conn = conn;
-  style(viewCss);
-  el.html(pageTemplate());
+let NotFound = element.define("not-found", {
+  style: require("./styles.styl"),
+  template: require("./template.mustache")
 });
 
-module.exports = function(el, conn) {
-  return clone(NotFound, el, conn);
+module.exports.render = function(data) {
+  element.install(NotFound);
+  return can.view.mustache("<not-found/>")(data);
 };

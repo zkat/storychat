@@ -4,6 +4,7 @@ let {addMethod} = require("genfun"),
     {clone, init} = require("./lib/proto");
 
 let $ = require("jquery");
+let {extend} = require("lodash");
 let {EventListener, listen} = require("./lib/eventListener");
 
 let can = require("./shims/can");
@@ -54,8 +55,7 @@ function initCanRoute() {
 
 function page(router, data) {
   let next = pages[data.page || "home"] || pages["404"];
-  $("#page").remove();
-  router.page = next($("<div id=page>").appendTo("body"), router.conn, data);
+  $("body").html(next.render(extend({connection: router.conn}, data)));
 }
 
 module.exports.Router = Router;
