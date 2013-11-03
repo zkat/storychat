@@ -33,72 +33,79 @@ chat-output {
     }
   }
 
-  .entry-group {
+  > span > * {
+    display: block;
     padding-top: $basefontsize;
+  }
 
-    &.slug {
-      .entries {
-        background-color: $lightgrey;
-        text-transform: uppercase;
-        padding: .2em;
-      }
+  system-entries {
+    font-size: $smallfontsize;
+    color: $basegrey;
+    font-style: italic;
+  }
+
+  slug-entries {
+    background-color: $lightgrey;
+    text-transform: uppercase;
+    padding: .2em;
+  }
+
+  dialogue-entries {
+    actor-container > * {
+      display: inline-block;
     }
-
-    &.dialogue {
-      .actor-container > * {
-        display: inline-block;
-      }
-      .actor {
-        font-size: $largefontsize;
-        font-weight: bold;
-        margin-left: 2em;
-      }
-      .parenthetical {
-        color: $basegrey;
-        font-size: $smallfontsize;
-        font-weight: normal;
-        font-style: italic;
-        &:before { content: "("; }
-        &:after { content: ")"; }
-      }
-      .entries {
-        margin-left: 4em;
-        .parenthetical {
-          margin-left: 2em;
-          &:first-child {
-            display: none;
-          }
+    actor {
+      font-size: $largefontsize;
+      font-weight: bold;
+      margin-left: 2em;
+    }
+    parenthetical {
+      color: $basegrey;
+      font-size: $smallfontsize;
+      font-weight: normal;
+      font-style: italic;
+      &:before { content: "("; }
+      &:after { content: ")"; }
+    }
+    entries-container {
+      display: block;
+      margin-left: 4em;
+      parenthetical {
+        display: block;
+        margin-left: -2em;
+        &:first-child {
+          display: none;
         }
       }
     }
+  }
 
-    &.action {
-      .verb {
+  action-entries {
+    action-entry {
+      + action-entry {
+        padding-left: 0.4em;
+      }
+      verb {
         color: $basemaroon;
       }
-      .actor {
+      actor {
+        display: inline;
         font-weight: bold;
       }
     }
+  }
 
-    &.ooc {
-      &:before {
-        content: "(( OOC "
-      }
-      &:after {
-        content: "))"
-      }
-      .actor:after {
-        content: ":"
-      }
-      font-size: $smallfontsize;
-      color: $basegrey;
+  ooc-entries {
+    font-size: $smallfontsize;
+    color: $basegrey;
+    &:before {
+      content: "(( OOC "
     }
-
-    &.system {
-      font-size: $smallfontsize;
-      color: $basegrey;
-      font-style: italic;
+    &:after {
+      content: "))"
+    }
+    actor:after {
+      content: ":"
     }
   }
 }

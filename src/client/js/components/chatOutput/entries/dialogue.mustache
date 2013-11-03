@@ -1,16 +1,16 @@
-<div class=actor-container>
-  <div class=actor>
+<actor-container>
+  <actor>
     {{firstEntry.actor}}
-  </div>
+  </actor>
   {{#if firstEntry.parsedContent.parenthetical}}
-  <div class=parenthetical>{{firstEntry.parsedContent.parenthetical}}</div>
+  <parenthetical>{{firstEntry.parsedContent.parenthetical}}</parenthetical>
   {{/if}}
-</div>
-<div class=entries>
+</actor-container>
+<entries-container>
 {{#each entries}}
 {{#if parsedContent.parenthetical}}
-<div class=parenthetical>{{parsedContent.parenthetical}}</div>
+<parenthetical>{{parsedContent.parenthetical}}</parenthetical>
 {{/if}}
-<span class=entry>{{parsedContent.dialogue}}</span>
+<dialogue-entry>{{parsedContent.dialogue}}</dialogue-entry>
 {{/each}}
-</div>
+</entries-container>

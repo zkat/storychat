@@ -1,6 +1,9 @@
 "use strict";
 
+let {forEach} = require("lodash");
 let element = require("../../lib/customElement");
+let can = require("../../shims/can");
+let $ = require("jquery");
 
 let ChatOutput = element.define("chat-output", {
   style: require("./chatOutput.styl"),
@@ -10,7 +13,7 @@ let ChatOutput = element.define("chat-output", {
     debug: { type: "boolean", default: false }
   },
   helpers: {
-    renderEntryGroup: renderEntryGroup
+    renderGroup: renderGroup
   }
 });
 
@@ -23,18 +26,27 @@ let entryTemplates = {
   ooc: require("./entries/ooc.mustache")
 };
 
-function renderEntryGroup(opts) {
-  let group = opts.context;
-  return (entryTemplates[group.firstEntry.entryType] || entryWarn)(group);
-}
+let entryGroups = {};
+forEach(entryTemplates, function(template, name) {
+  entryGroups[name] = element.define(name+"-entries", {
+    template: template,
+    attributes: {
+      entries: { required: true }
+    }
+  });
+});
 
-function entryWarn(ctx) {
-  console.warn("No template for entry type: ", ctx.entryType);
+function renderGroup(entryType, opts) {
+  return function(tempTag) {
+    $(tempTag).html(can.view.mustache(
+      "<"+entryType()+"-entries entries='entries'/>")(opts.context));
+  };
 }
 
 /*
  * Exports
  */
 module.exports.install = function(tag) {
+  forEach(entryGroups, function(group) { element.install(group); });
   element.install(ChatOutput, tag);
 };
