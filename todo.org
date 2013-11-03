@@ -1,4 +1,4 @@
-* archive [76/76]
+* archive [77/77]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -253,7 +253,17 @@
    CLOSED: [2013-11-02 Sat 00:00]
    Do a monkey patch and submit a pull request. Take monkey patch out when
    bower-can updates.
-* backlog [0/15]
+** DONE can.Component-ify pages/router                                :pages:
+   CLOSED: [2013-11-02 Sat 23:31]
+* backlog [0/16]
+** TODO Progressive enhancements                                         :ui:
+   Not all pages need to have full-fledged javascript. Some might even be able
+   to get away without using javascript at all (such as most static pages). It
+   would be nice to implement a system that progressively enhances pages up to
+   the capabilities of modern browsers. This could even start off as just
+   noscript -> modern browsers, providing only a simple interface to
+   non-evergreens. To get this to work nicely, it might be good to start off
+   with the server-side page rendering protocol.
 ** TODO Pull in jwerty for fancy keyboard events                         :ui:
 ** TODO Tests for chatoutput                                          :tests:
    There's a few already, but they need to be revived after the can.component
@@ -305,7 +315,6 @@
 ** TODO Tests for customElement                                       :tests:
    Most of these can probably wait, but it might help expose why the inserted
    event isn't firing.
-** TODO can.Component-ify pages/router                                :pages:
 ** TODO Treat chatInput more like a tabs component                     :chat:
 ** TODO session management for sockets                :sockets:sessions:auth:
    Sockets involve some special considerations when it comes to sessions. The
