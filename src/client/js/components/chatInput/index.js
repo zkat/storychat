@@ -18,8 +18,8 @@ let inputs = [
  * ChatInput Controller
  */
 let ChatInput = element.define("chat-input", {
-  style: require("./chatInput.styl"),
-  template: require("./chatInput.mustache"),
+  style: require("./styles.styl"),
+  template: require("./template.mustache"),
   events: {
     "form submit": sendMessage,
     "form keydown": keyPressed,

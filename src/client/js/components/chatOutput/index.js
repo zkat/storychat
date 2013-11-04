@@ -6,8 +6,8 @@ let can = require("../../shims/can");
 let $ = require("jquery");
 
 let ChatOutput = element.define("chat-output", {
-  style: require("./chatOutput.styl"),
-  template: require("./chatOutput.mustache"),
+  style: require("./styles.styl"),
+  template: require("./template.mustache"),
   attributes: {
     log: { type: "lookup", required: true, observe: false },
     debug: { type: "boolean", default: false }
