@@ -11,6 +11,10 @@ let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
  */
 let Chatlog = clone();
 
+function makeChatlog(connection, namespace) {
+  return clone(Chatlog, connection, namespace);
+}
+
 /*
  * Init
  */
@@ -74,6 +78,7 @@ var EntryGroup = can.Model.extend(),
     Entry = can.Model.extend();
 
 module.exports.Chatlog = Chatlog;
+module.exports.makeChatlog = makeChatlog;
 module.exports.submitEntry = submitEntry;
 module.exports.addEntry = addEntry;
 module.exports.clearEntries = clearEntries;

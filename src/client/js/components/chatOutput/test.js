@@ -3,7 +3,7 @@
 
 let assert = require("assert");
 
-let {Chatlog, addEntry, clearEntries} = require("../../models/chatlog"),
+let {makeChatlog, addEntry, clearEntries} = require("../../models/chatlog"),
     {ChatOutput} = require("./index"),
     {clone} = require("../../lib/proto"),
     {domEqual} = require("../../lib/testlib.js"),
@@ -17,7 +17,7 @@ let dialogueTest = fs.readFileSync(__dirname + "/entries/dialogue-test.html");
 
 describe("ChatOutput", function() {
   let conn = connect(socketUrl),
-      log = clone(Chatlog, conn, "chat");
+      log = makeChatlog(conn, "chat");
   console.log(addEntry, log, assert, $);
   after(function() {
     disconnect(conn);
