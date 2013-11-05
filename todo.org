@@ -1,4 +1,4 @@
-* archive [78/78]
+* archive [80/80]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -257,6 +257,12 @@
    CLOSED: [2013-11-02 Sat 23:31]
 ** DONE can.component-ify entryGroup renderers                           :ui:
    CLOSED: [2013-11-03 Sun 13:24]
+** DONE Consistify template/style names                                  :ui:
+   CLOSED: [2013-11-03 Sun 16:18]
+   componentName/{index.js,template.mustache,stylus.styl}
+** DONE Stop requiring clone in order to use Chatlog                     :ui:
+   CLOSED: [2013-11-04 Mon 22:13]
+   Just export something from models/chatlog
 * backlog [0/16]
 ** TODO Progressive enhancements                                         :ui:
    Not all pages need to have full-fledged javascript. Some might even be able
@@ -310,20 +316,18 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [0/11]
+* active [0/10]
+** TODO Treat chatInput more like a tabs component                       :ui:
 ** TODO Get it to work on firefox :(                                     :ui:
    Looks like can.route.pushState is fucked on firefox?...
 ** TODO Fix the double-history issue again                               :ui:
    this pushstate thing is nuts.
-** TODO Consistify template/style names                                  :ui:
-   componentName/{index.js,template.mustache,stylus.styl}
 ** TODO Remove the domManip monkey patch                             :bugfix:
    as soon as it's accepted by upstream. I'd rather not keep my own build of
    canjs again.
 ** TODO Tests for customElement                                       :tests:
    Most of these can probably wait, but it might help expose why the inserted
    event isn't firing.
-** TODO Treat chatInput more like a tabs component                     :chat:
 ** TODO session management for sockets                :sockets:sessions:auth:
    Sockets involve some special considerations when it comes to sessions. The
    client should not try to auto-reconnect, for example, if a socket was closed
