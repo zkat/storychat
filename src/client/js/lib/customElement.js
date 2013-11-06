@@ -37,6 +37,11 @@ function processAttributes(attrs) {
   let ret = {};
   forEach(attrs, function(opts, name) {
     /* jshint eqeqeq: false, eqnull: true */
+    if (typeof opts === "string") {
+      opts = {
+        type: opts
+      };
+    }
     ret[name] = {
       observe: opts.observe == null || opts.observe,
       default: opts.default,
