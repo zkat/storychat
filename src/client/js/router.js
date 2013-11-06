@@ -23,7 +23,8 @@ let listener = clone(EventListener, {
 });
 
 let pages = {
-  "home": require("./pages/home"),
+  "": require("./pages/home"),
+  "play": require("./pages/play"),
   "404": require("./pages/404")
 };
 
@@ -54,7 +55,7 @@ function initCanRoute() {
 }
 
 function page(router, data) {
-  let next = pages[data.page || "home"] || pages["404"];
+  let next = pages[data.page || ""] || pages["404"];
   $("body").html(next.render(extend({connection: router.conn}, data)));
 }
 
