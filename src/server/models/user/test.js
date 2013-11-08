@@ -3,8 +3,8 @@
 
 var assert = require("assert"),
     user = require("./index"),
-    task = require("../../util/task"),
-    rawDb = require("../../util/db");
+    task = require("task"),
+    rawDb = require("db");
 
 describe("user", function() {
   describe("create", function() {

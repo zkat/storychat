@@ -1,6 +1,6 @@
 "use strict";
 
-let db = require("../../util/db"),
+let db = require("db"),
     bcrypt = require("bcrypt"),
     Q = require("q"),
     fs = require("fs"),

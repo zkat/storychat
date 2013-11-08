@@ -11,7 +11,7 @@ let lodash = require("lodash"),
 
 let express = require("express"),
     http = require("http"),
-    sessionStore = require("./util/session");
+    sessionStore = require("session");
 
 /**
  * Handles web server connections and routing of http requests.
