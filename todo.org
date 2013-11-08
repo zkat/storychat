@@ -1,4 +1,4 @@
-* archive [80/80]
+* archive [81/81]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -263,7 +263,11 @@
 ** DONE Stop requiring clone in order to use Chatlog                     :ui:
    CLOSED: [2013-11-04 Mon 22:13]
    Just export something from models/chatlog
-* backlog [0/16]
+** DONE chat page                                                 :chat:page:
+   CLOSED: [2013-11-05 Tue 22:02]
+   Move the chat page to something other than home (mostly just rename that
+   page, and make / something more homey).
+* backlog [0/15]
 ** TODO Progressive enhancements                                         :ui:
    Not all pages need to have full-fledged javascript. Some might even be able
    to get away without using javascript at all (such as most static pages). It
@@ -309,22 +313,25 @@
 ** TODO Basic character creation and management                  :characters:
    Need database support for characters, a service (over websockets?) to
    manage them, and a control on the client-side for management.
-** TODO chat page                                                 :chat:page:
-   Move the chat page to something other than home (mostly just rename that
-   page, and make / something more homey).
 ** TODO Move proto into a shared lib                                  :proto:
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [0/10]
+* active [0/11]
+** TODO Use src/*/node_modules/ directories for simpler paths          :misc:
+   According to the nodejs docs, node's lookup algorithm looks in node_modules/
+   for things to require, so I could move some of the utility libraries into
+   those directories to avoid all the ../../../../lib/lol bullshit.
+** TODO Fix the double-history issue again                               :ui:
+   this pushstate thing is nuts. What the fuck is going on?
 ** TODO Treat chatInput more like a tabs component                       :ui:
 ** TODO Get it to work on firefox :(                                     :ui:
    Looks like can.route.pushState is fucked on firefox?...
-** TODO Fix the double-history issue again                               :ui:
-   this pushstate thing is nuts.
 ** TODO Remove the domManip monkey patch                             :bugfix:
    as soon as it's accepted by upstream. I'd rather not keep my own build of
    canjs again.
+   UPDATE: The patch got accepted upstream. Just need to wait for a new
+   release, and it's done.
 ** TODO Tests for customElement                                       :tests:
    Most of these can probably wait, but it might help expose why the inserted
    event isn't firing.
