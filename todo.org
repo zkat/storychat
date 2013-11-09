@@ -1,4 +1,4 @@
-* archive [81/81]
+* archive [82/82]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -267,7 +267,37 @@
    CLOSED: [2013-11-05 Tue 22:02]
    Move the chat page to something other than home (mostly just rename that
    page, and make / something more homey).
-* backlog [0/15]
+** DONE Use src/*/node_modules/ directories for simpler paths          :misc:
+   CLOSED: [2013-11-07 Thu 20:33]
+   According to the nodejs docs, node's lookup algorithm looks in node_modules/
+   for things to require, so I could move some of the utility libraries into
+   those directories to avoid all the ../../../../lib/lol bullshit.
+   UPDATE: I don't think it works with es6ify.
+* backlog [0/24]
+** TODO Login page                                                :page:auth:
+** TODO Account creation page                                     :user:page:
+** TODO Client-side account management                         :users:client:
+** TODO Simple permissions                                       :users:auth:
+   Two permission types are actually needed: public (can be accessed by any
+   connections), and user, which is for logged-in site users. No need to worry
+   about admin stuff for now.
+** TODO session management for sockets                :sockets:sessions:auth:
+   Sockets involve some special considerations when it comes to sessions. The
+   client should not try to auto-reconnect, for example, if a socket was closed
+   due to an expired session. Likewise, socket connections must be shut down
+   immediately if a session is removed/canceled/expired. Think through what
+   this involves and work on an implementation.
+** TODO Tests for customElement                                       :tests:
+   Most of these can probably wait, but it might help expose why the inserted
+   event isn't firing.
+** TODO Remove the domManip monkey patch                             :bugfix:
+   as soon as it's accepted by upstream. I'd rather not keep my own build of
+   canjs again.
+   UPDATE: The patch got accepted upstream. Just need to wait for a new
+   release, and it's done.
+** TODO Treat chatInput more like a tabs component                       :ui:
+** TODO Figure out node_modules inside src/client/js                   :misc:
+   It didn't seem to be converting stuff.
 ** TODO Progressive enhancements                                         :ui:
    Not all pages need to have full-fledged javascript. Some might even be able
    to get away without using javascript at all (such as most static pages). It
@@ -276,6 +306,7 @@
    noscript -> modern browsers, providing only a simple interface to
    non-evergreens. To get this to work nicely, it might be good to start off
    with the server-side page rendering protocol.
+   Might want to start by getting fx to work :|
 ** TODO Pull in jwerty for fancy keyboard events                         :ui:
 ** TODO Tests for chatoutput                                          :tests:
    There's a few already, but they need to be revived after the can.component
@@ -317,34 +348,52 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [0/11]
-** TODO Use src/*/node_modules/ directories for simpler paths          :misc:
-   According to the nodejs docs, node's lookup algorithm looks in node_modules/
-   for things to require, so I could move some of the utility libraries into
-   those directories to avoid all the ../../../../lib/lol bullshit.
+* active [1/14]
+  The Road to Playtesting
+  
+  This "sprint" will be all about having a good-enough thing that can be simply
+  playtested. It needs to be just enough that people can visit the site (no
+  login necessary), create a simple character (globally shared -- no access
+  controls, they're just puppets that can be used by several people at a time),
+  and interact with others as that character. It should also support the
+  ability to add non-actor entries, such as slug lines and scene headers.
+
+  Finally, try and gussy it up a bit so that people aren't distracted by the
+  "game" being a plain white screen with some text on it and an <hr>. It should
+  also not feel terribly broken, so basic functionality like evergreen browser
+  support and routing should work as expected.
+** DONE Character support in DB                                          :db:
+   CLOSED: [2013-11-08 Fri 22:41]
+   Basic storage for characters -- they need to have names and a freeform
+   description. (fancier stuff to come later -- resist the temptation!)
+** TODO Character management service                                 :server:
+** TODO Character creation page                                          :ui:
+   A page where people can go and create or edit a character's name and
+   description. The changes are saved immediately.
+** TODO Character selection component                                    :ui:
+   A component that lets a user pick the current character they're playing
+   as. Should list all available characters and set the user's state to use it.
 ** TODO Fix the double-history issue again                               :ui:
    this pushstate thing is nuts. What the fuck is going on?
-** TODO Treat chatInput more like a tabs component                       :ui:
 ** TODO Get it to work on firefox :(                                     :ui:
    Looks like can.route.pushState is fucked on firefox?...
-** TODO Remove the domManip monkey patch                             :bugfix:
-   as soon as it's accepted by upstream. I'd rather not keep my own build of
-   canjs again.
-   UPDATE: The patch got accepted upstream. Just need to wait for a new
-   release, and it's done.
-** TODO Tests for customElement                                       :tests:
-   Most of these can probably wait, but it might help expose why the inserted
-   event isn't firing.
-** TODO session management for sockets                :sockets:sessions:auth:
-   Sockets involve some special considerations when it comes to sessions. The
-   client should not try to auto-reconnect, for example, if a socket was closed
-   due to an expired session. Likewise, socket connections must be shut down
-   immediately if a session is removed/canceled/expired. Think through what
-   this involves and work on an implementation.
-** TODO Login page                                                :page:auth:
-** TODO Account creation page                                     :user:page:
-** TODO Client-side account management                         :users:client:
-** TODO Simple permissions                                       :users:auth:
-   Two permission types are actually needed: public (can be accessed by any
-   connections), and user, which is for logged-in site users. No need to worry
-   about admin stuff for now.
+** TODO Test it on Safari                                                :ui:
+** TODO Clickable character names in chatOutput                          :ui:
+   If you click the name of a character in chatOutput, it should somehow show
+   something that displays the name and description of the character somewhere
+   in the UI.
+** TODO slug line and scene header support for chatInput                 :ui:
+** TODO Gussy up chatInput                                               :ui:
+   It's kinda crappy and minimal right now. Play around with how it
+   looks/feels. Also get rid of the character name stuff because that'll be
+   taken care of by something else.
+** TODO Base ui template                                                 :ui:
+   Come up with a base template for the site that will wrap all pages.
+** TODO Gussy up /play page                                              :ui:
+   Now that there's a base template, make the play page a little nicer. At
+   least get rid of the damn <hr>
+** TODO Come up with basic playtest rules                              :game:
+   The application should be a good enough prototype that people can visit it
+   and participate in a controlled playtest. Come up with some rules that should
+   be tested, write them out, try them out by yourself or with one other person.
+** TODO Find some players                                              :game:
