@@ -3,9 +3,9 @@
 module.exports = {
   up: function(m, types, done) {
     m.createTable("user", {
-      email: { type: types.STRING, primaryKey: true },
-      password: types.STRING,
-      display_name:  types.STRING
+      email: { type: "text", primaryKey: true },
+      password: "text",
+      display_name: "text"
     }).success(function() {
         done();
     });
