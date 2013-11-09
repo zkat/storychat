@@ -24,9 +24,9 @@ describe("character", function() {
 
     it("creates a new character in the database", function(done) {
       task.spawn(function() {
-        let ret = task.yield(character.create(name, desc)),
+        let id = task.yield(character.create(name, desc)),
             q = "SELECT count(*) FROM character WHERE id = :id",
-            result = task.yield(rawDb.query(q, {id: ret.id}));
+            result = task.yield(rawDb.query(q, {id: id}));
         assert.equal(result.length, 1);
         done();
       }).fail(done);
@@ -49,9 +49,9 @@ describe("character", function() {
 
     it("reads the character row and returns it as an object", function(done) {
       task.spawn(function() {
-        let ret = task.yield(character.create(name, desc));
-        assert.deepEqual(task.yield(character.read(ret.id)), {
-          id: ret.id,
+        let id = task.yield(character.create(name, desc));
+        assert.deepEqual(task.yield(character.read(id)), {
+          id: id,
           name: name,
           description: desc
         });

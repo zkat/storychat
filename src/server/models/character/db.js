@@ -1,6 +1,7 @@
 "use strict";
 
 let db = require("db"),
+    _ = require("lodash"),
     Q = require("q");
 
 function create(name, description) {
@@ -12,13 +13,13 @@ function create(name, description) {
   return db.query(q, {
     name: name,
     description: description
-  });
+  }).then(function(x) { return x.id; });
 }
 
 function read(id) {
-  let q = ("SELECT * FROM character"+
+  let q = ("SELECT id, name, description FROM character"+
            "  WHERE id = :id");
-  return db.query(q, {id: id}).then(function(x) { return x[0]; });
+  return db.query(q, {id: id}).then(_.first);
 }
 
 module.exports = {
