@@ -21,7 +21,7 @@ addMethod(init, [CharacterService], function(svc) {
 
 addMethod(onMessage, [CharacterService], function(svc, client, msg) {
   send(client, _.extend({}, msg, {
-    data: character[msg.method](msg.args)
+    data: character[msg.method].apply(null, msg.args)
   }));
 });
 

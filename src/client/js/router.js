@@ -25,6 +25,7 @@ let listener = clone(EventListener, {
 let pages = {
   "": require("./pages/home"),
   "play": require("./pages/play"),
+  "character": require("./pages/character"),
   "404": require("./pages/404")
 };
 
