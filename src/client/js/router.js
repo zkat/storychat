@@ -4,7 +4,6 @@ let {addMethod} = require("genfun"),
     {clone, init} = require("./lib/proto");
 
 let $ = require("jquery");
-let {extend} = require("lodash");
 let {EventListener, listen} = require("./lib/eventListener");
 
 let can = require("./shims/can");

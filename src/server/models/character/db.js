@@ -1,8 +1,7 @@
 "use strict";
 
 let db = require("db"),
-    _ = require("lodash"),
-    Q = require("q");
+    _ = require("lodash");
 
 function create(name, description) {
   let q = ("INSERT INTO \"character\""+

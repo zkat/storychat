@@ -2,8 +2,6 @@
 
 let {makeCharacter} = require("../../models/character");
 let element = require("../../lib/customElement");
-let can = require("../../shims/can");
-let $ = require("jquery");
 
 let CharacterEditor = element.define("character-editor", {
   style: require("./styles.styl"),

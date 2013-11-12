@@ -1,6 +1,5 @@
 "use strict";
 
-let {extend} = require("lodash");
 let element = require("../../lib/customElement");
 let can = require("../../shims/can");
 
