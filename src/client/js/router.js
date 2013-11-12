@@ -29,9 +29,8 @@ let pages = {
   "404": require("./pages/404")
 };
 
-addMethod(init, [Router], function(router, conn) {
+addMethod(init, [Router], function(router) {
   router.listenerHandle = listen(listener, router, window);
-  router.conn = conn;
   initCanRoute();
 });
 
@@ -57,7 +56,7 @@ function initCanRoute() {
 
 function page(router, data) {
   let next = pages[data.page || ""] || pages["404"];
-  $("body").html(next.render(extend({connection: router.conn}, data)));
+  $("body").html(next.render(data));
 }
 
 module.exports.Router = Router;

@@ -22,6 +22,6 @@ let Play = element.define("play-page", {
 module.exports.render = function(data) {
   element.install(Play);
   return can.view.mustache("<play-page/>")(extend({
-    log: makeChatlog(data.connection, "chat")
+    log: makeChatlog("chat")
   }, data));
 };

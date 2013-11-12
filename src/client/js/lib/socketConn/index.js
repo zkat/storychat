@@ -15,14 +15,15 @@ let SocketConn = clone(),
     onMessage = new Genfun(),
     onClose = new Genfun();
 
-addMethod(init, [SocketConn], function(conn, authUrl, opts) {
-  conn.authUrl = authUrl;
+addMethod(init, [SocketConn], function(conn) {
+  conn.authUrl =
+    window.location.protocol + "//" + window.location.host + "/wsauth";
   conn.state = can.compute("connecting");
   conn.observers = {};
   conn.reqNum = 0;
   conn.reqs = {};
   conn.backlog = [];
-  initSock(conn, opts);
+  initSock(conn, {});
 });
 
 function initSock(conn, opts) {
@@ -40,11 +41,14 @@ addMethod(onOpen, [], function() {});
 addMethod(onMessage, [], function() {});
 addMethod(onClose, [], function() {});
 
-function disconnect(conn) {
-  conn.state("closed");
-  if (conn.socket) {
-    conn.socket.close();
-    delete conn.socket;
+// We have a singleton connection we reuse everywhere.
+let CONN = clone(SocketConn);
+
+function disconnect() {
+  CONN.state("closed");
+  if (CONN.socket) {
+    CONN.socket.close();
+    delete CONN.socket;
   }
 }
 
@@ -93,40 +97,39 @@ function handleOpenClose(conn, handler, msg) {
   });
 }
 
-function listen(conn, observer, namespace) {
-  if (!conn.observers[namespace]) { conn.observers[namespace] = []; }
-  if (!contains(conn.observers[namespace], observer)) {
-    conn.observers[namespace].push(observer);
+function listen(observer, namespace) {
+  if (!CONN.observers[namespace]) { CONN.observers[namespace] = []; }
+  if (!contains(CONN.observers[namespace], observer)) {
+    CONN.observers[namespace].push(observer);
   }
 }
 
-function unlisten(conn, observer) {
-  conn.observers = without(conn.observers, observer);
+function unlisten(observer) {
+  CONN.observers = without(CONN.observers, observer);
 }
 
-function send(conn, namespace, data, additional) {
-  if (conn.state() === "closed") {
+function send(namespace, data, additional) {
+  if (CONN.state() === "closed") {
     throw new Error("connection is closed");
-  } else if (conn.socket && conn.socket.readyState === Sock.OPEN) {
-    conn.socket.send(JSON.stringify(
+  } else if (CONN.socket && CONN.socket.readyState === Sock.OPEN) {
+    CONN.socket.send(JSON.stringify(
       extend({}, {namespace: namespace, data: data}, additional)));
   } else {
-    conn.backlog.push(arguments);
+    CONN.backlog.push(arguments);
   }
 }
 
-function request(conn, namespace, data) {
+function request(namespace, data) {
   let deferred = Q.defer(),
-      req = ++conn.reqNum;
-  send(conn, namespace, data, {req:req});
-  conn.reqs[req] = deferred;
+      req = ++CONN.reqNum;
+  send(namespace, data, {req:req});
+  CONN.reqs[req] = deferred;
   return Q.timeout(deferred.promise, 30000);
 }
 
 module.exports = {
-  SocketConn: SocketConn,
-  connect: partial(clone, SocketConn),
   disconnect: disconnect,
+  conn: CONN,
   onOpen: onOpen,
   onMessage: onMessage,
   onClose: onClose,

@@ -11,17 +11,16 @@ let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
  */
 let Chatlog = clone();
 
-function makeChatlog(connection, namespace) {
-  return clone(Chatlog, connection, namespace);
+function makeChatlog(namespace) {
+  return clone(Chatlog, namespace);
 }
 
 /*
  * Init
  */
-addMethod(init, [Chatlog], function(log, conn, ns) {
-  log.conn = conn;
+addMethod(init, [Chatlog], function(log, ns) {
   log.namespace = ns;
-  listen(conn, log, ns);
+  listen(log, ns);
   initModelList(log);
 });
 
@@ -51,7 +50,7 @@ function submitEntry(log, type, opts) {
   let msg = extend({_sent: (new Date()).getTime()},
                    {entryType: type},
                    opts || {});
-  send(log.conn, log.namespace, msg);
+  send(log.namespace, msg);
 }
 
 function addEntry(log, entryInfo) {
