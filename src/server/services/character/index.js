@@ -20,9 +20,11 @@ addMethod(init, [CharacterService], function(svc) {
 });
 
 addMethod(onMessage, [CharacterService], function(svc, client, msg) {
-  send(client, _.extend({}, msg, {
-    data: character[msg.method].apply(null, msg.args)
-  }));
+  return character[msg.data.method].apply({}, msg.data.args).then(function(id) {
+    return send(client, _.extend({}, msg, {data: {id: id}}));
+  }, function fail(err) {
+    return send(client, _.extend({}, msg, {data: {error: err}}));
+  });
 });
 
 module.exports.service = CharacterService;

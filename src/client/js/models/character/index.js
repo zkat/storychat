@@ -1,23 +1,37 @@
 "use strict";
 
-let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
-    {clone, init} = require("../../lib/proto"),
-    {addMethod} = require("genfun"),
+let {request} = require("../../lib/socketConn"),
     can = require("../../shims/can");
 
 let Character = can.Model.extend({
   create: createCharacter,
-  findOne: readCharacter
-}, {
-  setup: characterSetup
-});
+  findOne: readCharacter,
+  namespace: "character"
+}, {});
 
-function makeCharacter(conn, namespace, name, description) {
+function createCharacter(character) {
+  return request(Character.namespace, {
+    method: "create",
+    args: [character.name, character.description]
+  });
+}
+
+function readCharacter(id) {
+  return request(Character.namespace, {
+    method: "read",
+    args: [id]
+  });
+}
+
+function save(character) {
+  return character.save();
+}
+
+function makeCharacter(name, description) {
   return new Character({name: name, description: description});
 }
 
-function save(character, conn, namespace) {
-  return character.save({conn: conn, namespace: namespace});
-}
-
-module.exports.makeCharacter = makeCharacter;
+module.exports = {
+  makeCharacter: makeCharacter,
+  save: save
+};
