@@ -6,10 +6,9 @@ let addMethod = require("genfun").addMethod,
     init = proto.init;
 
 let socketServer = require("../../socketServer"),
-    onMessage = socketServer.onMessage,
-    send = socketServer.send;
-
-let _ = require("lodash");
+    onRequest = socketServer.onRequest,
+    reply = socketServer.reply,
+    reject = socketServer.reject;
 
 let character = require("../../models/character");
 
@@ -19,11 +18,11 @@ addMethod(init, [CharacterService], function(svc) {
   console.log("Initializing CharacterService", svc);
 });
 
-addMethod(onMessage, [CharacterService], function(svc, client, msg) {
-  return character[msg.data.method].apply({}, msg.data.args).then(function(id) {
-    return send(client, _.extend({}, msg, {data: {id: id}}));
+addMethod(onRequest, [CharacterService], function(svc, data, req) {
+  return character[data.method].apply({}, data.args).then(function(id) {
+    return reply(req, {id: id});
   }, function fail(err) {
-    return send(client, _.extend({}, msg, {data: {error: err}}));
+    return reject(req, err);
   });
 });
 

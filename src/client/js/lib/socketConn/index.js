@@ -7,7 +7,7 @@ let Sock = window.SockJS,
     $ = require("jquery"),
     {addMethod} = Genfun,
     {clone, init} = require("../proto"),
-    {partial, forEach, extend, contains, without} = require("lodash"),
+    {partial, forEach, contains, without} = require("lodash"),
     Q = require("q");
 
 let SocketConn = clone(),
@@ -52,21 +52,34 @@ function disconnect() {
   }
 }
 
-function handleMessage(conn, handler, msg) {
-  let data = JSON.parse(msg.data);
-  if (data.req) {
-    let req = conn.reqs[data.req];
-    if (req) {
-      req.resolve(data.data);
+function handleMessage(conn, handler, sockMsg) {
+  let msg = JSON.parse(sockMsg.data);
+  switch (msg.type) {
+  case "reply":
+  case "reject":
+    let req = conn.reqs[msg.req];
+    if (!req) {
+      console.warn("Unexpected reply: ", msg);
+      return;
     }
-    delete conn.reqs[data.req];
-  } else {
-    let observers = conn.observers[data.namespace] ||
-          (console.warn("Unknown namespace: ", data.namespace),
-           []);
+    if (msg.type === "reply") {
+      req.resolve(msg.data);
+    } else {
+      req.reject(msg.data);
+    }
+    delete conn.reqs[msg.req];
+    break;
+  case "msg":
+    let observers = conn.observers[msg.ns] ||
+      (console.warn("Unknown namespace: ", msg.ns),
+       []);
     forEach(observers, function(obs) {
-      return handler.call(null, conn, obs, data.data);
+      handler.call(null, obs, msg.data);
     });
+    break;
+  default:
+    console.warn("Unexpected message: ", msg);
+    break;
   }
 }
 
@@ -85,14 +98,14 @@ function handleOpenClose(conn, handler, msg) {
     let args;
     while ((conn.socket.readyState === Sock.OPEN) &&
            (args = conn.backlog.shift())) {
-      send.apply(null, args);
+      rawSend.apply(null, args);
     }
   } else {
     conn.state("closed");
   }
   forEach(conn.observers, function(arr) {
     forEach(arr, function(obs) {
-      return handler.call(null, conn, obs);
+      return handler.call(null, obs);
     });
   });
 }
@@ -108,21 +121,24 @@ function unlisten(observer) {
   CONN.observers = without(CONN.observers, observer);
 }
 
-function send(namespace, data, additional) {
+function rawSend(data) {
   if (CONN.state() === "closed") {
     throw new Error("connection is closed");
   } else if (CONN.socket && CONN.socket.readyState === Sock.OPEN) {
-    CONN.socket.send(JSON.stringify(
-      extend({}, {namespace: namespace, data: data}, additional)));
+    CONN.socket.send(JSON.stringify(data));
   } else {
-    CONN.backlog.push(arguments);
+    CONN.backlog.push(data);
   }
 }
 
-function request(namespace, data) {
+function send(data, namespace) {
+  rawSend({type: "msg", ns: namespace, data: data});
+}
+
+function request(data, namespace) {
   let deferred = Q.defer(),
       req = ++CONN.reqNum;
-  send(namespace, data, {req:req});
+  rawSend({type: "req", req: req, ns: namespace, data: data});
   CONN.reqs[req] = deferred;
   return Q.timeout(deferred.promise, 30000);
 }

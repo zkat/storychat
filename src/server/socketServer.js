@@ -27,9 +27,13 @@ addMethod(init, [SocketServer], function(srv, http, opts) {
 
 let onConnect = new Genfun(),
     onMessage = new Genfun(),
+    onRawMessage = new Genfun(),
+    onRequest = new Genfun(),
     onClose = new Genfun();
 addMethod(onConnect, [], function() {});
 addMethod(onMessage, [], function() {});
+addMethod(onRawMessage, [], function() {});
+addMethod(onRequest, [], function() {});
 addMethod(onClose, [], function() {});
 
 function initSocket(srv, http, opts) {
@@ -69,9 +73,9 @@ function initConn(srv, conn) {
 function onClientMessage(srv, conn, msg) {
   try {
     let json = JSON.parse(msg),
-        service = srv.services[json.namespace];
+        service = srv.services[json.ns];
     if (service) {
-      onMessage(service, conn, json);
+      messageCallback(service, conn, json);
     } else {
       throw new Error("Invalid service: "+json.namespace);
     }
@@ -80,6 +84,19 @@ function onClientMessage(srv, conn, msg) {
       error: e,
       input: msg
     });
+  }
+}
+
+function messageCallback(service, conn, msg) {
+  switch (msg.type) {
+  case "msg":
+    onMessage(service, msg.data, {from: conn, namespace: msg.ns});
+    break;
+  case "req":
+    onRequest(service, msg.data, {from: conn, id: msg.req});
+    break;
+  default:
+    onRawMessage(service, msg, conn);
   }
 }
 
@@ -94,20 +111,32 @@ function onClientClose(srv, conn) {
   }
 }
 
-function send(conn, data) {
+function rawSend(conn, data) {
   conn.write(JSON.stringify(data));
 }
 
-function broadcast(conn, data) {
+function send(conn, data, namespace) {
+  rawSend(conn, {type: "msg", ns: namespace, data: data});
+}
+
+function reply(req, data) {
+  rawSend(req.from, {type: "reply", req: req.id, data: data});
+}
+
+function reject(req, reason) {
+  rawSend(req.from, {type: "reject", req: req.id, data: reason});
+}
+
+function broadcast(conn, data, namespace) {
   each(conn.server.connections, function(conn) {
-    send(conn, data);
+    send(conn, data, namespace);
   });
 }
 
-function broadcastFrom(srcConn, data) {
+function broadcastFrom(srcConn, data, namespace) {
   each(srcConn.server.connections, function(conn) {
     if (srcConn !== conn) {
-      send(conn, data);
+      send(conn, data, namespace);
     }
   });
 }
@@ -115,9 +144,14 @@ function broadcastFrom(srcConn, data) {
 module.exports = {
   SocketServer: SocketServer,
   onConnect: onConnect,
+  onRawMessage: onRawMessage,
   onMessage: onMessage,
+  onRequest: onRequest,
   onClose: onClose,
+  rawSend: rawSend,
   send: send,
+  reply: reply,
+  reject: reject,
   broadcast: broadcast,
   broadcastFrom: broadcastFrom
 };

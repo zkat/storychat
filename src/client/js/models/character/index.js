@@ -10,17 +10,17 @@ let Character = can.Model.extend({
 }, {});
 
 function createCharacter(character) {
-  return request(Character.namespace, {
+  return request({
     method: "create",
     args: [character.name, character.description]
-  });
+  }, Character.namespace);
 }
 
 function readCharacter(id) {
-  return request(Character.namespace, {
+  return request({
     method: "read",
     args: [id]
-  });
+  }, Character.namespace);
 }
 
 function save(character) {

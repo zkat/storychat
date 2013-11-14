@@ -31,15 +31,15 @@ function initModelList(log) {
 /*
  * Event handling
  */
-addMethod(onOpen, [,Chatlog], function(_conn, log) {
+addMethod(onOpen, [Chatlog], function(log) {
   addEntry(log, {entryType: "system", content: "Connected"});
 });
 
-addMethod(onMessage, [,Chatlog], function(_conn, log, data) {
+addMethod(onMessage, [Chatlog], function(log, data) {
   addEntry(log, data);
 });
 
-addMethod(onClose, [,Chatlog], function(_conn, log) {
+addMethod(onClose, [Chatlog], function(log) {
   addEntry(log, {entryType: "system", content: "Disconnected..."});
 });
 
@@ -50,7 +50,7 @@ function submitEntry(log, type, opts) {
   let msg = extend({_sent: (new Date()).getTime()},
                    {entryType: type},
                    opts || {});
-  send(log.namespace, msg);
+  send(msg, log.namespace);
 }
 
 function addEntry(log, entryInfo) {
