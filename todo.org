@@ -348,7 +348,7 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [1/14]
+* active [3/23]
   The Road to Playtesting
   
   This "sprint" will be all about having a good-enough thing that can be simply
@@ -366,13 +366,35 @@
    CLOSED: [2013-11-08 Fri 22:41]
    Basic storage for characters -- they need to have names and a freeform
    description. (fancier stuff to come later -- resist the temptation!)
+** DONE Globalise socketConn                                             :ui:
+   CLOSED: [2013-11-12 Tue 16:51]
+   Much like the db module does all the db connection management stuff, make
+   socketConn a singleton off its module. This is ok because we should only
+   ever have a single socketConn open (this is a restriction of SockJS, and
+   really a perfectly fine restriction to have, I think). Passing the
+   socketConn reference around through all the models, having to instantiate
+   them with conns and all that, is actually kind of a pain in the ass.
+   
+   The whole genfun thing is also a bit of a pain in the ass. Not sure if
+   want. Maybe it would be nicer if it still had the #addMethod interface. Also
+   if it actually supported primitives in some way...
+** DONE Call/request protocol for socketConn                         :server:
+   CLOSED: [2013-11-13 Wed 18:23]
+   Emulate gen_server:call to simplify the socketConn API a bit. Just be
+   consistent about it.
 ** TODO Character management service                                 :server:
 ** TODO Character creation page                                          :ui:
    A page where people can go and create or edit a character's name and
-   description. The changes are saved immediately.
+   description. The changes are saved immediately. Should include a list of
+   characters that can be selected and edited, charaacter deletion, validation,
+   and error reporting when saving a character fails.
 ** TODO Character selection component                                    :ui:
    A component that lets a user pick the current character they're playing
    as. Should list all available characters and set the user's state to use it.
+** TODO Entry removal support                                            :ui:
+   Players should be able to remove something they've entered. No need for an
+   actual voting system. It just needs to be removable, and others should see
+   that removal in their own chats.
 ** TODO Fix the double-history issue again                               :ui:
    this pushstate thing is nuts. What the fuck is going on?
 ** TODO Get it to work on firefox :(                                     :ui:
@@ -396,4 +418,15 @@
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
    be tested, write them out, try them out by yourself or with one other person.
+** TODO Write up a basic backstory for the world                   :building:
+** TODO Write some basic plot guidelines or players                :building:
+   Like running a campaign -- just give them a general idea of something they
+   can interact with so they don't start from zero. Doesn't have to be very
+   original.
+** TODO Write two or three sets                                    :building:
+   Write a few sets you can dump descriptions for (no need for a sets system to
+   be in place -- just need to be able to do slug lines). Do this after the
+   basic pseudo-plot is planned out.
 ** TODO Find some players                                              :game:
+** TODO Run a quick playtest alone/with one person                     :game:
+** TODO Write up a playtester questionnaire                            :game:
