@@ -12,7 +12,7 @@ function create(name, description) {
   return db.query(q, {
     name: name,
     description: description
-  }).then(function(x) { return x.id; });
+  });
 }
 
 function read(id) {
@@ -21,7 +21,12 @@ function read(id) {
   return db.query(q, {id: id}).then(_.first);
 }
 
+function list() {
+  return db.query("SELECT id, name, description FROM character");
+}
+
 module.exports = {
   create: create,
-  read: read
+  read: read,
+  list: list
 };

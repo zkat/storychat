@@ -5,4 +5,11 @@
   letters, and you can optionally have a last name.
 </p>
 
-<character-editor/>
+<select name=character>
+  <option>Create new</option>
+  {{#each characters}}
+  <option {{data "character"}}>{{name}}</option>
+  {{/each}}
+</select>
+
+<character-editor {{#character}}character="{{character}}"{{/character}}/>

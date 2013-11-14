@@ -21,7 +21,12 @@ function read(id) {
   return db.read(id);
 }
 
+function list() {
+  return db.list();
+}
+
 module.exports = {
   create: create,
-  read: read
+  read: read,
+  list: list
 };

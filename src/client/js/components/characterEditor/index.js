@@ -23,7 +23,7 @@ let CharacterEditor = element.define("character-editor", {
 
 function saveCharacterForm(editor, _el, ev) {
   ev.preventDefault();
-  return save(editor.scope.character).then(function success(x) {
+  return save(editor.scope.character).then(function success() {
     editor.scope.errors.replace([]);
     editor.element.find("form")[0].reset();
   }, function fail(err) {

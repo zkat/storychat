@@ -19,8 +19,8 @@ addMethod(init, [CharacterService], function(svc) {
 });
 
 addMethod(onRequest, [CharacterService], function(svc, data, req) {
-  return character[data.method].apply({}, data.args).then(function(id) {
-    return reply(req, {id: id});
+  return character[data.method].apply({}, data.args).then(function(val) {
+    return reply(req, {data: val});
   }, function fail(err) {
     return reject(req, err);
   });

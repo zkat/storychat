@@ -95,10 +95,10 @@ function handleOpenClose(conn, handler, msg) {
   if (msg.type === "open") {
     conn.state("open");
     conn.socket.send(conn.auth);
-    let args;
+    let oldMsg;
     while ((conn.socket.readyState === Sock.OPEN) &&
-           (args = conn.backlog.shift())) {
-      rawSend.apply(null, args);
+           (oldMsg = conn.backlog.shift())) {
+      rawSend(oldMsg);
     }
   } else {
     conn.state("closed");
@@ -125,7 +125,8 @@ function rawSend(data) {
   if (CONN.state() === "closed") {
     throw new Error("connection is closed");
   } else if (CONN.socket && CONN.socket.readyState === Sock.OPEN) {
-    CONN.socket.send(JSON.stringify(data));
+    let json = JSON.stringify(data);
+    CONN.socket.send(json);
   } else {
     CONN.backlog.push(data);
   }
