@@ -21,6 +21,10 @@ function read(id) {
   return db.read(id);
 }
 
+function update(id, name, description) {
+  return db.update(id, name, description);
+}
+
 function list() {
   return db.list();
 }
@@ -28,5 +32,6 @@ function list() {
 module.exports = {
   create: create,
   read: read,
+  update: update,
   list: list
 };

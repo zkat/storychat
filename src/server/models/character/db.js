@@ -21,6 +21,18 @@ function read(id) {
   return db.query(q, {id: id}).then(_.first);
 }
 
+function update(id, name, description) {
+  let q = ("UPDATE character SET"+
+           "  name = :name,"+
+           "  description = :description"+
+           "  WHERE id = :id");
+  return db.query(q, {
+    id: id,
+    name: name,
+    description: description
+  });
+}
+
 function list() {
   return db.query("SELECT id, name, description FROM character");
 }
@@ -28,5 +40,6 @@ function list() {
 module.exports = {
   create: create,
   read: read,
+  update: update,
   list: list
 };

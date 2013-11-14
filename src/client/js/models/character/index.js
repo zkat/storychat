@@ -5,6 +5,7 @@ let {request} = require("../../lib/socketConn"),
 
 let Character = can.Model.extend({
   create: createCharacter,
+  update: updateCharacter,
   findOne: readCharacter,
   findAll: listCharacters,
   namespace: "character"
@@ -14,6 +15,13 @@ function createCharacter(character) {
   return request({
     method: "create",
     args: [character.name, character.description]
+  }, Character.namespace);
+}
+
+function updateCharacter(id, character) {
+  return request({
+    method: "update",
+    args: [id, character.name, character.description]
   }, Character.namespace);
 }
 
