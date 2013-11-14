@@ -19,7 +19,11 @@ let Character = element.define("character-page", {
     characters: {
       defaultMaker: character.list
     },
-    character: {}
+    character: {
+      defaultMaker: function() {
+        return character.makeCharacter("", "");
+      }
+    }
   },
   events: {
     "[name=character] change": changeScopeCharacter
@@ -29,7 +33,8 @@ let Character = element.define("character-page", {
 function changeScopeCharacter(component) {
   component.scope.attr(
     "character",
-    component.element.find("[name=character]").val().data("character"));
+    component.element.find("[name=character] :selected").data("character") ||
+      character.makeCharacter("", ""));
 }
 
 module.exports.render = function(data) {
