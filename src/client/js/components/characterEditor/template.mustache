@@ -1,4 +1,9 @@
-<form>
+<ul>
+{{#each errors}}
+<li class=error>{{.}}
+{{/each}}
+</ul>
+<form {{#errors}}class=error{{/errors}}>
   <label>Name
     <input type=text placeholder=Name name=name value="{{character.name}}">
   </label>
