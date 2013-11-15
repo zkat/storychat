@@ -25,7 +25,6 @@ function saveCharacterForm(editor, _el, ev) {
   ev.preventDefault();
   return save(editor.scope.character).then(function success() {
     editor.scope.errors.replace([]);
-    editor.element.find("form")[0].reset();
   }, function fail(err) {
     editor.scope.errors.replace(err);
   });
