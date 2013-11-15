@@ -105,6 +105,7 @@ function makeScopeFun(customEl) {
 function wrapCallback(callback, pattern, evs) {
   evs[pattern] = function() {
     callback.apply(
+      // TODO - this.scope?
       this, [this].concat([].slice.call(arguments)));
   };
 }
