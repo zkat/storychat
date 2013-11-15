@@ -8,7 +8,7 @@
 <select name=character>
   <option>Create new</option>
   {{#each characters}}
-  <option {{data "character"}}>{{name}}</option>
+  <option {{#isCurrent .}}selected{{/isCurrent}} {{data "character"}}>{{name}}</option>
   {{/each}}
 </select>
 

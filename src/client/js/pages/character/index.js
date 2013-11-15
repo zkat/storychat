@@ -20,13 +20,14 @@ let Character = element.define("character-page", {
       defaultMaker: character.list
     },
     character: {
-      defaultMaker: function() {
-        return character.makeCharacter("", "");
-      }
+      defaultMaker: makeCharacter
     }
   },
   events: {
     "[name=character] change": changeScopeCharacter
+  },
+  helpers: {
+    isCurrent: isCurrentHelper
   }
 });
 
@@ -34,7 +35,26 @@ function changeScopeCharacter(component) {
   component.scope.attr(
     "character",
     component.element.find("[name=character] :selected").data("character") ||
-      character.makeCharacter("", ""));
+      makeCharacter(component.scope));
+}
+
+function makeCharacter(scope) {
+  return character.makeCharacter("","").bind("created", function() {
+    // TODO - this callback is being invoked within a promise for some reason,
+    //        which prevents it from throwing an uncaught exception when an
+    //        error happens in here. Investigate!
+    scope.attr("characters").push(this);
+    scope.attr("character", this);
+  });
+}
+
+function isCurrentHelper(chr, opts) {
+  /*jshint validthis: true*/
+  if (this.attr("character") === chr) {
+    return opts.fn();
+  } else {
+    return opts.inverse();
+  }
 }
 
 module.exports.render = function(data) {
