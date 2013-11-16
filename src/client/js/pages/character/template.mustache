@@ -5,12 +5,24 @@
   letters, and you can optionally have a last name.
 </p>
 
-<select name=character>
-  <option>Create new</option>
-  {{#each characters}}
-  <option {{#isCurrent .}}selected{{/isCurrent}} {{data "character"}}>{{name}}</option>
-  {{/each}}
-</select>
+<div>
+  <select name=character>
+    <option>Create new</option>
+    {{#each characters}}
+    <option value="{{id}}"
+      {{#isCurrent .}}selected{{/isCurrent}}
+      {{data "character"}}>
+      {{name}}
+    </option>
+    {{/each}}
+  </select>
+
+  {{#character}}
+  {{#if character.name}}
+  <button type=button class=delete>Delete</button>
+  {{/if}}
+  {{/character}}
+</div>
 
 {{#character}}
 <character-editor character="character"/>

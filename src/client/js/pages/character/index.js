@@ -24,7 +24,8 @@ let Character = element.define("character-page", {
     }
   },
   events: {
-    "[name=character] change": changeScopeCharacter
+    "[name=character] change": changeScopeCharacter,
+    ".delete click": deleteCharacter
   },
   helpers: {
     isCurrent: isCurrentHelper
@@ -36,6 +37,13 @@ function changeScopeCharacter(component) {
     "character",
     component.element.find("[name=character] :selected").data("character") ||
       makeCharacter(component.scope));
+}
+
+function deleteCharacter(component) {
+  let scope = component.scope;
+  character.destroy(scope.attr("character")).then(function() {
+    scope.attr("character", makeCharacter(scope));
+  });
 }
 
 function makeCharacter(scope) {

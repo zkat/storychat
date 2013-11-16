@@ -1,6 +1,7 @@
 "use strict";
 
 let {request} = require("../../lib/socketConn"),
+    $ = require("jquery"),
     can = require("../../shims/can");
 
 let Character = can.Model.extend({
@@ -8,6 +9,7 @@ let Character = can.Model.extend({
   update: updateCharacter,
   findOne: readCharacter,
   findAll: listCharacters,
+  destroy: destroyCharacter,
   namespace: "character"
 }, {});
 
@@ -32,6 +34,19 @@ function readCharacter(id) {
   }, Character.namespace);
 }
 
+function destroyCharacter(id) {
+  return request({
+    method: "destroy",
+    args: [id]
+  }, Character.namespace).then(function(val) {
+    // XXX HACK - Because CanJS expects these methods to always return a jqXHR
+    //            promise, not a standard promise.
+    let deferred = $.Deferred();
+    deferred.resolve(val);
+    return deferred.promise();
+  });
+}
+
 function listCharacters() {
   return request({
     method: "list",
@@ -41,6 +56,10 @@ function listCharacters() {
 
 function save(character) {
   return character.save();
+}
+
+function destroy(character) {
+  return character.destroy();
 }
 
 function list() {
@@ -54,5 +73,6 @@ function makeCharacter(name, description) {
 module.exports = {
   makeCharacter: makeCharacter,
   save: save,
+  destroy: destroy,
   list: list
 };
