@@ -20,6 +20,10 @@ function update(id, name, description) {
   });
 }
 
+function destroy(id) {
+  return db.destroy(id);
+}
+
 function list() {
   return db.list();
 }
@@ -41,5 +45,6 @@ module.exports = {
   create: create,
   read: read,
   update: update,
+  destroy: destroy,
   list: list
 };

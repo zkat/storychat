@@ -33,6 +33,10 @@ function update(id, name, description) {
   });
 }
 
+function destroy(id) {
+  return db.query("DELETE FROM character WHERE id = :id", {id: id});
+}
+
 function list() {
   return db.query("SELECT id, name, description FROM character");
 }
@@ -41,5 +45,6 @@ module.exports = {
   create: create,
   read: read,
   update: update,
+  destroy: destroy,
   list: list
 };
