@@ -9,4 +9,8 @@
     {{/each}}
   </select>
 </label>
-<label>Name: <input name=actor type=text value="{{actor}}"></label>
+<select name=character>
+  {{#each characters}}
+  <option {{#isCurrent .}}selected{{/isCurrent}} {{data "character"}}>{{name}}</option>
+  {{/each}}
+</select>

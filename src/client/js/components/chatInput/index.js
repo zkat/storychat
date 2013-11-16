@@ -8,6 +8,8 @@ let can = require("../../shims/can"),
 
 let {submitEntry} = require("../../models/chatlog");
 
+let character = require("../../models/character");
+
 let inputs = [
   {name: "dialogue", template: require("./inputs/dialogue.mustache")},
   {name: "action", template: require("./inputs/action.mustache")},
@@ -24,17 +26,18 @@ let ChatInput = element.define("chat-input", {
     "form submit": sendMessage,
     "form keydown": keyPressed,
     "select change": typeSelectorChanged,
-    "[name=actor] input": actorNameChanged,
+    "[name=character] change": actorChanged,
     "{scope} type": typeChanged,
     inserted: function(chatInput) {
       chatInput.element.find("form [name=content]").focus();
     }
   },
   attributes: {
+    characters: { defaultMaker: character.list },
+    character: {},
     log: { type: "lookup", required: true, observe: false },
     type: { type: "string", default: inputs[0].name },
     inputs: { default: inputs },
-    actor: { type: "string", default: "Mr.名無しさん"},
     defaults: { internal: true, defaultMaker: Object.create }
   },
   helpers: {
