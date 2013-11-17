@@ -340,7 +340,7 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [3/24]
+* active [6/24]
   The Road to Playtesting
   
   This "sprint" will be all about having a good-enough thing that can be simply
@@ -374,13 +374,16 @@
    CLOSED: [2013-11-13 Wed 18:23]
    Emulate gen_server:call to simplify the socketConn API a bit. Just be
    consistent about it.
-** TODO Character management service                                 :server:
-** TODO Character creation page                                          :ui:
+** DONE Character management service                                 :server:
+   CLOSED: [2013-11-16 Sat 15:04]
+** DONE Character creation page                                          :ui:
+   CLOSED: [2013-11-16 Sat 14:31]
    A page where people can go and create or edit a character's name and
    description. The changes are saved immediately. Should include a list of
    characters that can be selected and edited, charaacter deletion, validation,
    and error reporting when saving a character fails.
-** TODO Character deletion                                               :ui:
+** DONE Character deletion                                               :ui:
+   CLOSED: [2013-11-16 Sat 15:43]
 ** TODO Character selection component                                    :ui:
    A component that lets a user pick the current character they're playing
    as. Should list all available characters and set the user's state to use it.
