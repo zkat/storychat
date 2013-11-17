@@ -12,18 +12,18 @@ browserify-name = browserify
 endif
 
 module-root = ./node_modules
-uglify = $(module-root)/uglify-js/bin/uglifyjs
-browserify = $(module-root)/$(browserify-name)/bin/cmd.js
+bin = $(shell npm bin)
+uglify = $(bin)/uglifyjs
+browserify = $(bin)/browserify
 jsdoc = $(module-root)/jsdoc/jsdoc
-mocha = $(module-root)/mocha/bin/mocha $(node-opts) $(mocha-opts)
-linter = $(module-root)/jshint/bin/jshint $(linter-opts)
-semver = $(module-root)/semver/bin/semver
+mocha = $(bin)/mocha $(node-opts) $(mocha-opts)
+linter = $(bin)/jshint $(linter-opts)
+supervisor = $(bin)/supervisor
+bower = $(bin)/bower
+sequelize = $(bin)/sequelize
+testee = $(bin)/testee
 node = node
-supervisor = $(module-root)/supervisor/lib/cli-wrapper.js
 npm = npm
-bower = $(module-root)/bower/bin/bower
-sequelize = $(module-root)/sequelize/bin/sequelize
-testee = $(module-root)/testee/bin/testee
 
 #
 # Frontend files
