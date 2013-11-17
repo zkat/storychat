@@ -90,7 +90,7 @@ function typeSelectorChanged(chatInput, el) {
   chatInput.scope.attr("type", el.val());
 }
 
-function actorNameChanged(chatInput, el) {
+function actorChanged(chatInput, el) {
   chatInput.scope.attr("actor", el.val());
 }
 
