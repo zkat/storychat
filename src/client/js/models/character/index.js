@@ -35,16 +35,16 @@ function readCharacter(id) {
 }
 
 function destroyCharacter(id) {
-  return request({
+  // XXX HACK - Because CanJS expects these methods to always return a jqXHR
+  //            promise, not a standard promise.
+  let deferred = $.Deferred();
+  request({
     method: "destroy",
     args: [id]
   }, Character.namespace).then(function(val) {
-    // XXX HACK - Because CanJS expects these methods to always return a jqXHR
-    //            promise, not a standard promise.
-    let deferred = $.Deferred();
     deferred.resolve(val);
-    return deferred.promise();
   });
+  return deferred.promise();
 }
 
 function listCharacters() {
