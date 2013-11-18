@@ -1,16 +1,20 @@
+<div>
+  <select name=actor>
+    {{#each characters}}
+    <option {{#isSelected}}selected{{/isSelected}} value="{{id}}" {{data "actor"}}>
+      {{name}}
+    </option>
+    {{/each}}
+  </select>
+</div>
 <form class="{{type}}">
-  {{renderInput type}}
+  {{renderInput type actor}}
   <button>Send</button>
 </form>
 <label>Input type:
-  <select>
+  <select name=type>
     {{#each inputs}}
     <option>{{name}}</option>
     {{/each}}
   </select>
 </label>
-<select name=character>
-  {{#each characters}}
-  <option {{#isCurrent .}}selected{{/isCurrent}} {{data "character"}}>{{name}}</option>
-  {{/each}}
-</select>

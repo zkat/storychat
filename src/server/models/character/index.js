@@ -7,6 +7,8 @@ let db = require("./db"),
 function create(name, description) {
   return validate(name, description).then(function(clean) {
     return db.create(clean.name, clean.description);
+  }).then(function(id) {
+    return {id: id};
   });
 }
 

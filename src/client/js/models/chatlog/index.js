@@ -4,7 +4,9 @@ let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
     {clone, init} = require("../../lib/proto"),
     {addMethod} = require("genfun"),
     {extend, last} = require("lodash"),
-    can = require("../../shims/can");
+    character = require("../character"),
+    can = require("../../shims/can"),
+    Q = require("q");
 
 /**
  * Chatlog Model
@@ -54,16 +56,31 @@ function submitEntry(log, type, opts) {
 }
 
 function addEntry(log, entryInfo) {
-  let lastMsgGroup = last(log.entryGroups),
+  return makeEntry(log, entryInfo).then(function(entry) {
+    let lastMsgGroup = last(log.entryGroups);
+    if (lastMsgGroup &&
+        lastMsgGroup.firstEntry.entryType === entryInfo.entryType &&
+        lastMsgGroup.firstEntry.groupTag === entryInfo.groupTag) {
+      lastMsgGroup.entries.push(entry);
+    } else {
+      log.entryGroups.push(
+        new EntryGroup({firstEntry: entry, entries: new Entry.List([entry])}));
+    }
+  });
+}
+
+function makeEntry(log, entryInfo) {
+  let deferred = Q.defer(),
       entry = new Entry(extend({_received: (new Date()).getTime()}, entryInfo));
-  if (lastMsgGroup &&
-      lastMsgGroup.firstEntry.entryType === entryInfo.entryType &&
-      lastMsgGroup.firstEntry.groupTag === entryInfo.groupTag) {
-    lastMsgGroup.entries.push(entry);
+  if (typeof entryInfo.actor === "number") {
+    character.read(entryInfo.actor).then(function(actor) {
+      entry.attr("actor", actor);
+      deferred.resolve(entry);
+    }, deferred.reject);
   } else {
-    log.entryGroups.push(
-      new EntryGroup({firstEntry: entry, entries: new Entry.List([entry])}));
+    deferred.resolve(entry);
   }
+  return deferred.promise;
 }
 
 function clearEntries(log) {

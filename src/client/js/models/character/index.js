@@ -31,7 +31,9 @@ function readCharacter(id) {
   return request({
     method: "read",
     args: [id]
-  }, Character.namespace);
+  }, Character.namespace).then(function(data) {
+    return data.data;
+  });
 }
 
 function destroyCharacter(id) {
@@ -58,6 +60,10 @@ function save(character) {
   return character.save();
 }
 
+function read(id) {
+  return Character.findOne(id);
+}
+
 function destroy(character) {
   return character.destroy();
 }
@@ -73,6 +79,7 @@ function makeCharacter(name, description) {
 module.exports = {
   makeCharacter: makeCharacter,
   save: save,
+  read: read,
   destroy: destroy,
   list: list
 };

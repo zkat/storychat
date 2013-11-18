@@ -25,23 +25,31 @@ let ChatInput = element.define("chat-input", {
   events: {
     "form submit": sendMessage,
     "form keydown": keyPressed,
-    "select change": typeSelectorChanged,
-    "[name=character] change": actorChanged,
+    "[name=type] change": typeSelectorChanged,
+    "[name=actor] change": updateScopeActor,
     "{scope} type": typeChanged,
+    "{scope} actor": updateActorDropdown,
+    "{scope.characters} length": updateScopeActor,
     inserted: function(chatInput) {
       chatInput.element.find("form [name=content]").focus();
     }
   },
   attributes: {
     characters: { defaultMaker: character.list },
-    character: {},
+    actor: {},
     log: { type: "lookup", required: true, observe: false },
     type: { type: "string", default: inputs[0].name },
     inputs: { default: inputs },
-    defaults: { internal: true, defaultMaker: Object.create }
+    defaults: {
+      internal: true,
+      defaultMaker: function() {
+        return Object.create(null);
+      }
+    }
   },
   helpers: {
-    renderInput: renderInput
+    renderInput: renderInput,
+    isSelected: isSelected
   }
 });
 
@@ -52,9 +60,25 @@ function sendMessage(chatInput, _el, event) {
   event.preventDefault();
   let formVals = can.deparam(chatInput.element.find("form").serialize());
   if (!formVals.content) { return; }
-  formVals.actor = formVals.actor || chatInput.scope.actor;
+  formVals.actor = currentActor(chatInput).id;
   submitEntry(chatInput.scope.log, chatInput.scope.type, formVals);
   chatInput.element.find("form")[0].reset();
+}
+
+/*
+ * Actor management
+ */
+function currentActor(chatInput) {
+  return chatInput.scope.attr("actor");
+}
+
+function updateScopeActor(chatInput) {
+  chatInput.scope.attr(
+    "actor", chatInput.element.find("[name=actor] :selected").data("actor"));
+}
+
+function updateActorDropdown(chatInput) {
+  chatInput.element.find("[name=actor]").val(chatInput.scope.attr("actor").id);
 }
 
 /*
@@ -79,7 +103,7 @@ function cycleInputType(chatInput, goForward) {
 
 function typeChanged(chatInput, scope) {
   let form = chatInput.element.find("form");
-  chatInput.element.find("select").val(scope.type);
+  chatInput.element.find("[name=type]").val(scope.type);
   chatInput.scope.attr("defaults", can.deparam(form.serialize()));
   forEach(chatInput.scope.defaults, function(v, k) {
     form.find("[name="+k+"]").val(v);
@@ -90,14 +114,10 @@ function typeSelectorChanged(chatInput, el) {
   chatInput.scope.attr("type", el.val());
 }
 
-function actorChanged(chatInput, el) {
-  chatInput.scope.attr("actor", el.val());
-}
-
 /*
  * Mustache helpers
  */
-function renderInput(type, opts) {
+function renderInput(type, actor, opts) {
   let scope = opts.scope;
   function render(el) {
     $(el).html(find(inputs, {name: type()}).template(scope));
@@ -107,7 +127,19 @@ function renderInput(type, opts) {
     type.bind("change", function() {
       render(el);
     });
+    actor.bind("change", function() {
+      render(el);
+    });
   };
+}
+
+function isSelected(opts) {
+  /*jshint validthis: true */
+  if (this.attr("actor") === opts.context) {
+    return opts.fn();
+  } else {
+    return opts.inverse();
+  }
 }
 
 /*

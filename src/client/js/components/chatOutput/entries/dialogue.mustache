@@ -1,6 +1,6 @@
 <actor-container>
-  <actor>
-    {{firstEntry.actor}}
+  <actor {{data "character"}}>
+    {{firstEntry.actor.name}}
   </actor>
   {{#if firstEntry.parsedContent.parenthetical}}
   <parenthetical>{{firstEntry.parsedContent.parenthetical}}</parenthetical>
