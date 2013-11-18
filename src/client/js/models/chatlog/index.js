@@ -33,16 +33,8 @@ function initModelList(log) {
 /*
  * Event handling
  */
-addMethod(onOpen, [Chatlog], function(log) {
-  addEntry(log, {entryType: "system", content: "Connected"});
-});
-
 addMethod(onMessage, [Chatlog], function(log, data) {
   addEntry(log, data);
-});
-
-addMethod(onClose, [Chatlog], function(log) {
-  addEntry(log, {entryType: "system", content: "Disconnected..."});
 });
 
 /*
