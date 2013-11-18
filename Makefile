@@ -14,7 +14,7 @@ endif
 module-root = ./node_modules
 bin = $(shell npm bin)
 uglify = $(bin)/uglifyjs
-browserify = $(bin)/browserify
+browserify = $(bin)/$(browserify-name)
 jsdoc = $(module-root)/jsdoc/jsdoc
 mocha = $(bin)/mocha $(node-opts) $(mocha-opts)
 linter = $(bin)/jshint $(linter-opts)
