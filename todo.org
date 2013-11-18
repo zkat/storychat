@@ -273,7 +273,8 @@
    for things to require, so I could move some of the utility libraries into
    those directories to avoid all the ../../../../lib/lol bullshit.
    UPDATE: I don't think it works with es6ify.
-* backlog [0/23]
+* backlog [0/24]
+** TODO Switch to Grunt                                               :build:
 ** TODO Login page                                                :page:auth:
 ** TODO Account creation page                                     :user:page:
 ** TODO Client-side account management                         :users:client:
@@ -340,7 +341,7 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [6/24]
+* active [7/24]
   The Road to Playtesting
   
   This "sprint" will be all about having a good-enough thing that can be simply
@@ -384,11 +385,10 @@
    and error reporting when saving a character fails.
 ** DONE Character deletion                                               :ui:
    CLOSED: [2013-11-16 Sat 15:43]
-** TODO Character selection component                                    :ui:
-   A component that lets a user pick the current character they're playing
-   as. Should list all available characters and set the user's state to use it.
-   This should be used in the chat page, and may not actually need to be an
-   explicit component.
+** DONE Character selection                                              :ui:
+   CLOSED: [2013-11-17 Sun 18:33]
+   Users should be able to select their current character from the list of
+   existing characters, on the /play page.
 ** TODO Entry removal support                                            :ui:
    Players should be able to remove something they've entered. No need for an
    actual voting system. It just needs to be removable, and others should see
