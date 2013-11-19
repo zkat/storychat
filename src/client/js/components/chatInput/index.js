@@ -13,7 +13,8 @@ let character = require("../../models/character");
 let inputs = [
   {name: "dialogue", template: require("./inputs/dialogue.mustache")},
   {name: "action", template: require("./inputs/action.mustache")},
-  {name: "ooc", template: require("./inputs/ooc.mustache")}
+  {name: "ooc", template: require("./inputs/ooc.mustache")},
+  {name: "slug", template: require("./inputs/slug.mustache")}
 ];
 
 /**
