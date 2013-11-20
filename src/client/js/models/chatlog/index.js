@@ -1,6 +1,6 @@
 "use strict";
 
-let {onOpen,onMessage,onClose,listen,send} = require("../../lib/socketConn"),
+let {onMessage,listen,send} = require("../../lib/socketConn"),
     {clone, init} = require("../../lib/proto"),
     {addMethod} = require("genfun"),
     {extend, last} = require("lodash"),
