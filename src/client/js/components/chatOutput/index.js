@@ -12,6 +12,9 @@ let ChatOutput = element.define("chat-output", {
     log: { type: "lookup", required: true, observe: false },
     debug: { type: "boolean", default: false }
   },
+  events: {
+    "{log.entryGroups} change": scrollChat
+  },
   helpers: {
     renderGroup: renderGroup
   }
@@ -35,6 +38,10 @@ forEach(entryTemplates, function(template, name) {
     }
   });
 });
+
+function scrollChat(chatOutput) {
+  chatOutput.element.scrollTop(chatOutput.element.height());
+}
 
 function renderGroup(entryType, opts) {
   return function(tempTag) {
