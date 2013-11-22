@@ -10,6 +10,9 @@ let Sock = window.SockJS,
     {partial, forEach, contains, without} = require("lodash"),
     Q = require("q");
 
+let MAX_RECONNECT_ATTEMPTS = 100;
+let INITIAL_RECONNECT_DELAY = 500;
+
 let SocketConn = clone(),
     onMessage = new Genfun();
 addMethod(onMessage, [], function() {});
@@ -22,33 +25,44 @@ addMethod(init, [SocketConn], function(conn) {
   conn.reqNum = 0;
   conn.reqs = {};
   conn.backlog = [];
-  initSock(conn, {});
+  conn.reconnectAttempts = 0;
+  conn.opts = {};
+  initSock(conn);
 });
 
-function initSock(conn, opts) {
-  $.get(conn.authUrl, function(resp) {
+function initSock(conn) {
+  return $.get(conn.authUrl, function(resp) {
     if (conn.state() === "closed") { return; }
     conn.url = resp.data.wsUrl;
     conn.auth = resp.data.auth;
-    conn.socket = new Sock(conn.url, null, opts);
-    conn.socket.onopen = conn.socket.onclose =
-      partial(handleOpenClose, conn);
+    conn.socket = new Sock(conn.url, null, conn.opts);
+    conn.socket.onopen = partial(handleOpen, conn);
     conn.socket.onmessage = partial(handleMessage, conn, onMessage);
-  });
+    conn.socket.onclose = partial(tryReconnect, conn);
+  }).fail(partial(tryReconnect, conn));
 }
 
 // We have a singleton connection we reuse everywhere.
 let CONN = clone(SocketConn);
 
-function handleOpenClose(conn, msg) {
-  if (msg.type === "open") {
-    conn.state("open");
-    conn.socket.send(conn.auth);
-    let oldMsg;
-    while ((conn.socket.readyState === Sock.OPEN) &&
-           (oldMsg = conn.backlog.shift())) {
-      rawSend(oldMsg);
-    }
+function handleOpen(conn) {
+  conn.reconnectAttempts = 0;
+  conn.state("open");
+  conn.socket.send(conn.auth);
+  let oldMsg;
+  while ((conn.socket.readyState === Sock.OPEN) &&
+         (oldMsg = conn.backlog.shift())) {
+    rawSend(oldMsg);
+  }
+}
+
+function tryReconnect(conn) {
+  if (conn.reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+    conn.reconnectAttempts++;
+    conn.state("reconnecting");
+    window.setTimeout(function() {
+      initSock(conn);
+    }, conn.reconnectAttempts * INITIAL_RECONNECT_DELAY);
   } else {
     conn.state("closed");
   }
