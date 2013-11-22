@@ -133,11 +133,19 @@ function request(data, namespace) {
   return Q.timeout(deferred.promise, 30000);
 }
 
+function reconnect() {
+  if (CONN.state() !== "open") {
+    CONN.reconnectAttempts = 0;
+    tryReconnect(CONN);
+  }
+}
+
 module.exports = {
   conn: CONN,
   onMessage: onMessage,
   listen: listen,
   unlisten: unlisten,
   send: send,
-  request: request
+  request: request,
+  reconnect: reconnect
 };
