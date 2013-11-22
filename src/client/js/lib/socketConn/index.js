@@ -11,12 +11,8 @@ let Sock = window.SockJS,
     Q = require("q");
 
 let SocketConn = clone(),
-    onOpen = new Genfun(),
-    onMessage = new Genfun(),
-    onClose = new Genfun();
-addMethod(onOpen, [], function() {});
+    onMessage = new Genfun();
 addMethod(onMessage, [], function() {});
-addMethod(onClose, [], function() {});
 
 addMethod(init, [SocketConn], function(conn) {
   conn.authUrl =
@@ -35,20 +31,26 @@ function initSock(conn, opts) {
     conn.url = resp.data.wsUrl;
     conn.auth = resp.data.auth;
     conn.socket = new Sock(conn.url, null, opts);
-    conn.socket.onopen = partial(notifyObservers, conn, onOpen);
-    conn.socket.onmessage = partial(notifyObservers, conn, onMessage);
-    conn.socket.onclose = partial(notifyObservers, conn, onClose);
+    conn.socket.onopen = conn.socket.onclose =
+      partial(handleOpenClose, conn);
+    conn.socket.onmessage = partial(handleMessage, conn, onMessage);
   });
 }
 
 // We have a singleton connection we reuse everywhere.
 let CONN = clone(SocketConn);
 
-function notifyObservers(conn, handler, msg) {
-  if (msg.type === "message") {
-    return handleMessage(conn, handler, msg);
+function handleOpenClose(conn, msg) {
+  if (msg.type === "open") {
+    conn.state("open");
+    conn.socket.send(conn.auth);
+    let oldMsg;
+    while ((conn.socket.readyState === Sock.OPEN) &&
+           (oldMsg = conn.backlog.shift())) {
+      rawSend(oldMsg);
+    }
   } else {
-    return handleOpenClose(conn, handler, msg);
+    conn.state("closed");
   }
 }
 
@@ -81,25 +83,6 @@ function handleMessage(conn, handler, sockMsg) {
     console.warn("Unexpected message: ", msg);
     break;
   }
-}
-
-function handleOpenClose(conn, handler, msg) {
-  if (msg.type === "open") {
-    conn.state("open");
-    conn.socket.send(conn.auth);
-    let oldMsg;
-    while ((conn.socket.readyState === Sock.OPEN) &&
-           (oldMsg = conn.backlog.shift())) {
-      rawSend(oldMsg);
-    }
-  } else {
-    conn.state("closed");
-  }
-  forEach(conn.observers, function(arr) {
-    forEach(arr, function(obs) {
-      return handler.call(null, obs);
-    });
-  });
 }
 
 function listen(observer, namespace) {
@@ -138,9 +121,7 @@ function request(data, namespace) {
 
 module.exports = {
   conn: CONN,
-  onOpen: onOpen,
   onMessage: onMessage,
-  onClose: onClose,
   listen: listen,
   unlisten: unlisten,
   send: send,
