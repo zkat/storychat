@@ -14,6 +14,9 @@ let SocketConn = clone(),
     onOpen = new Genfun(),
     onMessage = new Genfun(),
     onClose = new Genfun();
+addMethod(onOpen, [], function() {});
+addMethod(onMessage, [], function() {});
+addMethod(onClose, [], function() {});
 
 addMethod(init, [SocketConn], function(conn) {
   conn.authUrl =
@@ -37,18 +40,15 @@ function initSock(conn, opts) {
     conn.socket.onclose = partial(notifyObservers, conn, onClose);
   });
 }
-addMethod(onOpen, [], function() {});
-addMethod(onMessage, [], function() {});
-addMethod(onClose, [], function() {});
 
 // We have a singleton connection we reuse everywhere.
 let CONN = clone(SocketConn);
 
-function disconnect() {
-  CONN.state("closed");
-  if (CONN.socket) {
-    CONN.socket.close();
-    delete CONN.socket;
+function notifyObservers(conn, handler, msg) {
+  if (msg.type === "message") {
+    return handleMessage(conn, handler, msg);
+  } else {
+    return handleOpenClose(conn, handler, msg);
   }
 }
 
@@ -80,14 +80,6 @@ function handleMessage(conn, handler, sockMsg) {
   default:
     console.warn("Unexpected message: ", msg);
     break;
-  }
-}
-
-function notifyObservers(conn, handler, msg) {
-  if (msg.type === "message") {
-    return handleMessage(conn, handler, msg);
-  } else {
-    return handleOpenClose(conn, handler, msg);
   }
 }
 
@@ -145,7 +137,6 @@ function request(data, namespace) {
 }
 
 module.exports = {
-  disconnect: disconnect,
   conn: CONN,
   onOpen: onOpen,
   onMessage: onMessage,
