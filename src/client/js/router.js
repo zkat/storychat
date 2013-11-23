@@ -73,8 +73,14 @@ function initDom(router) {
   $("body").html(require("./router.mustache")({
     pages: pages,
     renderPage: function() {
-      return function(el) {
+      function render(el) {
         $(el).html(router.currentPage().component.render(can.route.attr()));
+      }
+      return function(el) {
+        render(el);
+        router.currentPage.bind("change", function() {
+          render(el);
+        });
       };
     }
   }));
