@@ -4,7 +4,9 @@ let clone = require("../client/js/lib/proto").clone;
 
 let webServer = require("./webServer");
 
-let port = process.env.PORT || 8080;
+let config = require("config");
+
+let port = config.app.httpPort;
 
 let web = clone(webServer.WebServer, {
   sessionSecret: "omgsupersecretlol",
@@ -16,7 +18,7 @@ let characterService = require("./services/character").service;
 
 var echoService;
 
-if (process.env.NODE_ENV !== "production") {
+if (config.env !== "production") {
   // Pieces together stack traces for promises. Has a performance hit.
   require("q").longStackSupport = true;
   echoService = require("./services/echo").service;

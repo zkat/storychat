@@ -3,9 +3,7 @@
 let db = require("db"),
     bcrypt = require("bcrypt"),
     Q = require("q"),
-    fs = require("fs"),
-    config = JSON.parse(
-      fs.readFileSync(__dirname+"/../../../../config/app.json"));
+    config = require("config").app;
 
 let hash = Q.denodeify(bcrypt.hash),
     compare = Q.denodeify(bcrypt.compare);
