@@ -11,6 +11,8 @@ let {EventListener, listen} = require("./lib/eventListener");
 let can = require("./shims/can");
 require("./shims/can.route.pushstate");
 
+let style = require("./lib/ensureStyle");
+
 /**
  * Storychat router
  *
@@ -46,6 +48,7 @@ addMethod(init, [Router], function(router) {
   router.listenerHandle = listen(listener, router, $("body"));
   router.currentPage = can.compute(findPage());
   initCanRoute();
+  style(require("../css/base.styl"));
   initDom(router);
 });
 

@@ -1,0 +1,43 @@
+html {
+  font-family: sans-serif;
+}
+
+.clearfix:after, header:after {
+  content: ".";
+  visibility: hidden;
+  height: 0px;
+  display: block;
+  clear: both;
+}
+
+header {
+  background-color: #4A4D50;
+  color: #fff;
+  text-shadow: 0 1px 2px #191A1B, 0 1px 0 #191A1B;
+
+  h1 {
+    float: left;
+    padding: 0.58em 1.2em;
+  }
+
+  nav {
+    float: right;
+    max-width: 75%;
+    margin-right: 1em;
+    a {
+      display: inline-block;
+      color: #fff;
+      text-shadow: 0 1px 2px #191A1B, 0 1px 0 #191A1B;
+      text-decoration: none;
+      padding: 1.5em;
+      font-size: 120%;
+      &:hover {
+        background-color: #868D92;
+      }
+    }
+  }
+}
+
+#content {
+  margin: 2.5em;
+}
