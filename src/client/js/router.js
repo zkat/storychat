@@ -29,8 +29,10 @@ let pages = {
 };
 
 addMethod(init, [Router], function(router) {
-  router.listenerHandle = listen(listener, router, window);
+  router.listenerHandle = listen(listener, router, $("body"));
+  router.currentPage = can.compute(pages[""]);
   initCanRoute();
+  initDom(router);
 });
 
 function initCanRoute() {
@@ -53,9 +55,18 @@ function initCanRoute() {
   can.route.ready();
 }
 
+function initDom(router) {
+  $("body").html(require("./router.mustache")({
+    renderPage: function() {
+      return function(el) {
+        $(el).html(router.currentPage().render(can.route.attr()));
+      };
+    }
+  }));
+}
+
 function page(router, data) {
-  let next = pages[data.page || ""] || pages["404"];
-  $("body").html(next.render(data));
+  router.currentPage(pages[data.page || ""] || pages["404"]);
 }
 
 module.exports.Router = Router;
