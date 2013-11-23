@@ -21,11 +21,10 @@ addMethod(init, [CustomElement], function(customEl, tagName, opts) {
 });
 
 function install(customEl, tagName) {
-  if (customEl.style) {
-    style(customEl.style);
-  }
+  tagName = tagName || customEl.tagName;
+  style(tagName + " {\n  display:block;\n}\n" + (customEl.style || ""));
   can.Component.extend({
-    tag: tagName || customEl.tagName,
+    tag: tagName,
     template: customEl.template,
     scope: makeScopeFun(customEl),
     helpers: customEl.helpers,
