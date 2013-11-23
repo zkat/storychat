@@ -1,6 +1,11 @@
 <header>
   <h1>Welcome to Storychat!</h1>
   <nav>
+    {{#each pages}}
+    {{#unless hide}}
+    <a href="/{{href}}">{{title}}</a>
+    {{/unless}}
+    {{/each}}
   </nav>
 </header>
 

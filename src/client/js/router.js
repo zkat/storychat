@@ -3,6 +3,8 @@
 let {addMethod} = require("genfun"),
     {clone, init} = require("./lib/proto");
 
+let {find} = require("lodash");
+
 let $ = require("jquery");
 let {EventListener, listen} = require("./lib/eventListener");
 
@@ -21,16 +23,28 @@ let listener = clone(EventListener, {
   "route": page
 });
 
-let pages = {
-  "": require("./pages/home"),
-  "play": require("./pages/play"),
-  "character": require("./pages/character"),
-  "404": require("./pages/404")
-};
+let pages = [{
+  href: "",
+  title: "Home",
+  component: require("./pages/home")
+}, {
+  href: "play",
+  title: "Play Now",
+  component: require("./pages/play")
+}, {
+  href: "character",
+  title: "Character Management",
+  component: require("./pages/character")
+}, {
+  href: "404",
+  title: "Not Found",
+  hide: true,
+  component: require("./pages/404")
+}];
 
 addMethod(init, [Router], function(router) {
   router.listenerHandle = listen(listener, router, $("body"));
-  router.currentPage = can.compute(pages[""]);
+  router.currentPage = can.compute(findPage());
   initCanRoute();
   initDom(router);
 });
@@ -57,16 +71,18 @@ function initCanRoute() {
 
 function initDom(router) {
   $("body").html(require("./router.mustache")({
+    pages: pages,
     renderPage: function() {
       return function(el) {
-        $(el).html(router.currentPage().render(can.route.attr()));
+        $(el).html(router.currentPage().component.render(can.route.attr()));
       };
     }
   }));
 }
 
 function findPage(name) {
-  return pages[name || ""] || pages["404"];
+  return (find(pages, {href: name || ""}) ||
+          find(pages, {href: "404"}));
 }
 
 function page(router, data) {
