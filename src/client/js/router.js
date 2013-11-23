@@ -65,8 +65,12 @@ function initDom(router) {
   }));
 }
 
+function findPage(name) {
+  return pages[name || ""] || pages["404"];
+}
+
 function page(router, data) {
-  router.currentPage(pages[data.page || ""] || pages["404"]);
+  router.currentPage(findPage(data.page));
 }
 
 module.exports.Router = Router;
