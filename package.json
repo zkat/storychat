@@ -4,7 +4,8 @@
   "description": "storytelling chatroom",
   "main": "src/server",
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "postinstall": "make"
   },
   "author": "",
   "license": "AGPLv3",
