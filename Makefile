@@ -12,7 +12,7 @@ browserify-name = browserify
 endif
 
 module-root = ./node_modules
-bin = $(shell npm bin)
+bin = $(module-root)/.bin
 uglify = $(bin)/uglifyjs
 browserify = $(bin)/$(browserify-name)
 jsdoc = $(module-root)/jsdoc/jsdoc

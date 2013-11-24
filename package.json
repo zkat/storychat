@@ -5,7 +5,7 @@
   "main": "src/server",
   "scripts": {
     "test": "make test",
-    "postinstall": "make"
+    "postinstall": "bower install && make build"
   },
   "author": "",
   "license": "AGPLv3",
