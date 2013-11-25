@@ -359,7 +359,7 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [11/24]
+* active [13/25]
   The Road to Playtesting
   
   This "sprint" will be all about having a good-enough thing that can be simply
@@ -422,23 +422,30 @@
    emit the disconnected event.
    This'll be necessary for the playtest so I can make code changes on the fly
    without forcing all the playtesters to refresh.
-** TODO Base ui template                                                 :ui:
+** DONE Deploy to heroku                                             :server:
+   CLOSED: [2013-11-24 Sun 19:42]
+** DONE Base ui template                                                 :ui:
+   CLOSED: [2013-11-24 Sun 19:43]
    Come up with a base template for the site that will wrap all pages. Need to
    add something to either the router or the storychat.js thing to have a place
    to put the "base" styles. Probably just refactor how storychat.js and
    router.js interact with each other or somesuch
+** TODO Fix the double-history issue again                               :ui:
+   this pushstate thing is nuts. What the fuck is going on?
+
+   I may need to fix it *yet again* after upgrading to 2.0.3
+** TODO Upgrade to CanJS 2.0.3+                                          :ui:
+   It's breaking the dilogue page, and there's a compute-related bug with views
+   that needs to be fixed.
 ** TODO Gussy up /play page                                              :ui:
    Now that there's a base template, make the play page a little nicer. At least
    get rid of the damn <hr>. This is a fucking black art argh gnash gnash.
-** TODO Deploy to heroku                                             :server:
 ** TODO Entry removal support                                            :ui:
    Players should be able to remove something they've entered. No need for an
    actual voting system. It just needs to be removable, and others should see
    that removal in their own chats. It might be significantly easier to do once
    the work needed for persistent chatlogs is complete.
 ** TODO Nicer input box for chatInput                                    :ui:
-** TODO Fix the double-history issue again                               :ui:
-   this pushstate thing is nuts. What the fuck is going on?
 ** TODO Come up with basic playtest rules                              :game:
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
@@ -454,10 +461,10 @@
    Like running a campaign -- just give them a general idea of something they
    can interact with so they don't start from zero. Doesn't have to be very
    original.
-** TODO Write two or three sets                                    :building:
+** TODO Write a few sets                                                 :ui:
    Write a few sets you can dump descriptions for (no need for a sets system to
-   be in place -- just need to be able to do slug lines). Do this after the
-   basic pseudo-plot is planned out.
+   be in place -- just need to be able to do slug lines + description). Do this
+   after the basic pseudo-plot is planned out.
 ** TODO Find some players                                              :game:
 ** TODO Run a quick playtest alone/with one person                     :game:
 ** TODO Write up a playtester questionnaire                            :game:
