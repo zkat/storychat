@@ -12,7 +12,7 @@
     "genfun": "~0.1.0",
     "jquery": "~2.0.3",
     "sockjs": "~0.3.4",
-    "canjs": "2.0.2",
+    "canjs": "git://github.com/zkat/canjs#temp-release",
     "q": "~0.9.7"
   }
 }
