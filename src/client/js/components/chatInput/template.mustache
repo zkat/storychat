@@ -1,20 +1,22 @@
 <div>
-  <select name=actor>
-    {{#each characters}}
-    <option {{#isSelected}}selected{{/isSelected}} value="{{id}}" {{data "actor"}}>
-      {{name}}
-    </option>
-    {{/each}}
-  </select>
+  <label>Character
+    <select name=actor>
+      {{#each characters}}
+      <option {{#isSelected}}selected{{/isSelected}} value="{{id}}" {{data "actor"}}>
+        {{name}}
+      </option>
+      {{/each}}
+    </select>
+  </label>
+  <label>Input type
+    <select name=type>
+      {{#each inputs}}
+      <option>{{name}}</option>
+      {{/each}}
+    </select>
+  </label>
 </div>
 <form class="{{type}}">
   {{renderInput type actor}}
   <button>Send</button>
 </form>
-<label>Input type:
-  <select name=type>
-    {{#each inputs}}
-    <option>{{name}}</option>
-    {{/each}}
-  </select>
-</label>
