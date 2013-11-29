@@ -27,14 +27,14 @@ let ChatInput = element.define("chat-input", {
   events: {
     "form submit": sendMessage,
     "form keydown": keyPressed,
+    "form textarea keydown": textAreaKeyPressed,
+    "form click": focusContent,
     "[name=type] change": typeSelectorChanged,
     "[name=actor] change": updateScopeActor,
     "{scope} type": typeChanged,
     "{scope} actor": updateActorDropdown,
     "{scope.characters} length": updateScopeActor,
-    inserted: function(chatInput) {
-      chatInput.element.find("form [name=content]").focus();
-    }
+    inserted: focusContent
   },
   attributes: {
     characters: { defaultMaker: character.list },
@@ -100,7 +100,7 @@ function cycleInputType(chatInput, goForward) {
     "type",
     inputs[(typeIndex + (goForward ? 1 : inputs.length - 1)) %
            inputs.length].name);
-  chatInput.element.find("form [name=content]").focus();
+  focusContent(chatInput);
 }
 
 function typeChanged(chatInput, scope) {
@@ -114,6 +114,20 @@ function typeChanged(chatInput, scope) {
 
 function typeSelectorChanged(chatInput, el) {
   chatInput.scope.attr("type", el.val());
+}
+
+/*
+ * Special textareas
+ */
+const RET = 13;
+function textAreaKeyPressed(chatInput, _el, event) {
+  if (event.keyCode === RET && !event.shiftKey) {
+    sendMessage.apply(this, arguments);
+  }
+}
+
+function focusContent(chatInput) {
+  chatInput.element.find("form [name=content]").focus();
 }
 
 /*
