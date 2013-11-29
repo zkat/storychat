@@ -31,10 +31,7 @@ let ChatInput = element.define("chat-input", {
     "[name=actor] change": updateScopeActor,
     "{scope} type": typeChanged,
     "{scope} actor": updateActorDropdown,
-    "{scope.characters} length": updateScopeActor,
-    inserted: function(chatInput) {
-      chatInput.element.find("form [name=content]").focus();
-    }
+    "{scope.characters} length": updateScopeActor
   },
   attributes: {
     characters: { defaultMaker: character.list },
@@ -100,7 +97,6 @@ function cycleInputType(chatInput, goForward) {
     "type",
     inputs[(typeIndex + (goForward ? 1 : inputs.length - 1)) %
            inputs.length].name);
-  chatInput.element.find("form [name=content]").focus();
 }
 
 function typeChanged(chatInput, scope) {
