@@ -1,6 +1,6 @@
 "use strict";
 
-let {forEach} = require("lodash");
+let {forEach, defer} = require("lodash");
 let element = require("../../lib/customElement");
 let can = require("../../shims/can");
 let $ = require("jquery");
@@ -42,7 +42,11 @@ forEach(entryTemplates, function(template, name) {
 });
 
 function scrollChat(chatOutput) {
-  chatOutput.element.scrollTop(chatOutput.element.children().height());
+  let el = chatOutput.element,
+      newTop = el.children().height();
+  defer(function() {
+    el.scrollTop(newTop);
+  });
 }
 
 function setSizeAndScroll(chatOutput) {
