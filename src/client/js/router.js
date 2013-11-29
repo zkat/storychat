@@ -54,20 +54,8 @@ addMethod(init, [Router], function(router) {
 
 function initCanRoute() {
   if (window.history && window.history.pushState && window.location.hash) {
-    let oldPushState,
-        oldSetURL;
     window.history.replaceState(null, null, window.location.hash.substr(2));
     window.location.hash = "";
-    // XXX HACK - This maneuver is done to prevent the initial route event from
-    //            pushing an unnecessary entry into the browser's history.
-    oldPushState = window.history.pushState;
-    oldSetURL = can.route.bindings.pushstate.setURL;
-    can.route.bindings.pushstate.setURL = function() {
-      window.history.pushState = window.history.replaceState;
-      oldSetURL.apply(this, arguments);
-      window.history.pushState = oldPushState;
-      can.route.bindings.pushstate.setURL = oldSetURL;
-    };
   }
   can.route.ready();
 }
