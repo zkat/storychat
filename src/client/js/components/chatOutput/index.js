@@ -13,7 +13,9 @@ let ChatOutput = element.define("chat-output", {
     debug: { type: "boolean", default: false }
   },
   events: {
-    "{log.entryGroups} change": scrollChat
+    "{log.entryGroups} change": setSizeAndScroll,
+    "{window} resize": setSizeAndScroll,
+    inserted: setSizeAndScroll
   },
   helpers: {
     renderGroup: renderGroup
@@ -40,7 +42,16 @@ forEach(entryTemplates, function(template, name) {
 });
 
 function scrollChat(chatOutput) {
-  chatOutput.element.scrollTop(chatOutput.element.height());
+  chatOutput.element.scrollTop(chatOutput.element.children().height());
+}
+
+function setSizeAndScroll(chatOutput) {
+  let el = chatOutput.element,
+      elHeight = el.height(),
+      winHeight = $(window).height(),
+      bodHeight = $("body").height();
+  el.height(winHeight - (bodHeight - elHeight));
+  scrollChat(chatOutput);
 }
 
 function renderGroup(entryType, opts) {
