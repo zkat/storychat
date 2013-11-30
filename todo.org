@@ -273,7 +273,9 @@
    for things to require, so I could move some of the utility libraries into
    those directories to avoid all the ../../../../lib/lol bullshit.
    UPDATE: I don't think it works with es6ify.
-* backlog [0/29]
+* backlog [0/30]
+** TODO Connect/disconnect notifications for when people join/leave      :ui:
+   Would be nice to know when someone's entered/left the chat.
 ** TODO Persistent chatlog                                           :models:
    Make the chatlog a single, persistent, synced thing so anyone can log in and
    get the full history loaded up (useful for the playtest itself -- eventually
@@ -359,7 +361,7 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [13/25]
+* active [16/30]
   The Road to Playtesting
   
   This "sprint" will be all about having a good-enough thing that can be simply
@@ -430,13 +432,27 @@
    add something to either the router or the storychat.js thing to have a place
    to put the "base" styles. Probably just refactor how storychat.js and
    router.js interact with each other or somesuch
-** TODO Fix the double-history issue again                               :ui:
+** DONE Fix the double-history issue again                               :ui:
+   CLOSED: [2013-11-29 Fri 12:45]
    this pushstate thing is nuts. What the fuck is going on?
 
    I may need to fix it *yet again* after upgrading to 2.0.3
-** TODO Upgrade to CanJS 2.0.3+                                          :ui:
-   It's breaking the dilogue page, and there's a compute-related bug with views
+** DONE Upgrade to CanJS 2.0.3+                                          :ui:
+   CLOSED: [2013-11-29 Fri 12:46]
+   It's breaking the dialogue page, and there's a compute-related bug with views
    that needs to be fixed.
+** DONE Nicer input box for chatInput                                    :ui:
+   CLOSED: [2013-11-29 Fri 17:31]
+** TODO Try a big blockquote-style quote thing for dialogue input        :ui:
+** TODO Move/change the two dropdowns in chatInput                       :ui:
+   For the type dropdown, it might be interesting to change it to radio buttons
+   that are grouped pills.
+   
+   For the character input, it might be better to just make the character name
+   in the text input area clickable (the <actor> elements), and let the user
+   pick a character off that. Maybe even through a modal, so they can see their
+   descriptions?
+** TODO Keep text in input textareas as you change inputs                :ui:
 ** TODO Gussy up /play page                                              :ui:
    Now that there's a base template, make the play page a little nicer. At least
    get rid of the damn <hr>. This is a fucking black art argh gnash gnash.
@@ -445,7 +461,13 @@
    actual voting system. It just needs to be removable, and others should see
    that removal in their own chats. It might be significantly easier to do once
    the work needed for persistent chatlogs is complete.
-** TODO Nicer input box for chatInput                                    :ui:
+** TODO Basic action 'parser'                                          :chat:
+   To add capitalization and punctuation, mostly.
+** TODO Pull in elastic for nicer textarea inputs                        :ui:
+   http://www.unwrongest.com/projects/elastic/
+   
+   Do something about <input>s too, although they could just have a limit to
+   total input.
 ** TODO Come up with basic playtest rules                              :game:
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
