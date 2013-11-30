@@ -34,7 +34,10 @@ let ChatInput = element.define("chat-input", {
     "{scope} type": typeChanged,
     "{scope} actor": updateActorDropdown,
     "{scope.characters} length": updateScopeActor,
-    inserted: focusContent
+    inserted: function(inp) {
+      focusContent(inp);
+      alignActionInput(inp);
+    }
   },
   attributes: {
     characters: { defaultMaker: character.list },
@@ -77,6 +80,16 @@ function currentActor(chatInput) {
 function updateScopeActor(chatInput) {
   chatInput.scope.attr(
     "actor", chatInput.element.find("[name=actor] :selected").data("actor"));
+  alignActionInput(chatInput);
+}
+
+function alignActionInput(chatInput) {
+  let actionForm = chatInput.element.find("form.action");
+  if (actionForm) {
+    actionForm.find("[name=content]").css({
+      "text-indent": actionForm.find("actor").width()
+    });
+  }
 }
 
 function updateActorDropdown(chatInput) {
@@ -110,6 +123,7 @@ function typeChanged(chatInput, scope) {
   forEach(chatInput.scope.defaults, function(v, k) {
     form.find("[name="+k+"]").val(v);
   });
+  alignActionInput(chatInput);
 }
 
 function typeSelectorChanged(chatInput, el) {
@@ -121,6 +135,7 @@ function typeSelectorChanged(chatInput, el) {
  */
 const RET = 13;
 function textAreaKeyPressed(chatInput, _el, event) {
+  /*jshint validthis:true*/
   if (event.keyCode === RET && !event.shiftKey) {
     sendMessage.apply(this, arguments);
   }
