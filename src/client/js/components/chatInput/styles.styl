@@ -14,6 +14,7 @@ chat-input {
   border-bottom: solid 1px black;
 
   form {
+    margin-top: 1em;
     cursor: text;
     [name=content] {
       overflow: scroll;
@@ -53,9 +54,9 @@ chat-input {
     &.ooc {
       font-size: $smallfontsize;
       color: $basegrey;
+      margin-bottom: 2em;
       [name=content] {
         color: $basegrey;
-        width: auto;
         overflow: hidden;
         /* XXX HACK - This is temporary while autoresize is implemented */
         width: 80%;
