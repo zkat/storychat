@@ -2,6 +2,11 @@ $basefontsize = 1em;
 $smallfontsize = .8em;
 $largefontsize = 1.2em;
 
+$basegrey = #858585;
+$lightgrey= #cecece;
+$basemaroon = #700000;
+$baseblue = #006699;
+
 chat-input {
   display: block;
   background-color: white;
@@ -31,6 +36,7 @@ chat-input {
         margin-right: 4em;
       }
     }
+
     &.action {
       position: relative;
       actor {
@@ -41,6 +47,18 @@ chat-input {
       }
       [name=content] {
         padding: 0;
+      }
+    }
+
+    &.ooc {
+      font-size: $smallfontsize;
+      color: $basegrey;
+      [name=content] {
+        color: $basegrey;
+        width: auto;
+        overflow: hidden;
+        /* XXX HACK - This is temporary while autoresize is implemented */
+        width: 80%;
       }
     }
   }
