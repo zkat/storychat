@@ -3,7 +3,8 @@
 var mona = require("mona-parser");
 
 var parsers = {
-  dialogue: require("./parsers/dialogue")()
+  dialogue: require("./parsers/dialogue")(),
+  action: require("./parsers/action")()
 };
 
 function parse(type, content) {
