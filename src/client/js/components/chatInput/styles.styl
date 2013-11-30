@@ -55,11 +55,20 @@ chat-input {
       font-size: $smallfontsize;
       color: $basegrey;
       margin-bottom: 2em;
-      [name=content] {
-        color: $basegrey;
-        overflow: hidden;
-        /* XXX HACK - This is temporary while autoresize is implemented */
-        width: 80%;
+      > span {
+        display: table;
+        border-collapse: separate;
+        .prefix,.postfix {
+          width: 1%;
+          display: table-cell;
+          white-space: nowrap;
+        }
+        [name=content] {
+          color: $basegrey;
+          overflow: hidden;
+          width: 100%;
+          display: table-cell;
+        }
       }
     }
 
