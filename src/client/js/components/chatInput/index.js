@@ -37,6 +37,7 @@ let ChatInput = element.define("chat-input", {
     inserted: function(inp) {
       focusContent(inp);
       alignActionInput(inp);
+      $(window).resize();
     }
   },
   attributes: {
@@ -81,6 +82,7 @@ function updateScopeActor(chatInput) {
   chatInput.scope.attr(
     "actor", chatInput.element.find("[name=actor] :selected").data("actor"));
   alignActionInput(chatInput);
+  $(window).resize();
 }
 
 function alignActionInput(chatInput) {
@@ -124,6 +126,7 @@ function typeChanged(chatInput, scope) {
     form.find("[name="+k+"]").val(v);
   });
   alignActionInput(chatInput);
+  $(window).resize();
 }
 
 function typeSelectorChanged(chatInput, el) {
