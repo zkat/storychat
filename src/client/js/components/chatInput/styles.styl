@@ -62,5 +62,19 @@ chat-input {
         width: 80%;
       }
     }
+
+    &.slug {
+      background-color: $lightgrey;
+      text-transform: uppercase;
+      padding: .2em;
+      margin-bottom: 2em;
+      [name=content] {
+        background-color: $lightgrey;
+        text-transform: uppercase;
+        overflow: hidden;
+        /* XXX HACK - This is temporary while autoresize is implemented */
+        width: 70%;
+      }
+    }
   }
 }
