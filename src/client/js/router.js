@@ -36,6 +36,7 @@ let pages = [{
 }, {
   href: "character",
   title: "Character Management",
+  hide: true,
   component: require("./pages/character")
 }, {
   href: "404",
