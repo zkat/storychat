@@ -29,25 +29,24 @@ addMethod(onRequest, [UserService], function(svc, data, req) {
   if (data.method === "list") {
     return reply(req, {
       data: _.map(svc.users, function(user) {
-        return {id: user.id, name: user.name};
+        return _.omit(user, "conn");
       })
     });
   } else if (data.method === "update") {
     let user = (_.find(svc.users, {id: data.args[0]}) ||
                 _.find(svc.users, {conn: req.from}));
-    user.name = data.args[1];
+    _.assign(user, data.args[1]);
     reply(req, {
-      data: {id: user.id, name: user.name}
+      data: _.omit(user, "conn")
     });
     return broadcast(req.from, {
       method: "update",
-      args: {id: user.id, name: user.name}
+      args: _.omit(user, "conn")
     }, svc.namespace);
   } else if (data.method === "read") {
     let user = _.find(svc.users, {conn: req.from});
-    return reply(req, {
-      data: {id: user.id, name: user.name}
-    });
+    // TODO - for some reason, CanJS' findOne() doesn't do the data: trick?
+    return reply(req, _.omit(user, "conn"));
   } else {
     return reject(req, {message: "nope"});
   }

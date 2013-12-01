@@ -3,7 +3,7 @@
 let {conn, onMessage, listen,
      unlisten, request} = require("../../lib/socketConn"),
     {addMethod} = require("genfun"),
-    {find} = require("lodash"),
+    {find, forEach} = require("lodash"),
     can = require("../../shims/can");
 
 let User = can.Model.extend({
@@ -16,7 +16,7 @@ let User = can.Model.extend({
 function updateUser(id, user) {
   return request({
     method: "update",
-    args: [id, user.name]
+    args: [id, user]
   }, User.namespace);
 }
 
@@ -45,7 +45,7 @@ addMethod(onMessage, [User.List.prototype], function(lst, data) {
   } else if (data.method === "update") {
     let user = find(lst, {id: data.args.id});
     if (user) {
-      user.attr("name", data.args.name);
+      user.attr(data.args, true);
     }
   } else {
     console.warn("Unknown message: ", data);
@@ -53,9 +53,7 @@ addMethod(onMessage, [User.List.prototype], function(lst, data) {
 });
 
 function current() {
-  return User.findOne({}).then(function(resp) {
-    return new User(resp.data);
-  });
+  return User.findOne({});
 }
 
 function list() {
