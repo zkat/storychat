@@ -31,6 +31,7 @@ let ChatInput = element.define("chat-input", {
     "form submit": sendMessage,
     "form keydown": keyPressed,
     "form textarea keydown": textAreaKeyPressed,
+    "form textarea input": typingNotification,
     "form click": focusContent,
     "[name=type] change": typeSelectorChanged,
     "[name=actor] change": updateScopeActor,
@@ -167,6 +168,16 @@ function textAreaKeyPressed(chatInput, _el, event) {
 
 function focusContent(chatInput) {
   chatInput.element.find("form [name=content]").focus();
+}
+
+function typingNotification(chatInput) {
+  let user = chatInput.scope.attr("user");
+  if (chatInput.element.find("form [name=content]").val().length) {
+    user.attr("typing", true);
+  } else {
+    user.attr("typing", false);
+  }
+  user.save();
 }
 
 /*
