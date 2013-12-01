@@ -15,6 +15,7 @@ let web = clone(webServer.WebServer, {
 
 let chatService = require("./services/chat").service;
 let characterService = require("./services/character").service;
+let userService = require("./services/user").service;
 
 var echoService;
 
@@ -27,9 +28,10 @@ if (config.env !== "production") {
 clone(require("./socketServer").SocketServer, web.http, {
   prefix: "/ws",
   services: {
-    chat: chatService,
-    echo: echoService,
-    character: characterService
+    chat: clone(chatService, "chat"),
+    echo: clone(echoService, "echo"),
+    character: clone(characterService, "character"),
+    user: clone(userService, "user")
   }
 });
 

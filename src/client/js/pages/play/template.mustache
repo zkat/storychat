@@ -1,2 +1,9 @@
 <chat-output log=log></chat-output>
 <chat-input log=log></chat-input>
+<div class=user-list-container>
+  <ul class=user-list>
+    {{#each users}}
+    <li {{data "user"}}>{{name}}
+    {{/each}}
+  </ul>
+</div>
