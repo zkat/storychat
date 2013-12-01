@@ -6,9 +6,12 @@ let can = require("../../shims/can"),
     $ = require("jquery"),
     element = require("../../lib/customElement");
 
+let {conn} = require("../../lib/socketConn");
+
 let {submitEntry} = require("../../models/chatlog");
 
-let character = require("../../models/character");
+let character = require("../../models/character"),
+    user = require("../../models/user");
 
 let inputs = [
   {name: "dialogue", template: require("./inputs/dialogue.mustache")},
@@ -31,18 +34,36 @@ let ChatInput = element.define("chat-input", {
     "form click": focusContent,
     "[name=type] change": typeSelectorChanged,
     "[name=actor] change": updateScopeActor,
+    "[name=user] input": updateScopeUser,
     "{scope} type": typeChanged,
     "{scope} actor": updateActorDropdown,
     "{scope.characters} length": updateScopeActor,
     inserted: function(inp) {
       focusContent(inp);
       alignActionInput(inp);
+      conn.state.bind("change", function(ev, newstate) {
+        // TODO - figure out why .attr("user").id fails. CanJS bug.
+        if (newstate === "open" && inp.scope.attr("user.id")) {
+          window.setTimeout(function() {
+            updateScopeUser(inp);
+          }, 0);
+        }
+      });
       $(window).resize();
     }
   },
   attributes: {
     characters: { defaultMaker: character.list },
     actor: {},
+    conn: { default: conn },
+    user: {
+      defaultMaker: function(scope) {
+        user.current().then(function(usr) {
+          scope.attr("user", usr);
+        });
+        return {};
+      }
+    },
     log: { type: "lookup", required: true, observe: false },
     type: { type: "string", default: inputs[0].name },
     inputs: { default: inputs },
@@ -146,6 +167,17 @@ function textAreaKeyPressed(chatInput, _el, event) {
 
 function focusContent(chatInput) {
   chatInput.element.find("form [name=content]").focus();
+}
+
+/*
+ * Username management
+ */
+function updateScopeUser(chatInput) {
+  if (conn.state() === "open") {
+    let user = chatInput.scope.attr("user");
+    user.attr("name", chatInput.element.find("[name=user]").val());
+    user.save();
+  }
 }
 
 /*

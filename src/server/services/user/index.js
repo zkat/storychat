@@ -12,6 +12,7 @@ let socketServer = require("../../socketServer"),
     onRequest = socketServer.onRequest,
     onClose = socketServer.onClose,
     broadcastFrom = socketServer.broadcastFrom,
+    broadcast = socketServer.broadcast,
     reply = socketServer.reply,
     reject = socketServer.reject;
 
@@ -30,6 +31,22 @@ addMethod(onRequest, [UserService], function(svc, data, req) {
       data: _.map(svc.users, function(user) {
         return {id: user.id, name: user.name};
       })
+    });
+  } else if (data.method === "update") {
+    let user = (_.find(svc.users, {id: data.args[0]}) ||
+                _.find(svc.users, {conn: req.from}));
+    user.name = data.args[1];
+    reply(req, {
+      data: {id: user.id, name: user.name}
+    });
+    return broadcast(req.from, {
+      method: "update",
+      args: {id: user.id, name: user.name}
+    }, svc.namespace);
+  } else if (data.method === "read") {
+    let user = _.find(svc.users, {conn: req.from});
+    return reply(req, {
+      data: {id: user.id, name: user.name}
     });
   } else {
     return reject(req, {message: "nope"});

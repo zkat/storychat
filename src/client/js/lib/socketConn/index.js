@@ -47,8 +47,8 @@ let CONN = clone(SocketConn);
 
 function handleOpen(conn) {
   conn.reconnectAttempts = 0;
-  conn.state("open");
   conn.socket.send(conn.auth);
+  conn.state("open");
   let oldMsg;
   while ((conn.socket.readyState === Sock.OPEN) &&
          (oldMsg = conn.backlog.shift())) {
