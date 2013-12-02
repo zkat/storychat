@@ -90,6 +90,7 @@ function sendMessage(chatInput, _el, event) {
   if (!formVals.content) { return; }
   formVals.actor = currentActor(chatInput).id;
   submitEntry(chatInput.scope.log, chatInput.scope.type, formVals);
+  chatInput.scope.attr("user").attr("typing", false);
   chatInput.element.find("form")[0].reset();
 }
 
