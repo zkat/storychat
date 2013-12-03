@@ -273,14 +273,13 @@
    for things to require, so I could move some of the utility libraries into
    those directories to avoid all the ../../../../lib/lol bullshit.
    UPDATE: I don't think it works with es6ify.
-* backlog [0/33]
+* backlog [0/32]
 ** TODO Pull in elastic for nicer textarea inputs                        :ui:
    http://www.unwrongest.com/projects/elastic/
    
    Do something about <input>s too, although they could just have a limit to
    total input.
 ** TODO Keep text in input textareas as you change inputs                :ui:
-** TODO Typing notification status things for user list                  :ui:
 ** TODO actor-selector component for chatInput                           :ui:
    A dropdown that can replace the <actor> elements with a character selector.
 ** TODO Persistent chatlog                                           :models:
@@ -368,7 +367,7 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [18/31]
+* active [25/33]
   The Road to Playtesting
 ** DONE Character support in DB                                          :db:
    CLOSED: [2013-11-08 Fri 22:41]
@@ -444,20 +443,27 @@
 ** DONE Fix the scrolling again                                          :ui:
    CLOSED: [2013-11-29 Fri 20:48]
    The gradient feh :(
-** TODO Basic action 'parser'                                          :chat:
+** DONE Basic action 'parser'                                          :chat:
+   CLOSED: [2013-11-29 Fri 21:54]
    To add capitalization and punctuation, mostly.
-** TODO Display list of connected users                                  :ui:
-** TODO Change your name in connected user list                          :ui:
-** TODO Display which user is using which character                      :ui:
-** TODO Gussy up /play page                                              :ui:
+** DONE Display list of connected users                                  :ui:
+   CLOSED: [2013-11-30 Sat 16:21]
+** DONE Allow players to change their name on the user list              :ui:
+   CLOSED: [2013-11-30 Sat 20:50]
+** DONE Gussy up /play page                                              :ui:
+   CLOSED: [2013-12-01 Sun 13:14]
    Now that there's a base template, make the play page a little nicer. At least
    get rid of the damn <hr>. This is a fucking black art argh gnash gnash.
-** TODO Entry removal support                                            :ui:
-   Players should be able to remove something they've entered. No need for an
-   actual voting system. It just needs to be removable, and others should see
-   that removal in their own chats. It might be significantly easier to do once
-   the work needed for persistent chatlogs is complete.
-** TODO Come up with basic playtest rules                              :game:
+** DONE Typing notification status things for user list                  :ui:
+   CLOSED: [2013-12-01 Sun 14:28]
+** DONE Fix live binding of the user name field                          :ui:
+   CLOSED: [2013-12-02 Mon 19:39]
+** DONE Display which user is using which character                      :ui:
+   CLOSED: [2013-12-02 Mon 19:46]
+** TODO Entry veto support                                               :ui:
+   Mark entry groups as 'vetoed', which should grey them out. Don't bother
+   removing them just yet.
+** TODO Come up with game procedures to playtest                       :game:
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
    be tested, write them out, try them out by yourself or with one other person.
