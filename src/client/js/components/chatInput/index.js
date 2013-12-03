@@ -91,6 +91,7 @@ function sendMessage(chatInput, _el, event) {
   formVals.actor = currentActor(chatInput).id;
   submitEntry(chatInput.scope.log, chatInput.scope.type, formVals);
   chatInput.scope.attr("user").attr("typing", false);
+  chatInput.scope.attr("user").save();
   chatInput.element.find("form")[0].reset();
 }
 
