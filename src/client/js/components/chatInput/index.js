@@ -186,9 +186,11 @@ function typingNotification(chatInput) {
  */
 function updateScopeUser(chatInput) {
   if (conn.state() === "open") {
+    can.batch.start();
     let user = chatInput.scope.attr("user");
     user.attr("name", chatInput.element.find("[name=user]").val());
     user.save();
+    can.batch.stop();
   }
 }
 
