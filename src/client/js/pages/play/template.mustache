@@ -3,7 +3,7 @@
 <div class=user-list-container>
   <ul class=user-list>
     {{#each users}}
-    <li {{data "user"}}>{{name}}{{#typing}} <span class=typing>(typing...)</span>{{/typing}}
+    <li {{data "user"}}>{{name}}{{#character}} ({{.}}){{/character}}{{#typing}} <span class=typing>(typing...)</span>{{/typing}}
     {{/each}}
   </ul>
 </div>

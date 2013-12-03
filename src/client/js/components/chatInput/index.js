@@ -102,10 +102,14 @@ function currentActor(chatInput) {
 }
 
 function updateScopeActor(chatInput) {
-  chatInput.scope.attr(
-    "actor", chatInput.element.find("[name=actor] :selected").data("actor"));
+  can.batch.start();
+  let actor = chatInput.element.find("[name=actor] :selected").data("actor");
+  chatInput.scope.attr("actor", actor);
+  chatInput.scope.attr("user").attr("character", actor.name);
+  chatInput.scope.attr("user").save();
   alignActionInput(chatInput);
   $(window).resize();
+  can.batch.stop();
 }
 
 function alignActionInput(chatInput) {
