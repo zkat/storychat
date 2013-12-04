@@ -1,0 +1,14 @@
+* Getting started
+  Gather 'round on your favorite modern device and visit
+  http://storychat.herokuapp.com/play
+  
+  Everyone should set their name (on the bottom right) to something that
+  identifies them, so we can keep track of who's around. If you want to chat,
+  switch your input type to "ooc" and type away.
+* Choosing characters
+  Players should visit http://storychat.herokuapp.com/characters and read
+  through the various descriptions. There should be enough characters/roles for
+  everyone to get started. Have them pick which ones they want.
+* Situation
+  Players should be provided with a situation to resolve, and then just let
+  them figure out wtf to do.
