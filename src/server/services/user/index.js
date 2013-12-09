@@ -61,7 +61,7 @@ addMethod(onConnect, [UserService], function(service, conn) {
   service.users.push(newUser);
   broadcastFrom(conn, {
     method: "create",
-    args: { id: newUser.id, name: newUser.name }
+    args: _.omit(newUser, "conn")
   }, service.namespace);
 });
 
@@ -70,7 +70,7 @@ addMethod(onClose, [UserService], function(service, conn) {
   service.users = _.without(service.users, user);
   broadcastFrom(conn, {
     method: "destroy",
-    args: {id: user.id}
+    args: _.omit(user, "conn")
   }, service.namespace);
 });
 
