@@ -12,7 +12,6 @@ let socketServer = require("../../socketServer"),
     onRequest = socketServer.onRequest,
     onClose = socketServer.onClose,
     broadcastFrom = socketServer.broadcastFrom,
-    broadcast = socketServer.broadcast,
     reply = socketServer.reply,
     reject = socketServer.reject;
 
@@ -39,7 +38,7 @@ addMethod(onRequest, [UserService], function(svc, data, req) {
     reply(req, {
       data: _.omit(user, "conn")
     });
-    return broadcast(req.from, {
+    return broadcastFrom(req.from, {
       method: "update",
       args: _.omit(user, "conn")
     }, svc.namespace);
