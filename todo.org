@@ -273,7 +273,7 @@
    for things to require, so I could move some of the utility libraries into
    those directories to avoid all the ../../../../lib/lol bullshit.
    UPDATE: I don't think it works with es6ify.
-* backlog [0/32]
+* backlog [0/33]
 ** TODO Pull in elastic for nicer textarea inputs                        :ui:
    http://www.unwrongest.com/projects/elastic/
    
@@ -367,7 +367,11 @@
    This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
-* active [25/33]
+** TODO Fix issues with user list                                        :ui:
+   When lots of people joined at the same time, some of the names disappeared,
+   for some odd reason. Figure out why?
+   Can't reproduce wtf :(
+* active [26/33]
   The Road to Playtesting
 ** DONE Character support in DB                                          :db:
    CLOSED: [2013-11-08 Fri 22:41]
@@ -456,14 +460,13 @@
    get rid of the damn <hr>. This is a fucking black art argh gnash gnash.
 ** DONE Typing notification status things for user list                  :ui:
    CLOSED: [2013-12-01 Sun 14:28]
-** DONE Fix live binding of the user name field                          :ui:
-   CLOSED: [2013-12-02 Mon 19:39]
 ** DONE Display which user is using which character                      :ui:
    CLOSED: [2013-12-02 Mon 19:46]
-** TODO Entry veto support                                               :ui:
-   Mark entry groups as 'vetoed', which should grey them out. Don't bother
-   removing them just yet.
-** TODO Come up with game procedures to playtest                       :game:
+** DONE Fix live binding of the user name field                          :ui:
+   CLOSED: [2013-12-10 Tue 22:14]
+   again, fuck. This really sucks.
+** DONE Come up with game procedures to playtest                       :game:
+   CLOSED: [2013-12-10 Tue 23:08]
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
    be tested, write them out, try them out by yourself or with one other person.
@@ -473,6 +476,9 @@
    * How should the veto system actually work? Absolute immediate vote? Should
      folks ask for consensus on the veto? What about veto limits? Probably best
      to just have an all-powerful veto system and downscale it after playtesting.
+** TODO Entry veto support                                               :ui:
+   Mark entry groups as 'vetoed', which should grey them out. Don't bother
+   removing them just yet.
 ** TODO Write up a basic backstory for the world                   :building:
 ** TODO Write some basic plot guidelines or players                :building:
    Like running a campaign -- just give them a general idea of something they
