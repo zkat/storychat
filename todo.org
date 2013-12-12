@@ -371,7 +371,7 @@
    When lots of people joined at the same time, some of the names disappeared,
    for some odd reason. Figure out why?
    Can't reproduce wtf :(
-* active [26/33]
+* active [25/34]
   The Road to Playtesting
 ** DONE Character support in DB                                          :db:
    CLOSED: [2013-11-08 Fri 22:41]
@@ -465,17 +465,14 @@
 ** DONE Fix live binding of the user name field                          :ui:
    CLOSED: [2013-12-10 Tue 22:14]
    again, fuck. This really sucks.
-** DONE Come up with game procedures to playtest                       :game:
-   CLOSED: [2013-12-10 Tue 23:08]
+** TODO Separate fields for character costumes and props?                :ui:
+** TODO Come up with game procedures to playtest                       :game:
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
    be tested, write them out, try them out by yourself or with one other person.
 
-   Some things to keep in mind:
-
-   * How should the veto system actually work? Absolute immediate vote? Should
-     folks ask for consensus on the veto? What about veto limits? Probably best
-     to just have an all-powerful veto system and downscale it after playtesting.
+   NOTE: Making progress with this. It'll probably be a few iterations before I
+   mark this item as DONE.
 ** TODO Entry veto support                                               :ui:
    Mark entry groups as 'vetoed', which should grey them out. Don't bother
    removing them just yet.
