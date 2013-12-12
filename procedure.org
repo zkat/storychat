@@ -5,112 +5,211 @@
   Everyone should set their name (on the bottom right) to something that
   identifies them, so we can keep track of who's around. If you want to chat,
   switch your input type to "ooc" and type away.
-* Tokens
-  Every player starts off with 10 tokens. Tokens can be spent on buying
-  characters, adding details to characters, and adding details to sets. They
-  can also be used (through auction) to buy the privilege to frame the next
-  scene (which is simply providing a slug line, a scene heading, and an idea
-  that may or may not be followed by others).
-* Choosing characters
-  Enough characters should be created for all players to play at least
-  one. There should also be a couple of side-characters that may be assigned to
-  miscellaneous people who may not have speaking roles, necessarily.
+** Tokens
+   Every player starts off with 10 tokens. Tokens can be spent on buying
+   characters, adding details to characters, purchasing outfits and props, and
+   adding details to sets.
 
-  Players should visit http://storychat.herokuapp.com/characters and read
-  through the various descriptions. There should be enough characters/roles for
-  everyone to get started. Have them pick which ones they want.
+   They can also be used (through auction) to buy the privilege to frame the next
+   scene.
+** Picking initial characters
+   In addition to the initial tokens, every player gets one stock character for
+   free. The list of available characters can be found at
+   http://storychat.herokuapp.com/characters. Players should read through the
+   character descriptions and figure out which character they'd like. They
+   should argue amongst themselves if two people want the same character. Figure
+   it out.
 
-  There should be two kinds of characters -- main characters and side
-  characters. Main characters have longer descriptions and are meant for more
-  important roles. Side characters have very terse descriptions and cannot be
-  expanded in the future. They also cannot establish relationship links with
-  other characters. They are essentially utility extras -- cashiers, bouncers,
-  someone in a cubicle, a mom that says hi and is never seen again.
+   Once characters have been chosen, players may choose to spend any number of
+   tokens customizing them, according to the character customization rules.
+** Anatomy of a character
+   A character is composed of four parts: A name, a description, a costume, and
+   a list of held props.
+*** Name
+    A character name should be brief and only one or two relatively short
+    words. For characters whose real name is much longer or composed of more
+    words, choose a concise nickname that will be used to refer to them, and
+    only use the full name in dialogue when the character introduces itself.
 
-  Once players know what characters they want, they should decide how to
-  allocate their tokens. A side character costs one token. A main character
-  costs 3 tokens. Every player must have at least one main character. New
-  characters may be created and purchased for the price of their initial
-  cost. Main characters start with 2 details, side characters with one.
+    For example, "Ash" is a nice name.
+*** Description
+    The character description is the first paragraph in each character's
+    description box (all character details are in a single place for now). A
+    description is composed of one or more *details*. A *detail* decribes, with
+    one or two adjectives, a concrete part of the character.
 
-  Players may modify main characters with a single detail for one token (a
-  very brief description of something about them -- a brief explanation of
-  their outfit, a detail about their purple eyes, a compliment about their
-  smile). A side character may be upgraded to a main character for 3 tokens,
-  which also affords the player a single extra detail (the detail is
-  obligatory, and the other two tokens go to upgrading the character so it can
-  actually do more per scene)
-* Sets
-  New sets can be bought for 5 tokens. Money for sets can be pooled by
-  players, but ownership is given to a single player. That player can also
-  decide to add additional details to a set for 1 token apiece. A detail on a
-  set is something like a prop that is placed somewhere, a description of the
-  floor, and such. Every set gets 3 details as part of its purchase price, but
-  all sets must have at least those 3 details (5 tokens is the minimum price).
-* Scenes
-  Once everyone's settled with their characters, a scene should be framed. A
-  scene is a unit of drama that takes place in a single "set". This unit of
-  drama should generally involve a single goal to be achieved -- that goal
-  could be to expose something about the plot or a character, to introduce
-  something new, or to actually resolve a plot point. Scenes shouldn't be too
-  long (a few pages' worth of text is generally a good rule of thumb), and
-  action should be fairly focused on the task at hand.
+    For example, a description might read like: "Ash is short and stocky, with
+    long, curly red hair and a nice, friendly smile."
 
-  A scene is marked by a slug line -- which is determined by the chosen set +
-  time of day. Following the slug line is a scene header, which should be the
-  description of the set, with all the details added to it, followed by a brief
-  summary of what characters are in the scene when it starts, and where in the
-  set they are.
+    This description includes three *details*: a generic description about Ash
+    being short and stocky, a *detail* about Ash hair, and another *detail*
+    about their smile.
+*** Costume
+    The costume is what the character is currently wearing. The costume
+    description is the second paragraph in the character description area.
 
-  Once the scene is framed by the heading, players should play out the action
-  in the scene until it draws to a close. Players can do anything they want,
-  but any player can veto any particular part of the drama at any time, for any
-  reason. If a veto happens, players should discuss what an alternative might
-  be, which might end up with the vetoed action being brought back in a
-  different way, or just the same as it was before. If disagreement becomes
-  disruptive, players can decide to end the scene and try something
-  different. Players who leave can choose to cancel the scene altogether
-  (because they don't like the role their character has taken in it), or allow
-  the scene to continue without their character, letting others finish up. As a
-  general rule, all players should be considerate about each others' feelings
-  and vetoes should not be done, or taken, lightly. A veto is a potentially
-  scene-canceling action, but its purpose is to make sure no one is terribly
-  unhappy with the results of a cooperatively-played scene. Be amicable when
-  resolving veto-related issues.
+    Like a character description, a costume is its own thing, with its own set
+    of *details*. It is prefixed by "<X> is wearing...".
 
-  Scenes are played out by players using a character to add either dia
-  Once the scene draws to a close, players discuss the next step, repick
-  characters, etc.
-* Awards
-  Each player involved in a scene has two tokens to give out: One for the player
-  who played their character the best (maybe they led the scene in an excellent
-  way, or they really nailed a plot point, or they were excellent supports to a
-  central character, or just generally brought life to a scene, regardless of
-  their starring status), and one for the player who players themselves enjoyed
-  interacting with the most. Maybe they were gracious and patient when something
-  wasn't going well, or they helped someone out with a good idea. Tokens cannot
-  be given to oneself, and players are not obligated to give away both of their
-  tokens if they don't feel anyone was particularly great.
+    For example, "Ash is wearing a dusty cowboy outfit. Everything on the
+    outfit is dusty and worn except for the exceptionally clean and
+    well-polished boots with pristine silver spurs."
+*** Props
+    Finally, the third paragraph describes the props the character is
+    carrying. It is prefixed by "<X> is carrying...".
 
-  (Note: In the future, token-giving should be blind and anonymous -- no one
-  knows who's received the most tokens, and no one knows who gave tokens to
-  whom)
+    Individual props can have their own brief descriptions, just like
+    outfits.
 
-  The player who ends up with the most tokens receives additional tokens equal
-  to the total number of players in the scene.
-* Story arcs
-  As scenes are played out, players should organize them into story arcs, in
-  whatever order they see fit. These story arcs should tell a larger story than
-  what each individual scene does. Scenes in a story arc are ordered
-  linearly. There can be multiple story arcs running in parallel, and multiple
-  story arcs can use the same scene, if necessary. It's generally helpful to
-  have some kind of plan/cohesion to story arcs, and they can be very useful in
-  planning future scenes.
+    For example, "Ash is carrying a pair of revolvers and a leather whip."
+** Customizing characters
+   Players may choose to change or add detail to any of their character's
+   attributes. Costs and restrictions are listed below.
+*** Name
+    Changing a character's name can only be done once, ever, and costs no
+    tokens. The standard restrictions for names apply (short, only one or two
+    words)
+*** Description
+    The base cost for a detail is two tokens. This cost includes a single
+    adjective. The base cost for a second adjective for that detail is another
+    two tokens.
 
-  Story arcs can also be 'tokened' by players other than the story arc
-  manager. Every token given to a story arc is given to the player managing
-  that story arc. Any player can token any story arc other than their own, and
-  they can token as many as they want.
-* Spending tokens
-  Tokens can be spent between scenes to add details to characters or sets, but
-  not during scenes.
+    Adding a detail to a character requires the base cost of tokens, multiplied
+    by the number of details the character already has. Remember that a detail
+    is the thing/attribute itself, not the adjectives attached to it, so "a
+    warm, loving heart" is a single detail with two adjectives. Second
+    adjectives always cost two tokens, regardless of how many details a
+    description already has.
+
+    An entire detail can be removed for 1 token. Adjectives cannot be removed
+    from existing details.
+
+    A character must have at least one detail at all times. A character can't
+    have more than 5 details.
+*** Costumes
+    A new costume costs 3 tokens + the cost of any details attached to it.
+
+    Detail purchase rules for costumes are the same as for character
+    descriptions: 2 token base cost for each detail, with an additional
+    adjective costing 2 more tokens, and new token purchase costing the base
+    cost multiplied by the number of existing details.
+
+    Unlike character descriptions, costumes can have just a name/identifier
+    attached to them, and do not require any details. For example, "A cowboy
+    outfit." would cost only 3 tokens to buy.
+
+    Like descriptions, a costume cannot have more than 5 details.
+*** Props
+    A new prop costs 1 token + the cost of any details attached to it.
+
+    Prop detail purchase rules are identical to costume detail rules.
+** New main characters
+   New characters have a base cost of 5 tokens for the initial creation of a
+   character.
+
+   Additionally, they require a valid description (minimum cost of 2
+   tokens), and a costume (minimum cost 3 tokens).
+
+   So, the minimum cost for a brand-new character is 10 tokens.
+** Extras
+   Extras are a special kind of character. They are meant as minor/side
+   characters, and come with some restrictions.
+
+   * They can only speak once per scene
+   * They can only take two actions per scene
+   * They cannot be customized (name, description, and costume cannot change)
+   * They cannot have props
+   * Only one detail in their description
+   * Only one (optional) detail allowed in their costume
+
+   In exchange for all this, an extra costs a mere 2 tokens to create. An extra
+   can be upgraded at any time to a main character for 10 tokens, and keeps all
+   its attributes from its days as an extra, but loses all its extra
+   restrictions.
+** Character versioning
+   (FUTURE)
+
+   Multiple versions of the same character can exist, tagged with a label for
+   future reference. Characters themselves are immutable, but multiple versions
+   can be associated with each other and tagged as character descriptions are
+   changed. All character versions are preserved in that character's version
+   history. Scenes preserve a direct pointer to the version of the character
+   that was used for that particular scene.
+
+   Versions themselves won't cost anything, but are created incidentally as
+   part of the character customization process.
+** Sets
+   A set is a location, made up of a name and a description. Sets are where the
+   action takes place.
+
+   New sets have a base cost of 10 tokens, which includes a single
+   detail. Additional details follow the character detail purchase rules.
+* Playing a Scene
+** Before
+   Once everyone's settled with their characters, a scene should be framed. A
+   scene is a unit of drama that takes place in a single "set". This unit of
+   drama should generally involve a single goal to be achieved -- that goal
+   could be to expose something about the plot or a character, to introduce
+   something new, or to actually resolve a plot point. Scenes shouldn't be too
+   long (a few pages' worth of text is generally a good rule of thumb), and
+   action should be fairly focused on the task at hand.
+
+   A scene is marked by a slug line -- which is determined by the chosen set +
+   time of day. Following the slug line is a scene header, which should be the
+   description of the set, with all the details added to it, followed by a brief
+   summary of what characters are in the scene when it starts, and where in the
+   set they are.
+** During
+   Once the scene is framed by the heading, players should play out the action
+   in the scene until it draws to a close. Players can do anything they want,
+   but any player can veto any particular part of the drama at any time, for any
+   reason. If a veto happens, players should discuss what an alternative might
+   be, which might end up with the vetoed action being brought back in a
+   different way, or just the same as it was before. If disagreement becomes
+   disruptive, players can decide to end the scene and try something
+   different. Players who leave can choose to cancel the scene altogether
+   (because they don't like the role their character has taken in it), or allow
+   the scene to continue without their character, letting others finish up. As a
+   general rule, all players should be considerate about each others' feelings
+   and vetoes should not be done, or taken, lightly. A veto is a potentially
+   scene-canceling action, but its purpose is to make sure no one is terribly
+   unhappy with the results of a cooperatively-played scene. Be amicable when
+   resolving veto-related issues.
+
+   Scenes are played out by players using a character to add either dia Once the
+   scene draws to a close, players discuss the next step, repick characters,
+   etc.
+** After
+*** Awards
+    Each player involved in a scene has two tokens to give out: One for the player
+    who played their character the best (maybe they led the scene in an excellent
+    way, or they really nailed a plot point, or they were excellent supports to a
+    central character, or just generally brought life to a scene, regardless of
+    their starring status), and one for the player who players themselves enjoyed
+    interacting with the most. Maybe they were gracious and patient when something
+    wasn't going well, or they helped someone out with a good idea. Tokens cannot
+    be given to oneself, and players are not obligated to give away both of their
+    tokens if they don't feel anyone was particularly great.
+
+    (Note: In the future, token-giving should be blind and anonymous -- no one
+    knows who's received the most tokens, and no one knows who gave tokens to
+    whom)
+
+    The player who ends up with the most tokens receives additional tokens equal
+    to the total number of players in the scene.
+*** Story arcs
+    As scenes are played out, players should organize them into story arcs, in
+    whatever order they see fit. These story arcs should tell a larger story
+    than what each individual scene does. Scenes in a story arc are ordered
+    linearly. There can be multiple story arcs running in parallel, and multiple
+    story arcs can use the same scene, if necessary. It's generally helpful to
+    have some kind of plan/cohesion to story arcs, and they can be very useful
+    in planning future scenes.
+
+    Story arcs can also be 'tokened' by players other than the story arc
+    manager. Every token given to a story arc is given to the player managing
+    that story arc. Any player can token any story arc other than their own, and
+    they can token as many as they want.
+*** Spending tokens
+    Tokens can be spent between scenes to add details to characters or sets, but
+    not during scenes.
