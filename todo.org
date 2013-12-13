@@ -371,7 +371,7 @@
    When lots of people joined at the same time, some of the names disappeared,
    for some odd reason. Figure out why?
    Can't reproduce wtf :(
-* active [25/34]
+* active [25/37]
   The Road to Playtesting
 ** DONE Character support in DB                                          :db:
    CLOSED: [2013-11-08 Fri 22:41]
@@ -466,6 +466,24 @@
    CLOSED: [2013-12-10 Tue 22:14]
    again, fuck. This really sucks.
 ** TODO Separate fields for character costumes and props?                :ui:
+** TODO Redesign characters as an entity system                :architecture:
+   The distinction between character/costume/set/prop is sort of
+   artificial. I'm not sure whether it should be extended to the interface as
+   well, but at least at the storage level it should just be entity +
+   components, where components are things like descriptions, set-status
+   (whether something can be used as a set), holdable, etc.
+** TODO Improve description of details                                 :game:
+   Details were kind of confusing to Angel. Try and see how detail-related
+   rules can be clarified. Maybe this can be done as part of a rearchitecting
+   of the entity thing.
+** TODO Scale reward system against powerplayers                       :game:
+   Since rewards are the same for short and long scenes, it might be worthwhile
+   to put a minimum scene length before anyone can be rewarded. Then again,
+   powerplayers might still group together and do a bunch of shitty, garbage
+   scenes.
+
+   Maybe put a time limit on when your daily tokens refresh? What about
+   abuse by creating a bunch of shell accounts?
 ** TODO Come up with game procedures to playtest                       :game:
    The application should be a good enough prototype that people can visit it
    and participate in a controlled playtest. Come up with some rules that should
