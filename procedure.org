@@ -197,6 +197,14 @@
 
     The player who ends up with the most tokens receives additional tokens equal
     to the total number of players in the scene.
+
+    (Note: Some kind of abuse prevention might be needed, but I figure the real
+    moneymaker is having a popular story arc, so making a bunch of bogus scenes
+    with your buddies doesn't really gain you much in the long run. At the same
+    time, maybe it's worthwhile to put a time limit on how often a player can
+    give out tokens to the same person. LoL scales down the value of points
+    according to how often they're given out, but I don't think this is the
+    right thing for our own situation)
 *** Story arcs
     As scenes are played out, players should organize them into story arcs, in
     whatever order they see fit. These story arcs should tell a larger story
@@ -206,10 +214,16 @@
     have some kind of plan/cohesion to story arcs, and they can be very useful
     in planning future scenes.
 
+    Scenes are only published once they are added to a published story arc.
+
     Story arcs can also be 'tokened' by players other than the story arc
     manager. Every token given to a story arc is given to the player managing
     that story arc. Any player can token any story arc other than their own, and
     they can token as many as they want.
+
+    A story arc can have multiple managers. In this case, arc tokens are
+    awarded by dividing them between all owners when enough tokens have been
+    accumulated to divide.
 *** Spending tokens
     Tokens can be spent between scenes to add details to characters or sets, but
-    not during scenes.
+    not during scenes, with one exception -- extras can be purchased at any point.
