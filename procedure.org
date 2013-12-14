@@ -35,33 +35,60 @@
 *** Description
     The character description is the first paragraph in each character's
     description box (all character details are in a single place for now). A
-    description is composed of one or more *details*. A *detail* decribes, with
-    one or two adjectives, a concrete part of the character.
+    description is composed of a basic description and zero or
+    more *details*. A *detail* decribes, with one or two adjectives, a concrete
+    part of the character.
 
-    For example, a description might read like: "Ash is short and stocky, with
-    long, curly red hair and a nice, friendly smile."
+    For example, a description might read like: "Ash is a short and stocky
+    person. Ash has long, curly red hair and a nice, friendly smile."
 
-    This description includes three *details*: a generic description about Ash
-    being short and stocky, a *detail* about Ash hair, and another *detail*
-    about their smile.
+    This description includes the base description and two *details*. 'Ash is a
+    short and stocky person.' is the base. 'long, curly red hair' is one
+    detail, and 'a nice, friendly smile' is the second.
 *** Costume
     The costume is what the character is currently wearing. The costume
     description is the second paragraph in the character description area.
 
-    Like a character description, a costume is its own thing, with its own set
-    of *details*. It is prefixed by "<X> is wearing...".
+    Costumes are entities, just like characters themselves, which are
+    associated with the character as what they are 'wearing'. Much like a
+    character's first paragraph, the description for a costume includes a base
+    description, and zero or more *details*. The costume section is prefixed by
+    '<character> is wearing...'
 
-    For example, "Ash is wearing a dusty cowboy outfit. Everything on the
-    outfit is dusty and worn except for the exceptionally clean and
-    well-polished boots with pristine silver spurs."
+    For example, "Ash is wearing a dusty, worn cowboy outfit. It has
+    exceptionally shiny boots.", is a costume description with a base
+    description ('a dusty, worn cowboy outfit'), and a single detail
+    ('exceptionally shiny boots').
 *** Props
     Finally, the third paragraph describes the props the character is
     carrying. It is prefixed by "<X> is carrying...".
 
-    Individual props can have their own brief descriptions, just like
-    outfits.
+    Props, just like characters and outfits, are entities of their own, with
+    the usual description rules.
 
     For example, "Ash is carrying a pair of revolvers and a leather whip."
+*** A technical note
+    In general, the entity system shouldn't be restricted to what something
+    "is". There should not be anything special about a character as far as how
+    it's treated by the code itself -- it is simply a Describable entity with
+    an Outfit slot (which is given order number 1, and can only hold Wearable
+    entities), and an Inventory slot (which is given order number 2, and can
+    only hold Carryable entities). The Describable entity component is what
+    handles knowledge about what the basic description is (in its Base
+    Description slot), and can be extended with additional slots with
+    miscellaneous restrictions about what's allowed in them.
+
+    This will give the game really good flexibility as far as what players are
+    able to describe/create. For example, there's nothing technically stopping
+    someone from treating a character, or a subset of the character, as a set,
+    a carryable object, etc -- players can probably end up being quite creative
+    with the objects they "possess" as well. This should be a fairly elegant
+    way to go about it, and the possibilities are endless.
+
+    (Note: I think this can be worked out a little better -- think more about
+    what details are, what their role is, how they relate to the different
+    parts of an entity. Can 'details', and their 'subdetails' be the base unit
+    that this whole system revolves around? What is really the base unit?
 ** Customizing characters
    Players may choose to change or add detail to any of their character's
    attributes. Costs and restrictions are listed below.
