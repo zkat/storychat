@@ -152,10 +152,9 @@
    In exchange for all this, an extra costs a mere 2 tokens to create. An extra
    can be upgraded at any time to a main character for 10 tokens, and keeps all
    its attributes from its days as an extra, but loses all its extra
-   restrictions.
+   restrictions. Extras also have the unique ability that they can be created
+   mid-scene.
 ** Character versioning
-   (FUTURE)
-
    Multiple versions of the same character can exist, tagged with a label for
    future reference. Characters themselves are immutable, but multiple versions
    can be associated with each other and tagged as character descriptions are
@@ -163,7 +162,7 @@
    history. Scenes preserve a direct pointer to the version of the character
    that was used for that particular scene.
 
-   Versions themselves won't cost anything, but are created incidentally as
+   Versions themselves don't cost anything, but are created incidentally as
    part of the character customization process.
 ** Sets
    A set is a location, made up of a name and a description. Sets are where the
@@ -173,39 +172,40 @@
    detail. Additional details follow the character detail purchase rules.
 * Playing a Scene
 ** Before
-   Once everyone's settled with their characters, a scene should be framed. A
-   scene is a unit of drama that takes place in a single "set". This unit of
-   drama should generally involve a single goal to be achieved -- that goal
-   could be to expose something about the plot or a character, to introduce
-   something new, or to actually resolve a plot point. Scenes shouldn't be too
-   long (a few pages' worth of text is generally a good rule of thumb), and
-   action should be fairly focused on the task at hand.
+   A scene takes place in a single set, and includes a specific set of main
+   characters.
 
    A scene is marked by a slug line -- which is determined by the chosen set +
    time of day. Following the slug line is a scene header, which should be the
    description of the set, with all the details added to it, followed by a brief
-   summary of what characters are in the scene when it starts, and where in the
-   set they are.
+   summary of what props are in the set, finalized by what characters are
+   present in the scene, along with basic "posing" information for both
+   characters and props (John is standing near the entrance, a katana is stuck
+   on the ground)
 ** During
    Once the scene is framed by the heading, players should play out the action
    in the scene until it draws to a close. Players can do anything they want,
    but any player can veto any particular part of the drama at any time, for any
-   reason. If a veto happens, players should discuss what an alternative might
-   be, which might end up with the vetoed action being brought back in a
-   different way, or just the same as it was before. If disagreement becomes
-   disruptive, players can decide to end the scene and try something
-   different. Players who leave can choose to cancel the scene altogether
-   (because they don't like the role their character has taken in it), or allow
-   the scene to continue without their character, letting others finish up. As a
-   general rule, all players should be considerate about each others' feelings
-   and vetoes should not be done, or taken, lightly. A veto is a potentially
-   scene-canceling action, but its purpose is to make sure no one is terribly
-   unhappy with the results of a cooperatively-played scene. Be amicable when
-   resolving veto-related issues.
+   reason. For rules on vetos, see the Vetoing section.
 
    Scenes are played out by players using a character to add either dia Once the
    scene draws to a close, players discuss the next step, repick characters,
    etc.
+*** Vetoing
+    In order to veto, a player should simply push "veto" on an entry. This will
+    grey it out and mark it as "vetoed". At that point, all other players
+    involved can either accept the veto, or choose to leave the scene.
+
+    Before placing their final "votes", players should discuss with each other
+    why the entry was vetoed, and what can be done instead.
+
+    The player who vetoed an entry can withdraw their veto at any point before
+    the vote is finalized, at which point the entry returns to normal and play
+    continues as usual.
+
+    If a veto is accepted, the entry becomes hidden, but can still be expanded
+    manually in the future, by pressing the 'show vetoed' link in the place the
+    entry used to be. It can no longer be brought back.
 ** After
 *** Awards
     Each player involved in a scene has two tokens to give out: One for the player
@@ -225,13 +225,16 @@
     The player who ends up with the most tokens receives additional tokens equal
     to the total number of players in the scene.
 
-    (Note: Some kind of abuse prevention might be needed, but I figure the real
-    moneymaker is having a popular story arc, so making a bunch of bogus scenes
-    with your buddies doesn't really gain you much in the long run. At the same
-    time, maybe it's worthwhile to put a time limit on how often a player can
-    give out tokens to the same person. LoL scales down the value of points
-    according to how often they're given out, but I don't think this is the
-    right thing for our own situation)
+    Finally, the closer the scene was, in length, to the 3-page 'ideal' for a
+    scene, the more tokens all players receive.
+
+    A scene that reaches exactly 3 pages (module a couple of actions), is
+    granted 5 tokens. The tokens are then scaled according to how far from ideal
+    length a scene was, rounded *down*. For example, if the scene was half the
+    desired length, or twice the desired length, the token reward is reduced
+    from 5 tokens to 2 tokens. If the scene length is higher than 1.8x or lower
+    than 0.2x of the ideal, the reward for just playing the scene is reduced to
+    1 token.
 *** Story arcs
     As scenes are played out, players should organize them into story arcs, in
     whatever order they see fit. These story arcs should tell a larger story
