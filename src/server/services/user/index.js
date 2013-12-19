@@ -1,7 +1,6 @@
 "use strict";
 
-let addMethod = require("genfun").addMethod,
-    proto = require("../../../client/js/lib/proto"),
+let proto = require("../../../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
 
@@ -17,14 +16,14 @@ let socketServer = require("../../socketServer"),
 
 let UserService = clone();
 
-addMethod(init, [UserService], function(service, namespace) {
+init.addMethod([UserService], function(service, namespace) {
   console.log("Initializing UserService", service);
   service.namespace = namespace;
   service.users = [];
   service.idCounter = 0;
 });
 
-addMethod(onRequest, [UserService], function(svc, data, req) {
+onRequest.addMethod([UserService], function(svc, data, req) {
   if (data.method === "list") {
     return reply(req, {
       data: _.map(svc.users, function(user) {
@@ -51,7 +50,7 @@ addMethod(onRequest, [UserService], function(svc, data, req) {
   }
 });
 
-addMethod(onConnect, [UserService], function(service, conn) {
+onConnect.addMethod([UserService], function(service, conn) {
   let newUser = {
     id: ++service.idCounter,
     name: "Player"+service.idCounter,
@@ -64,7 +63,7 @@ addMethod(onConnect, [UserService], function(service, conn) {
   }, service.namespace);
 });
 
-addMethod(onClose, [UserService], function(service, conn) {
+onClose.addMethod([UserService], function(service, conn) {
   let user = _.find(service.users, {conn: conn});
   service.users = _.without(service.users, user);
   broadcastFrom(conn, {

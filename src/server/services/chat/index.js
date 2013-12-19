@@ -1,7 +1,6 @@
 "use strict";
 
-let addMethod = require("genfun").addMethod,
-    proto = require("../../../client/js/lib/proto"),
+let proto = require("../../../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
 
@@ -15,11 +14,11 @@ let parser = require("./parser");
 
 let ChatService = clone();
 
-addMethod(init, [ChatService], function(chat) {
+init.addMethod([ChatService], function(chat) {
   console.log("Initializing ChatService", chat);
 });
 
-addMethod(onMessage, [ChatService], function(chat, data, info) {
+onMessage.addMethod([ChatService], function(chat, data, info) {
   broadcast(info.from, _.extend({
     parsedContent: parser.parse(data.entryType, data.content)
   }, data), info.namespace);

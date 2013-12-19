@@ -2,7 +2,6 @@
 
 let {onMessage,listen,send} = require("../../lib/socketConn"),
     {clone, init} = require("../../lib/proto"),
-    {addMethod} = require("genfun"),
     {extend, last} = require("lodash"),
     character = require("../character"),
     can = require("../../shims/can"),
@@ -20,7 +19,7 @@ function makeChatlog(namespace) {
 /*
  * Init
  */
-addMethod(init, [Chatlog], function(log, ns) {
+init.addMethod([Chatlog], function(log, ns) {
   log.namespace = ns;
   listen(log, ns);
   initModelList(log);
@@ -33,7 +32,7 @@ function initModelList(log) {
 /*
  * Event handling
  */
-addMethod(onMessage, [Chatlog], function(log, data) {
+onMessage.addMethod([Chatlog], function(log, data) {
   addEntry(log, data);
 });
 

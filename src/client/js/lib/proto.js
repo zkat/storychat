@@ -1,10 +1,9 @@
 "use strict";
 
-let Genfun = require("genfun"),
-    addMethod = Genfun.addMethod;
+let Genfun = require("genfun");
 
 let init = new Genfun();
-addMethod(init, [], function(){});
+init.addMethod([], function(){});
 
 /**
  * Like `new`, but doesn't work off constructor functions and is more

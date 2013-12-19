@@ -1,7 +1,6 @@
 "use strict";
 
-let addMethod = require("genfun").addMethod,
-    proto = require("../client/js/lib/proto"),
+let proto = require("../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
 
@@ -19,7 +18,7 @@ let express = require("express"),
 let WebServer = clone(),
     routes = [];
 
-addMethod(init, [WebServer], function(srv, opts) {
+init.addMethod([WebServer], function(srv, opts) {
   srv.app = express();
   srv.http = http.createServer(srv.app);
   configureApp(srv, opts);

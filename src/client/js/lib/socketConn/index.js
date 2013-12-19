@@ -5,7 +5,6 @@ let Sock = window.SockJS,
     Genfun = require("genfun"),
     can = require("../../shims/can"),
     $ = require("jquery"),
-    {addMethod} = Genfun,
     {clone, init} = require("../proto"),
     {partial, forEach, contains, without} = require("lodash"),
     Q = require("q");
@@ -15,9 +14,9 @@ let INITIAL_RECONNECT_DELAY = 500;
 
 let SocketConn = clone(),
     onMessage = new Genfun();
-addMethod(onMessage, [], function() {});
+onMessage.addMethod([], function() {});
 
-addMethod(init, [SocketConn], function(conn) {
+init.addMethod([SocketConn], function(conn) {
   conn.authUrl =
     window.location.protocol + "//" + window.location.host + "/wsauth";
   conn.state = can.compute("connecting");

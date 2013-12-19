@@ -2,7 +2,6 @@
 
 let {conn, onMessage, listen,
      unlisten, request} = require("../../lib/socketConn"),
-    {addMethod} = require("genfun"),
     {find} = require("lodash"),
     can = require("../../shims/can");
 
@@ -34,7 +33,7 @@ function listUsers() {
   }, User.namespace);
 }
 
-addMethod(onMessage, [User.List.prototype], function(lst, data) {
+onMessage.addMethod([User.List.prototype], function(lst, data) {
   if (data.method === "create") {
     lst.push(data.args);
   } else if (data.method === "destroy") {

@@ -7,8 +7,6 @@ let socketConn = require("./index"),
     {connect, disconnect, onMessage,
      listen, send, request} = socketConn;
 
-let {addMethod} = require("genfun");
-
 let origin = "http://localhost:8080";
 
 describe("socketConn", function() {
@@ -41,7 +39,7 @@ describe("socketConn", function() {
     it("is called when a message is received", function(done) {
       let conn = connect(origin + "/wsauth"),
           observer = {};
-      addMethod(onMessage, [conn, observer], function(conn1, obs, msg) {
+      onMessage.addMethod([conn, observer], function(conn1, obs, msg) {
         assert.equal(obs, observer);
         assert.equal(conn1, conn);
         assert.equal(msg.content, "test");
@@ -57,7 +55,7 @@ describe("socketConn", function() {
     it("registers an observer with a connection", function(done) {
       let conn = connect(origin + "/wsauth"),
           observer = {};
-      addMethod(onMessage, [conn, observer], function() {
+      onMessage.addMethod([conn, observer], function() {
         assert.ok(true);
         done();
       });
@@ -74,7 +72,7 @@ describe("socketConn", function() {
     it("sends a message to the server", function(done) {
       let conn = connect(origin + "/wsauth"),
           observer = {};
-      addMethod(onMessage, [conn, observer], function(conn1, obs, msg) {
+      onMessage.addMethod([conn, observer], function(conn1, obs, msg) {
         assert.equal(msg.content, "test");
         disconnect(conn1);
         done();

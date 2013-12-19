@@ -1,7 +1,6 @@
 "use strict";
 
 let Genfun = require("genfun"),
-    addMethod = Genfun.addMethod,
     proto = require("../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
@@ -19,7 +18,7 @@ let Sockjs = require("sockjs");
  */
 let SocketServer = clone();
 
-addMethod(init, [SocketServer], function(srv, http, opts) {
+init.addMethod([SocketServer], function(srv, http, opts) {
   srv.connections = [];
   srv.services = opts.services;
   initSocket(srv, http, opts);
@@ -30,11 +29,11 @@ let onConnect = new Genfun(),
     onRawMessage = new Genfun(),
     onRequest = new Genfun(),
     onClose = new Genfun();
-addMethod(onConnect, [], function() {});
-addMethod(onMessage, [], function() {});
-addMethod(onRawMessage, [], function() {});
-addMethod(onRequest, [], function() {});
-addMethod(onClose, [], function() {});
+onConnect.addMethod([], function() {});
+onMessage.addMethod([], function() {});
+onRawMessage.addMethod([], function() {});
+onRequest.addMethod([], function() {});
+onClose.addMethod([], function() {});
 
 function initSocket(srv, http, opts) {
   console.log("Initializing socketServer");

@@ -1,7 +1,6 @@
 "use strict";
 
-let addMethod = require("genfun").addMethod,
-    proto = require("../../../client/js/lib/proto"),
+let proto = require("../../../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
 
@@ -11,11 +10,11 @@ let socketServer = require("../../socketServer"),
 
 let EchoService = clone();
 
-addMethod(init, [EchoService], function(chat) {
+init.addMethod([EchoService], function(chat) {
   console.log("Initializing EchoService", chat);
 });
 
-addMethod(onMessage, [EchoService], function(chat, client, msg) {
+onMessage.addMethod([EchoService], function(chat, client, msg) {
   console.log("Echoing ", msg);
   broadcast(client, msg);
 });

@@ -1,7 +1,6 @@
 "use strict";
 
-let {addMethod} = require("genfun"),
-    {clone, init} = require("./lib/proto");
+let {clone, init} = require("./lib/proto");
 
 let {find} = require("lodash");
 
@@ -45,7 +44,7 @@ let pages = [{
   component: require("./pages/404")
 }];
 
-addMethod(init, [Router], function(router) {
+init.addMethod([Router], function(router) {
   router.listenerHandle = listen(listener, router, $("body"));
   router.currentPage = can.compute(findPage());
   initCanRoute();

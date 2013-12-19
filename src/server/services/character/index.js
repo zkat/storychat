@@ -1,7 +1,6 @@
 "use strict";
 
-let addMethod = require("genfun").addMethod,
-    proto = require("../../../client/js/lib/proto"),
+let proto = require("../../../client/js/lib/proto"),
     clone = proto.clone,
     init = proto.init;
 
@@ -14,11 +13,11 @@ let character = require("../../models/character");
 
 let CharacterService = clone();
 
-addMethod(init, [CharacterService], function(svc) {
+init.addMethod([CharacterService], function(svc) {
   console.log("Initializing CharacterService", svc);
 });
 
-addMethod(onRequest, [CharacterService], function(svc, data, req) {
+onRequest.addMethod([CharacterService], function(svc, data, req) {
   return character[data.method].apply({}, data.args).then(function(val) {
     return reply(req, {data: val});
   }, function fail(err) {

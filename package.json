@@ -26,7 +26,7 @@
     "testee": "0.0.7"
   },
   "dependencies": {
-    "genfun": "~0.1.0",
+    "genfun": "~0.1.2",
     "express": "~3.3.5",
     "sockjs": "~0.3.7",
     "rbytes": "~1.0.0",

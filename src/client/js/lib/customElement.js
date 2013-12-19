@@ -2,15 +2,13 @@
 
 let can = require("../shims/can"),
     {forEach, extend} = require("lodash"),
-    Genfun = require("genfun"),
-    {addMethod} = Genfun,
     {clone, init} = require("./proto");
 
 let CustomElement = clone();
 
 let style = require("./ensureStyle");
 
-addMethod(init, [CustomElement], function(customEl, tagName, opts) {
+init.addMethod([CustomElement], function(customEl, tagName, opts) {
   opts = opts || {};
   customEl.style = opts.style;
   customEl.events = forEach(extend({}, opts.events), wrapCallback);
