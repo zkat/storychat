@@ -16,7 +16,7 @@
     "supervisor": "~0.5.4",
     "bower": "~1.2.6",
     "browserify": "~2.28.0",
-    "es6ify": "~0.3.0",
+    "es6ify": "~0.4.8",
     "brfs": "0.0.7",
     "watchify": "~0.1.0",
     "debowerify": "~0.1.4",
