@@ -13,3 +13,9 @@ Storychat is a nice sandbox for playing with a bunch of web technologies.
   reasonable-large and unique secrets.
 * `make db`
 * `make run`
+
+# Development and Hacking on Storychat
+
+1. Don't push to develop.
+1. Create a new branch prefixed with "dev/" for specific fixes and features.
+1. When ready to merge/rebase, have someone else review the branch and signoff on it.
