@@ -23,7 +23,15 @@
     "insert-css": "0.0.0",
     "stylify": "0.0.1",
     "through": "~2.3.4",
-    "testee": "0.0.7"
+    "testee": "0.0.7",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-shell": "~0.6.4",
+    "grunt-notify": "~0.2.17",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-compress": "~0.6.1"
   },
   "dependencies": {
     "genfun": "~0.1.2",
