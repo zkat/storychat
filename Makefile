@@ -203,7 +203,8 @@ test-watch: $(source-files)
 
 .PHONY: lint
 lint: $(source-files) $(linter-config) $(client-src-files)
-	$(linter) --config $(linter-config) $(source-files) $(client-src-files)
+	@echo "Linting source files"
+	@$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
 .PHONY: test-client
 test-client: static compile-tests
