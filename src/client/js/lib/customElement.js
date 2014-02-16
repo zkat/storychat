@@ -5,7 +5,18 @@ let can = require("../shims/can"),
     {clone, init} = require("./proto");
 
 let $ = require("jquery");
-$.fn.props = $.fn.scope;
+$.fn.props = function(attr, val) {
+  let props = this.data("scope");
+  switch (arguments.length) {
+  case 0:
+    return props;
+  case 1:
+    return props.attr(attr);
+  case 2:
+  default:
+    return props.attr(attr, val);
+  }
+};
 
 let CustomElement = clone();
 

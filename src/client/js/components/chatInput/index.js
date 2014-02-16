@@ -43,8 +43,7 @@ let ChatInput = element.define("chat-input", {
       focusContent(el);
       alignActionInput(el);
       conn.state.bind("change", function(ev, newstate) {
-        // TODO - figure out why .attr("user").id fails. CanJS bug.
-        if (newstate === "open" && el.props().attr("user.id")) {
+        if (newstate === "open" && el.props("user.id")) {
           window.setTimeout(function() {
             updateScopeUser(el);
           }, 0);
@@ -100,7 +99,7 @@ function sendMessage(el, _target, event) {
  * Actor management
  */
 function currentActor(el) {
-  return el.props().actor;
+  return el.props("actor");
 }
 
 function updateScopeActor(el) {
@@ -126,7 +125,7 @@ function alignActionInput(el) {
 }
 
 function updateActorDropdown(el) {
-  el.find("[name=actor]").val(el.props("actor").id);
+  el.find("[name=actor]").val(el.props("actor.id"));
 }
 
 /*
@@ -142,7 +141,7 @@ function keyPressed(el, _target, event) {
 
 function cycleInputType(el, goForward) {
   let typeIndex = findIndex(inputs, {name: el.props("type")});
-  el.props().attr(
+  el.props(
     "type",
     inputs[(typeIndex + (goForward ? 1 : inputs.length - 1)) %
            inputs.length].name);
@@ -152,8 +151,8 @@ function cycleInputType(el, goForward) {
 function typeChanged(el) {
   let form = el.find("form");
   el.find("[name=type]").val(el.props("type"));
-  el.props().attr("defaults", can.deparam(form.serialize()));
-  forEach(el.props().attr("defaults"), function(v, k) {
+  el.props("defaults", can.deparam(form.serialize()));
+  forEach(el.props("defaults"), function(v, k) {
     form.find("[name="+k+"]").val(v);
   });
   alignActionInput(el);
@@ -161,7 +160,7 @@ function typeChanged(el) {
 }
 
 function typeSelectorChanged(el, target) {
-  el.props().attr("type", target.val());
+  el.props("type", target.val());
 }
 
 /*
@@ -180,7 +179,7 @@ function focusContent(el) {
 }
 
 function typingNotification(el) {
-  let user = el.props().user;
+  let user = el.props("user");
   if (el.find("form [name=content]").val().length) {
     user.attr("typing", true);
   } else {
@@ -195,7 +194,7 @@ function typingNotification(el) {
 function updateScopeUser(el) {
   if (conn.state() === "open") {
     can.batch.start();
-    let user = el.props().user;
+    let user = el.props("user");
     user.attr("name", el.find("[name=user]").val());
     user.save();
     can.batch.stop();
