@@ -1,4 +1,4 @@
-* archive [112/112]
+* archive [113/113]
 ** DONE Set up stylus for per-control styles             :style:architecture:
    CLOSED: [2013-08-25 Sun 20:23]
 ** DONE render chatlog and write chatlog model/list                    :chat:
@@ -401,7 +401,13 @@
    canjs again.
    UPDATE: The patch got accepted upstream. Just need to wait for a new
    release, and it's done.
-* backlog [0/28]
+** DONE Dynamic recompilation of UI                                   :build:
+   CLOSED: [2014-02-15 Sat 21:16]
+   Instead of setting up a watcher, see about setting up a handler that will
+   simply collect/compile/etc storychat.js on the fly, whenever it's requested
+   (it'll probably need some nice caching, though, but without uglification,
+   should be fairly fast)
+* backlog [0/29]
 ** TODO Pull in elastic for nicer textarea inputs                        :ui:
    http://www.unwrongest.com/projects/elastic/
 
@@ -487,16 +493,14 @@
    When lots of people joined at the same time, some of the names disappeared,
    for some odd reason. Figure out why?
    Can't reproduce wtf :(
-* active [0/4]
 ** TODO Switch to Grunt                                               :build:
+   This is hard and may not be worth the trouble because we need the --harmony
+   flag node-side, and there's no way to do it that I could tell that would let
+   us still use the plain 'grunt' command.
+* active [0/2]
 ** TODO Work on customElement a bit                                      :ui:
    Improve the API a bit, make sure it still works after recent updates. Mainly,
    take a look at how scope() works and provide a suitable replacement.
-** TODO Dynamic recompilation of UI                                   :build:
-   Instead of setting up a watcher, see about setting up a handler that will
-   simply collect/compile/etc storychat.js on the fly, whenever it's requested
-   (it'll probably need some nice caching, though, but without uglification,
-   should be fairly fast)
 ** TODO Transaction support for db.js                                    :db:
 * playtesting [0/10]
   These are things intended for when we're gonna do the actual playtest.
