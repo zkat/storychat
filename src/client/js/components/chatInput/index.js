@@ -115,7 +115,6 @@ function updateScopeActor(el) {
 }
 
 function alignActionInput(el) {
-  console.log("Aligning");
   let actionForm = el.find("form.action");
   if (actionForm) {
     actionForm.find("[name=content]").css({
