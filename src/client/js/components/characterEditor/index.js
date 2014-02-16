@@ -21,19 +21,19 @@ let CharacterEditor = element.define("character-editor", {
   }
 });
 
-function saveCharacterForm(editor, _el, ev) {
+function saveCharacterForm(el, _target, ev) {
   ev.preventDefault();
-  return save(editor.scope.character).then(function success() {
-    editor.scope.errors.replace([]);
+  let props = el.props();
+  return save(props.character).then(function success() {
+    props.errors.replace([]);
   }, function fail(err) {
-    editor.scope.errors.replace(err);
+    props.errors.replace(err);
   });
 }
 
-function syncCharacter(editor) {
-  editor.scope.character.attr(
-    can.deparam(
-      editor.element.find("form").serialize()));
+function syncCharacter(el) {
+  el.props("character").attr(
+    can.deparam(el.find("form").serialize()));
 }
 
 /*

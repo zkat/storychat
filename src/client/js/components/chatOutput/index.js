@@ -41,21 +41,19 @@ forEach(entryTemplates, function(template, name) {
   });
 });
 
-function scrollChat(chatOutput) {
-  let el = chatOutput.element,
-      newTop = el.children().height();
+function scrollChat(el) {
+  let newTop = el.children().height();
   defer(function() {
     el.scrollTop(newTop);
   });
 }
 
-function setSizeAndScroll(chatOutput) {
-  let el = chatOutput.element,
-      elHeight = el.height(),
+function setSizeAndScroll(el) {
+  let elHeight = el.height(),
       winHeight = $(window).height(),
       bodHeight = $("body").height();
   el.height(winHeight - (bodHeight - elHeight));
-  scrollChat(chatOutput);
+  scrollChat(el);
 }
 
 function renderGroup(entryType, opts) {

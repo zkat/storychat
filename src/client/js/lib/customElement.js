@@ -4,9 +4,17 @@ let can = require("../shims/can"),
     {forEach, extend} = require("lodash"),
     {clone, init} = require("./proto");
 
+let $ = require("jquery");
+$.fn.props = $.fn.scope;
+
 let CustomElement = clone();
 
 let style = require("./ensureStyle");
+
+let MO = (window.MutationObserver ||
+          window.WebKitMutationObserver ||
+          window.MozMutationObserver);
+let observer = new MO(handleAttributeChanges);
 
 init.addMethod([CustomElement], function(customEl, tagName, opts) {
   opts = opts || {};
@@ -61,8 +69,12 @@ function normalSet(x, key, val) {
   x[key] = val;
 }
 
+function handleAttributeChanges(mutations) {
+  console.log(mutations);
+}
+
 function makeScopeFun(customEl) {
-  return function scope(attributes, _hookupScope, el) {
+  return function(attributes, _hookupScope, el) {
     let map = new can.Map({});
     forEach(customEl.attributes, function(config, name) {
       let defaultVal = config.defaultMaker ?
@@ -95,6 +107,7 @@ function makeScopeFun(customEl) {
         setter(map, name, defaultVal);
       }
     });
+    observer.observe(el, {attributes: true});
     return map;
   };
 }
@@ -102,8 +115,8 @@ function makeScopeFun(customEl) {
 function wrapCallback(callback, pattern, evs) {
   evs[pattern] = function() {
     callback.apply(
-      // TODO - this.scope?
-      this, [this].concat([].slice.call(arguments)));
+      this.element,
+      [this.element].concat([].slice.call(arguments)));
   };
 }
 
