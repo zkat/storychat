@@ -54,8 +54,12 @@ init.addMethod([Router], function(router) {
 
 function initCanRoute() {
   if (window.history && window.history.pushState && window.location.hash) {
-    window.history.replaceState(null, null, window.location.hash.substr(2));
-    window.location.hash = "";
+    if (window.history.previous === window.location.hash.substr(2)) {
+      window.go(-1);
+    } else {
+      window.history.replaceState(null, null, window.location.hash.substr(2));
+      window.location.hash = "";
+    }
   }
   can.route.ready();
 }
