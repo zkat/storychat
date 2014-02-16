@@ -12,7 +12,7 @@ Storychat is a nice sandbox for playing with a bunch of web technologies.
 * Copy `config/app.example.json` to `config/app.json` and give it
   reasonable-large and unique secrets.
 * `make db`
-* `make run`
+* `make run-dev`
 
 # Development and Hacking on Storychat
 
