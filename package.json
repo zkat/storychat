@@ -7,8 +7,18 @@
     "test": "make test",
     "postinstall": "bower install && make build"
   },
-  "author": "",
+  "author": "Kat Marchán <kzm@sykosomatic.org>",
   "license": "AGPLv3",
+  "browserify": {
+    "transform": [
+      "es6ify",
+      "debowerify",
+      "./src/server/node_modules/can.viewify.js",
+      "stylify",
+      "brfs",
+      "uglifyify"
+    ]
+  },
   "devDependencies": {
     "jshint": "~2.1.10",
     "mocha": "~1.12.1",
@@ -23,7 +33,8 @@
     "insert-css": "0.0.0",
     "stylify": "0.0.1",
     "through": "~2.3.4",
-    "testee": "0.0.7"
+    "testee": "0.0.7",
+    "uglifyify": "~1.2.2"
   },
   "dependencies": {
     "genfun": "~0.1.2",

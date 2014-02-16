@@ -45,7 +45,9 @@ client-test-files = $(shell find $(client-src-dir)/js -type f \
                             -or -iname "*test.html" )
 resource-dir = static
 static-resources = \
-	$(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files))
+    $(patsubst $(client-src-dir)/%,$(resource-dir)/%,$(client-static-resource-files)) \
+    $(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css
+
 build-dir = $(resource-dir)/js
 browserify-bundle = $(build-dir)/storychat.js
 browserify-test-bundle = $(build-dir)/storychat-test.js
@@ -90,26 +92,10 @@ all: build
 # Compiling
 #
 .PHONY: build
-build: static lint compile
+build: static lint
 
 .PHONY: static
 static: $(static-resources)
-
-.PHONY: compile
-compile: $(browserify-bundle)
-
-.PHONY: compile-tests
-compile-tests: $(browserify-test-bundle)
-
-$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
-	@mkdir -p $(@D)
-	$(browserify) $< $(browserify-opts) -o $@
-
-$(browserify-test-bundle): $(client-test-main-file) $(client-main-file) \
-							$(client-src-files) $(client-stylesheets) \
-							$(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css
-	@mkdir -p $(@D)
-	$(browserify) $< $(browserify-opts) -o $@
 
 $(resource-dir)/%: $(client-src-dir)/%
 	@mkdir -p $(@D)

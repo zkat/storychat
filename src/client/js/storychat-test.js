@@ -7,7 +7,7 @@ mocha.globals(["$"]);
 
 require("./lib/socketConn/test");
 require("./models/chatlog/test");
-require("./controls/chatOutput/test");
+require("./components/chatOutput/test");
 
 $(function() {
   mocha.run();
