@@ -56,7 +56,7 @@ function setSizeAndScroll(el) {
   scrollChat(el);
 }
 
-function renderGroup(entryType, opts) {
+function renderGroup(_props, entryType, opts) {
   return function(tempTag) {
     $(tempTag).html(can.view.mustache(
       "<"+entryType()+"-entry-group entries='entries'/>")(opts.context));

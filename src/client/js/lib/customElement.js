@@ -31,11 +31,22 @@ let observer = new MO(handleAttributeChanges);
 init.addMethod([CustomElement], function(customEl, tagName, opts) {
   opts = opts || {};
   customEl.style = opts.style;
-  customEl.events = forEach(extend({}, opts.events), wrapCallback);
   customEl.tagName = tagName;
   customEl.template = opts.template;
   customEl.propertyConfigs = processPropertyConfigs(opts.properties);
+  customEl.events = forEach(extend({}, opts.events), function(cb, name, evs) {
+    evs[name] = function() {
+      return cb.apply(
+        this.element,
+        [this.element].concat([].slice.call(arguments)));
+    };
+  });
   customEl.helpers = opts.helpers;
+  customEl.helpers = forEach(extend({}, opts.helpers), function(cb, name, hps) {
+    hps[name] = function() {
+      return cb.apply(this, [this].concat([].slice.call(arguments)));
+    };
+  });
 });
 
 function install(customEl, tagName) {
@@ -132,14 +143,6 @@ function makeScopeFun(customEl) {
     });
     observer.observe(el, {attributes: true});
     return props;
-  };
-}
-
-function wrapCallback(callback, pattern, evs) {
-  evs[pattern] = function() {
-    callback.apply(
-      this.element,
-      [this.element].concat([].slice.call(arguments)));
   };
 }
 

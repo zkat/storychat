@@ -204,10 +204,9 @@ function updateScopeUser(el) {
 /*
  * Mustache helpers
  */
-function renderInput(type, actor, opts) {
-  let scope = opts.scope;
+function renderInput(props, type, actor) {
   function render(el) {
-    $(el).html(find(inputs, {name: type()}).template(scope));
+    $(el).html(find(inputs, {name: type()}).template(props));
   }
   return function(el) {
     render(el);
@@ -220,9 +219,8 @@ function renderInput(type, actor, opts) {
   };
 }
 
-function isSelected(opts) {
-  /*jshint validthis: true */
-  if (this.attr("actor") === opts.context) {
+function isSelected(props, opts) {
+  if (props.attr("actor") === opts.context) {
     return opts.fn();
   } else {
     return opts.inverse();
