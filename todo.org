@@ -485,8 +485,6 @@
 ** TODO Basic character creation and management                  :characters:
    Need database support for characters, a service (over websockets?) to
    manage them, and a control on the client-side for management.
-** TODO Move proto into a shared lib                                  :proto:
-   This is in process.
 ** TODO Get testee to work with SockJS                                :tests:
    Not sure why it isn't working. phantomjs can run the test file just fine.
 ** TODO Fix issues with user list                                        :ui:
@@ -498,6 +496,19 @@
    flag node-side, and there's no way to do it that I could tell that would let
    us still use the plain 'grunt' command.
 * active [0/2]
+** TODO [#A] Factor out shared libraries                           :refactor:
+It should be crystal clear what code is shared between client and server
+*** TODO [#A] Factor out proto                                        :proto:
+This should definitely be factored out
+*** TODO [#B] Factor out client/server node_modules                :refactor:
+zkat:
+ | there's also a src/client/js/lib directory
+ | that you might want to make src/client/js/node_modules/
+ | although last time I tried, it didn't seem to mix well with browserify
+ | but try it and see what happens. You'll have to adjust a lot of paths.
+ | but it means all the stuff in there can be referred to by plain name, which would be nice.
+*** TODO [#C] Investigate check.js                                 :refactor:
+This needs to be investigated further
 ** TODO Work on customElement a bit                                      :ui:
    Improve the API a bit, make sure it still works after recent updates. Mainly,
    take a look at how scope() works and provide a suitable replacement.
