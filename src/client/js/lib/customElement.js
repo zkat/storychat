@@ -12,7 +12,6 @@ $.fn.props = function(name, val) {
     return props;
   case 1:
     return props.attr(name);
-  case 2:
   default:
     props.attr(name, val);
     return this;
