@@ -82,45 +82,56 @@ function normalSet(x, key, val) {
 }
 
 function handleAttributeChanges(mutations) {
-  console.log(mutations);
+  forEach(mutations, function(mutation) {
+    let el = $(mutation.target);
+    assignAttribute(el, el.props(), mutation.attributeName, false);
+  });
+}
+
+function assignAttribute(el, props, name, fillDefaults) {
+  el = $(el);
+  let config = el.data("__customEl").attributes[name],
+      hookupScope = el.data("__customElHookupScope");
+  if (!config) { return; }
+  
+  let setter = config.observe ? attrSet : normalSet,
+      value = el.attr(name),
+      elHasAttribute = el[0].hasAttribute(name),
+      defaultVal = fillDefaults && (config.defaultMaker ?
+                                    config.defaultMaker(props, value) :
+                                    config.default);
+  if (config.internal && fillDefaults) {
+    setter(props, name, defaultVal);
+  } else if (elHasAttribute && config.type === "lookup") {
+    let compute = hookupScope.computeData(value, { args: []}).compute;
+    setter(props, name, compute());
+  } else if (elHasAttribute && config.type === "string") {
+    setter(props, name, value);
+  } else if (elHasAttribute && config.type === "number") {
+    setter(props, name, Number(value));
+  } else if (elHasAttribute && config.type === "boolean") {
+    setter(props, name, Boolean(value));
+  } else if (config.required &&
+             !elHasAttribute &&
+             value === undefined) {
+    throw new Error("Missing required property "+name+
+                    " in instance of <"+el[0].tagName+">");
+  }
+  if (!props.hasOwnProperty(name) && fillDefaults) {
+    setter(props, name, defaultVal);
+  }
 }
 
 function makeScopeFun(customEl) {
-  return function(attributes, _hookupScope, el) {
-    let map = new can.Map({});
-    forEach(customEl.attributes, function(config, name) {
-      let defaultVal = config.defaultMaker ?
-            config.defaultMaker(map, attributes[name]) :
-            config.default,
-          elHasAttribute = el.hasAttribute(name),
-          setter = config.observe ? attrSet : normalSet;
-      // TODO - these two will not be observed. Need to figure out a way to get
-      // Map#attr() to not convert objects into maps automatically.
-      if (config.internal) {
-        setter(map, name, defaultVal);
-      } else if (attributes.hasOwnProperty(name) && config.type === "lookup") {
-        setter(map, name, attributes[name]);
-      } else if (elHasAttribute && config.type === "string") {
-        setter(map, name, el.getAttribute(name));
-      } else if (elHasAttribute && config.type === "number") {
-        setter(map, name, Number(el.getAttribute(name)));
-      } else if (elHasAttribute && config.type === "boolean") {
-        setter(map, name, Boolean(el.getAttribute(name)));
-      } else if (config.required &&
-                 !el.hasAttribute(name) &&
-                 !attributes.hasOwnProperty(name)) {
-        throw new Error("Missing required property "+name+
-                       " in instance of <"+customEl+">");
-      }
-
-      if (!map.hasOwnProperty(name)) {
-        // TODO - this will not be observed. Address after figuring out
-        // can.Map#attr on objects.
-        setter(map, name, defaultVal);
-      }
+  return function(attributes, hookupScope, el) {
+    let props = new can.Map({});
+    $(el).data("__customEl", customEl);
+    $(el).data("__customElHookupScope", hookupScope);
+    forEach(customEl.attributes, function(_c, name) {
+      assignAttribute(el, props, name, true);
     });
     observer.observe(el, {attributes: true});
-    return map;
+    return props;
   };
 }
 
