@@ -8,9 +8,12 @@ let config = require("config");
 
 let port = config.app.httpPort;
 
+let staticDir    = __dirname + "/../../static",
+    clientSrcDir = __dirname + "/../../src/client";
+
 let web = clone(webServer.WebServer, {
   sessionSecret: "omgsupersecretlol",
-  staticDir: __dirname + "/../../static"
+  staticDir: staticDir
 });
 
 let chatService = require("./services/chat").service;
@@ -23,6 +26,13 @@ if (config.env !== "production") {
   // Pieces together stack traces for promises. Has a performance hit.
   require("q").longStackSupport = true;
   echoService = require("./services/echo").service;
+  let watcher = require("./clientRecompiler");
+  watcher.watch(clientSrcDir + "/js/storychat.js",
+                staticDir + "/js/storychat.js",
+                { debug: true, verbose: false });
+  watcher.watch(clientSrcDir + "/js/storychat-test.js",
+                staticDir + "/js/storychat-test.js",
+                { debug: true, verbose: false });
 }
 
 clone(require("./socketServer").SocketServer, web.http, {
