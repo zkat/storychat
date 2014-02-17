@@ -30,8 +30,8 @@ let ChatInput = element.define("chat-input", {
   events: {
     "form submit": sendMessage,
     "form keydown": keyPressed,
-    "form textarea keydown": textAreaKeyPressed,
-    "form textarea input": typingNotification,
+    "form [name=content] keydown": textAreaKeyPressed,
+    "form [name=content] input": typingNotification,
     "form click": focusContent,
     "[name=type] change": typeSelectorChanged,
     "[name=actor] change": updateScopeActor,
@@ -39,28 +39,27 @@ let ChatInput = element.define("chat-input", {
     "{scope} type": typeChanged,
     "{scope} actor": updateActorDropdown,
     "{scope.characters} length": updateScopeActor,
-    inserted: function(inp) {
-      focusContent(inp);
-      alignActionInput(inp);
+    inserted: function(el) {
+      focusContent(el);
+      alignActionInput(el);
       conn.state.bind("change", function(ev, newstate) {
-        // TODO - figure out why .attr("user").id fails. CanJS bug.
-        if (newstate === "open" && inp.scope.attr("user.id")) {
+        if (newstate === "open" && el.props("user.id")) {
           window.setTimeout(function() {
-            updateScopeUser(inp);
+            updateScopeUser(el);
           }, 0);
         }
       });
       $(window).resize();
     }
   },
-  attributes: {
-    characters: { defaultMaker: character.list },
+  properties: {
+    characters: { defun: character.list },
     actor: {},
     conn: { default: conn },
     user: {
-      defaultMaker: function(scope) {
+      defun: function(props) {
         user.current().then(function(usr) {
-          scope.attr("user", usr);
+          props.attr("user", usr);
         });
         return {};
       }
@@ -70,7 +69,7 @@ let ChatInput = element.define("chat-input", {
     inputs: { default: inputs },
     defaults: {
       internal: true,
-      defaultMaker: function() {
+      defun: function() {
         return Object.create(null);
       }
     }
@@ -84,37 +83,39 @@ let ChatInput = element.define("chat-input", {
 /*
  * Chat message handling
  */
-function sendMessage(chatInput, _el, event) {
+function sendMessage(el, _target, event) {
   event.preventDefault();
-  let formVals = can.deparam(chatInput.element.find("form").serialize());
+  let formVals = can.deparam(el.find("form").serialize()),
+      props = el.props();
   if (!formVals.content) { return; }
-  formVals.actor = currentActor(chatInput).id;
-  submitEntry(chatInput.scope.log, chatInput.scope.type, formVals);
-  chatInput.scope.attr("user").attr("typing", false);
-  chatInput.scope.attr("user").save();
-  chatInput.element.find("form")[0].reset();
+  formVals.actor = currentActor(el).id;
+  submitEntry(props.log, props.type, formVals);
+  props.attr("user").attr("typing", false);
+  props.attr("user").save();
+  el.find("form")[0].reset();
 }
 
 /*
  * Actor management
  */
-function currentActor(chatInput) {
-  return chatInput.scope.attr("actor");
+function currentActor(el) {
+  return el.props("actor");
 }
 
-function updateScopeActor(chatInput) {
+function updateScopeActor(el) {
+  let actor = el.find("[name=actor] :selected").data("actor"),
+      props = el.props();
   can.batch.start();
-  let actor = chatInput.element.find("[name=actor] :selected").data("actor");
-  chatInput.scope.attr("actor", actor);
-  chatInput.scope.attr("user").attr("character", actor.name);
-  chatInput.scope.attr("user").save();
-  alignActionInput(chatInput);
+  props.attr("actor", actor);
+  props.attr("user").attr("character", actor.name);
+  props.attr("user").save();
+  alignActionInput(el);
   $(window).resize();
   can.batch.stop();
 }
 
-function alignActionInput(chatInput) {
-  let actionForm = chatInput.element.find("form.action");
+function alignActionInput(el) {
+  let actionForm = el.find("form.action");
   if (actionForm) {
     actionForm.find("[name=content]").css({
       "text-indent": actionForm.find("actor").width()
@@ -122,63 +123,64 @@ function alignActionInput(chatInput) {
   }
 }
 
-function updateActorDropdown(chatInput) {
-  chatInput.element.find("[name=actor]").val(chatInput.scope.attr("actor").id);
+function updateActorDropdown(el) {
+  el.find("[name=actor]").val(el.props("actor.id"));
 }
 
 /*
  * Cycle between input types
  */
 const TAB = 9;
-function keyPressed(chatInput, _el, event) {
+function keyPressed(el, _target, event) {
   if (event.keyCode === TAB) {
     event.preventDefault();
-    cycleInputType(chatInput, !event.shiftKey);
+    cycleInputType(el, !event.shiftKey);
   }
 }
 
-function cycleInputType(chatInput, goForward) {
-  let typeIndex = findIndex(inputs, {name: chatInput.scope.type});
-  chatInput.scope.attr(
+function cycleInputType(el, goForward) {
+  let typeIndex = findIndex(inputs, {name: el.props("type")});
+  el.props(
     "type",
     inputs[(typeIndex + (goForward ? 1 : inputs.length - 1)) %
            inputs.length].name);
-  focusContent(chatInput);
+  focusContent(el);
 }
 
-function typeChanged(chatInput, scope) {
-  let form = chatInput.element.find("form");
-  chatInput.element.find("[name=type]").val(scope.type);
-  chatInput.scope.attr("defaults", can.deparam(form.serialize()));
-  forEach(chatInput.scope.defaults, function(v, k) {
+function typeChanged(el) {
+  let form = el.find("form");
+  el.find("[name=type]").val(el.props("type"));
+  el.props("defaults", can.deparam(form.serialize()));
+  forEach(el.props("defaults"), function(v, k) {
     form.find("[name="+k+"]").val(v);
   });
-  alignActionInput(chatInput);
+  alignActionInput(el);
+  typingNotification(el);
   $(window).resize();
 }
 
-function typeSelectorChanged(chatInput, el) {
-  chatInput.scope.attr("type", el.val());
+function typeSelectorChanged(el, target) {
+  el.props("type", target.val());
 }
 
 /*
  * Special textareas
  */
 const RET = 13;
-function textAreaKeyPressed(chatInput, _el, event) {
+function textAreaKeyPressed(_el, _target, event) {
   /*jshint validthis:true*/
   if (event.keyCode === RET && !event.shiftKey) {
     sendMessage.apply(this, arguments);
   }
 }
 
-function focusContent(chatInput) {
-  chatInput.element.find("form [name=content]").focus();
+function focusContent(el) {
+  el.find("form [name=content]").focus();
 }
 
-function typingNotification(chatInput) {
-  let user = chatInput.scope.attr("user");
-  if (chatInput.element.find("form [name=content]").val().length) {
+function typingNotification(el) {
+  let user = el.props("user");
+  if (el.find("form [name=content]").val().length) {
     user.attr("typing", true);
   } else {
     user.attr("typing", false);
@@ -189,11 +191,11 @@ function typingNotification(chatInput) {
 /*
  * Username management
  */
-function updateScopeUser(chatInput) {
+function updateScopeUser(el) {
   if (conn.state() === "open") {
     can.batch.start();
-    let user = chatInput.scope.attr("user");
-    user.attr("name", chatInput.element.find("[name=user]").val());
+    let user = el.props("user");
+    user.attr("name", el.find("[name=user]").val());
     user.save();
     can.batch.stop();
   }
@@ -202,10 +204,9 @@ function updateScopeUser(chatInput) {
 /*
  * Mustache helpers
  */
-function renderInput(type, actor, opts) {
-  let scope = opts.scope;
+function renderInput(props, type, actor) {
   function render(el) {
-    $(el).html(find(inputs, {name: type()}).template(scope));
+    $(el).html(find(inputs, {name: type()}).template(props));
   }
   return function(el) {
     render(el);
@@ -218,9 +219,8 @@ function renderInput(type, actor, opts) {
   };
 }
 
-function isSelected(opts) {
-  /*jshint validthis: true */
-  if (this.attr("actor") === opts.context) {
+function isSelected(props, opts) {
+  if (props.attr("actor") === opts.context) {
     return opts.fn();
   } else {
     return opts.inverse();

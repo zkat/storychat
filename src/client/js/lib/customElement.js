@@ -4,18 +4,49 @@ let can = require("../shims/can"),
     {forEach, extend} = require("lodash"),
     {clone, init} = require("./proto");
 
+let $ = require("jquery");
+$.fn.props = function(name, val) {
+  let props = this.data("scope");
+  switch (arguments.length) {
+  case 0:
+    return props;
+  case 1:
+    return props.attr(name);
+  case 2:
+  default:
+    props.attr(name, val);
+    return this;
+  }
+};
+
 let CustomElement = clone();
 
 let style = require("./ensureStyle");
 
+let MO = (window.MutationObserver ||
+          window.WebKitMutationObserver ||
+          window.MozMutationObserver);
+let observer = new MO(handleAttributeChanges);
+
 init.addMethod([CustomElement], function(customEl, tagName, opts) {
   opts = opts || {};
   customEl.style = opts.style;
-  customEl.events = forEach(extend({}, opts.events), wrapCallback);
   customEl.tagName = tagName;
   customEl.template = opts.template;
-  customEl.attributes = processAttributes(opts.scope||opts.attributes);
+  customEl.propertyConfigs = processPropertyConfigs(opts.properties);
+  customEl.events = forEach(extend({}, opts.events), function(cb, name, evs) {
+    evs[name] = function() {
+      return cb.apply(
+        this.element,
+        [this.element].concat([].slice.call(arguments)));
+    };
+  });
   customEl.helpers = opts.helpers;
+  customEl.helpers = forEach(extend({}, opts.helpers), function(cb, name, hps) {
+    hps[name] = function() {
+      return cb.apply(this, [this].concat([].slice.call(arguments)));
+    };
+  });
 });
 
 function install(customEl, tagName) {
@@ -30,9 +61,9 @@ function install(customEl, tagName) {
   });
 }
 
-function processAttributes(attrs) {
+function processPropertyConfigs(propConfigs) {
   let ret = {};
-  forEach(attrs, function(opts, name) {
+  forEach(propConfigs, function(opts, name) {
     /* jshint eqeqeq: false, eqnull: true */
     if (typeof opts === "string") {
       opts = {
@@ -42,7 +73,7 @@ function processAttributes(attrs) {
     ret[name] = {
       observe: opts.observe == null || opts.observe,
       default: opts.default,
-      defaultMaker: opts.defaultMaker,
+      defaultFun: opts.defaultFun || opts.defun,
       required: opts.required,
       type: opts.type ||
         (opts.default != null && typeof opts.default) ||
@@ -61,49 +92,57 @@ function normalSet(x, key, val) {
   x[key] = val;
 }
 
-function makeScopeFun(customEl) {
-  return function scope(attributes, _hookupScope, el) {
-    let map = new can.Map({});
-    forEach(customEl.attributes, function(config, name) {
-      let defaultVal = config.defaultMaker ?
-            config.defaultMaker(map, attributes[name]) :
-            config.default,
-          elHasAttribute = el.hasAttribute(name),
-          setter = config.observe ? attrSet : normalSet;
-      // TODO - these two will not be observed. Need to figure out a way to get
-      // Map#attr() to not convert objects into maps automatically.
-      if (config.internal) {
-        setter(map, name, defaultVal);
-      } else if (attributes.hasOwnProperty(name) && config.type === "lookup") {
-        setter(map, name, attributes[name]);
-      } else if (elHasAttribute && config.type === "string") {
-        setter(map, name, el.getAttribute(name));
-      } else if (elHasAttribute && config.type === "number") {
-        setter(map, name, Number(el.getAttribute(name)));
-      } else if (elHasAttribute && config.type === "boolean") {
-        setter(map, name, Boolean(el.getAttribute(name)));
-      } else if (config.required &&
-                 !el.hasAttribute(name) &&
-                 !attributes.hasOwnProperty(name)) {
-        throw new Error("Missing required property "+name+
-                       " in instance of <"+customEl+">");
-      }
-
-      if (!map.hasOwnProperty(name)) {
-        // TODO - this will not be observed. Address after figuring out
-        // can.Map#attr on objects.
-        setter(map, name, defaultVal);
-      }
-    });
-    return map;
-  };
+function handleAttributeChanges(mutations) {
+  forEach(mutations, function(mutation) {
+    let el = $(mutation.target);
+    assignAttribute(el, el.props(), mutation.attributeName, false);
+  });
 }
 
-function wrapCallback(callback, pattern, evs) {
-  evs[pattern] = function() {
-    callback.apply(
-      // TODO - this.scope?
-      this, [this].concat([].slice.call(arguments)));
+function assignAttribute(el, props, name, fillDefaults) {
+  el = $(el);
+  let config = el.data("__customEl").propertyConfigs[name],
+      hookupScope = el.data("__customElHookupScope");
+  if (!config) { return; }
+  
+  let setter = config.observe ? attrSet : normalSet,
+      value = el.attr(name),
+      elHasAttribute = el[0].hasAttribute(name),
+      defaultVal = fillDefaults && (config.defaultFun ?
+                                    config.defaultFun(props, value) :
+                                    config.default);
+  if (config.internal && fillDefaults) {
+    setter(props, name, defaultVal);
+  } else if (elHasAttribute && config.type === "lookup") {
+    let compute = hookupScope.computeData(value, { args: []}).compute;
+    setter(props, name, compute());
+  } else if (elHasAttribute && config.type === "string") {
+    setter(props, name, value);
+  } else if (elHasAttribute && config.type === "number") {
+    setter(props, name, Number(value));
+  } else if (elHasAttribute && config.type === "boolean") {
+    setter(props, name, Boolean(value));
+  } else if (config.required &&
+             !elHasAttribute &&
+             value === undefined) {
+    throw new Error("Missing required property "+name+
+                    " in instance of <"+el[0].tagName+">");
+  }
+  if (!props.hasOwnProperty(name) && fillDefaults) {
+    setter(props, name, defaultVal);
+  }
+}
+
+function makeScopeFun(customEl) {
+  return function(attributes, hookupScope, el) {
+    let props = new can.Map({});
+    $(el).data("__customEl", customEl);
+    $(el).data("__customElHookupScope", hookupScope);
+    forEach(customEl.propertyConfigs, function(_c, name) {
+      assignAttribute(el, props, name, true);
+    });
+    observer.observe(el, {attributes: true});
+    return props;
   };
 }
 
