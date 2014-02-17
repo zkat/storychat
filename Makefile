@@ -5,16 +5,10 @@
 #
 # Binaries
 #
-ifdef watch
-browserify-name = watchify
-else
-browserify-name = browserify
-endif
-
 module-root = ./node_modules
 bin = $(module-root)/.bin
 uglify = $(bin)/uglifyjs
-browserify = $(bin)/$(browserify-name)
+browserify = $(bin)/browserify
 jsdoc = $(module-root)/jsdoc/jsdoc
 mocha = $(bin)/mocha $(node-opts) $(mocha-opts)
 linter = $(bin)/jshint $(linter-opts)
@@ -76,7 +70,7 @@ space:= $(empty) $(empty)
 config-dir = config
 mocha-opts = --check-leaks --recursive
 linter-opts =
-browserify-opts = -t es6ify -t debowerify -t ./src/server/node_modules/can.viewify -t stylify -t brfs -d
+browserify-opts =
 node-opts = --harmony
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
 db-host = localhost
@@ -92,10 +86,22 @@ all: build
 # Compiling
 #
 .PHONY: build
-build: static lint
+build: static lint compile
 
 .PHONY: static
 static: $(static-resources)
+
+.PHONY: compile
+compile: $(browserify-bundle) $(browserify-test-bundle)
+
+$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
+	@mkdir -p $(@D)
+	$(browserify) $< $(browserify-opts) -o $@
+
+$(browserify-test-bundle): $(client-test-main-file) $(client-main-file) \
+                            $(client-src-files) $(client-stylesheets)
+	@mkdir -p $(@D)
+	$(browserify) $< $(browserify-opts) -o $@
 
 $(resource-dir)/%: $(client-src-dir)/%
 	@mkdir -p $(@D)
