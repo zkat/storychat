@@ -1,6 +1,6 @@
 "use strict";
 
-let {forEach, find, findIndex} = require("lodash");
+let {forEach, find, findIndex, defer, partial} = require("lodash");
 
 let can = require("../../shims/can"),
     $ = require("jquery"),
@@ -44,9 +44,7 @@ let ChatInput = element.define("chat-input", {
       alignActionInput(el);
       conn.state.bind("change", function(ev, newstate) {
         if (newstate === "open" && el.props("user.id")) {
-          window.setTimeout(function() {
-            updateScopeUser(el);
-          }, 0);
+          defer(partial(updateScopeUser, el));
         }
       });
       $(window).resize();
