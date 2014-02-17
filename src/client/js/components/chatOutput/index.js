@@ -13,7 +13,7 @@ let ChatOutput = element.define("chat-output", {
     debug: { type: "boolean", default: false }
   },
   events: {
-    "{log.entryGroups} change": setSizeAndScroll,
+    "{scope.log.entryGroups} change": setSizeAndScroll,
     "{window} resize": setSizeAndScroll,
     inserted: setSizeAndScroll
   },
