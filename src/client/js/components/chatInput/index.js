@@ -30,8 +30,8 @@ let ChatInput = element.define("chat-input", {
   events: {
     "form submit": sendMessage,
     "form keydown": keyPressed,
-    "form textarea keydown": textAreaKeyPressed,
-    "form textarea input": typingNotification,
+    "form [name=content] keydown": textAreaKeyPressed,
+    "form [name=content] input": typingNotification,
     "form click": focusContent,
     "[name=type] change": typeSelectorChanged,
     "[name=actor] change": updateScopeActor,
@@ -155,6 +155,7 @@ function typeChanged(el) {
     form.find("[name="+k+"]").val(v);
   });
   alignActionInput(el);
+  typingNotification(el);
   $(window).resize();
 }
 
