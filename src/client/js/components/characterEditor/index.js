@@ -7,9 +7,9 @@ let can = require("../../shims/can");
 let CharacterEditor = element.define("character-editor", {
   style: require("./styles.styl"),
   template: require("./template.mustache"),
-  attributes: {
+  properties: {
     character: {
-      defaultMaker: function() {
+      defun: function() {
         return makeCharacter("", "");
       }
     },

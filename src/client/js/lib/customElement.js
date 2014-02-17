@@ -5,16 +5,16 @@ let can = require("../shims/can"),
     {clone, init} = require("./proto");
 
 let $ = require("jquery");
-$.fn.props = function(attr, val) {
+$.fn.props = function(name, val) {
   let props = this.data("scope");
   switch (arguments.length) {
   case 0:
     return props;
   case 1:
-    return props.attr(attr);
+    return props.attr(name);
   case 2:
   default:
-    props.attr(attr, val);
+    props.attr(name, val);
     return this;
   }
 };
@@ -34,7 +34,7 @@ init.addMethod([CustomElement], function(customEl, tagName, opts) {
   customEl.events = forEach(extend({}, opts.events), wrapCallback);
   customEl.tagName = tagName;
   customEl.template = opts.template;
-  customEl.attributes = processAttributes(opts.scope||opts.attributes);
+  customEl.propertyConfigs = processPropertyConfigs(opts.properties);
   customEl.helpers = opts.helpers;
 });
 
@@ -50,9 +50,9 @@ function install(customEl, tagName) {
   });
 }
 
-function processAttributes(attrs) {
+function processPropertyConfigs(propConfigs) {
   let ret = {};
-  forEach(attrs, function(opts, name) {
+  forEach(propConfigs, function(opts, name) {
     /* jshint eqeqeq: false, eqnull: true */
     if (typeof opts === "string") {
       opts = {
@@ -62,7 +62,7 @@ function processAttributes(attrs) {
     ret[name] = {
       observe: opts.observe == null || opts.observe,
       default: opts.default,
-      defaultMaker: opts.defaultMaker,
+      defaultFun: opts.defaultFun || opts.defun,
       required: opts.required,
       type: opts.type ||
         (opts.default != null && typeof opts.default) ||
@@ -90,15 +90,15 @@ function handleAttributeChanges(mutations) {
 
 function assignAttribute(el, props, name, fillDefaults) {
   el = $(el);
-  let config = el.data("__customEl").attributes[name],
+  let config = el.data("__customEl").propertyConfigs[name],
       hookupScope = el.data("__customElHookupScope");
   if (!config) { return; }
   
   let setter = config.observe ? attrSet : normalSet,
       value = el.attr(name),
       elHasAttribute = el[0].hasAttribute(name),
-      defaultVal = fillDefaults && (config.defaultMaker ?
-                                    config.defaultMaker(props, value) :
+      defaultVal = fillDefaults && (config.defaultFun ?
+                                    config.defaultFun(props, value) :
                                     config.default);
   if (config.internal && fillDefaults) {
     setter(props, name, defaultVal);
@@ -127,7 +127,7 @@ function makeScopeFun(customEl) {
     let props = new can.Map({});
     $(el).data("__customEl", customEl);
     $(el).data("__customElHookupScope", hookupScope);
-    forEach(customEl.attributes, function(_c, name) {
+    forEach(customEl.propertyConfigs, function(_c, name) {
       assignAttribute(el, props, name, true);
     });
     observer.observe(el, {attributes: true});

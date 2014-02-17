@@ -8,7 +8,7 @@ let $ = require("jquery");
 let ChatOutput = element.define("chat-output", {
   style: require("./styles.styl"),
   template: require("./template.mustache"),
-  attributes: {
+  properties: {
     log: { type: "lookup", required: true, observe: false },
     debug: { type: "boolean", default: false }
   },

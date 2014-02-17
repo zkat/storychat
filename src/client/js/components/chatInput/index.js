@@ -52,12 +52,12 @@ let ChatInput = element.define("chat-input", {
       $(window).resize();
     }
   },
-  attributes: {
-    characters: { defaultMaker: character.list },
+  properties: {
+    characters: { defun: character.list },
     actor: {},
     conn: { default: conn },
     user: {
-      defaultMaker: function(props) {
+      defun: function(props) {
         user.current().then(function(usr) {
           props.attr("user", usr);
         });
@@ -69,7 +69,7 @@ let ChatInput = element.define("chat-input", {
     inputs: { default: inputs },
     defaults: {
       internal: true,
-      defaultMaker: function() {
+      defun: function() {
         return Object.create(null);
       }
     }
