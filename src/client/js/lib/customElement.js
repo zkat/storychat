@@ -14,7 +14,8 @@ $.fn.props = function(attr, val) {
     return props.attr(attr);
   case 2:
   default:
-    return props.attr(attr, val);
+    props.attr(attr, val);
+    return this;
   }
 };
 
