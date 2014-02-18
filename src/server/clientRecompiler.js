@@ -4,7 +4,6 @@ let watchify = require("watchify");
 let through = require("through");
 let fs = require("fs");
 let path = require("path");
-let _ = require("lodash");
 
 function watch(source, target, options) {
 
@@ -17,7 +16,7 @@ function watch(source, target, options) {
 
   let log = options.verbose ? console.log : Function.prototype;
 
-  let watcher = watchify(_.extend({ entries: source }, options));
+  let watcher = watchify(source);
   let dotfile = path.join(path.dirname(target),
                           "." + path.basename(target) +
                           (new Date()).toISOString().replace(/:/, "-"));
@@ -27,7 +26,7 @@ function watch(source, target, options) {
   bundle();
 
   function bundle () {
-    let compiled = watcher.bundle();
+    let compiled = watcher.bundle(options);
     compiled.on("error", err);
     compiled.pipe(fs.createWriteStream(dotfile));
     let bytes = 0;
