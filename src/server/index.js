@@ -8,8 +8,10 @@ let config = require("config");
 
 let port = config.app.httpPort;
 
-let staticDir    = __dirname + "/../../static",
-    clientSrcDir = __dirname + "/../../src/client";
+let join = require("path").join;
+
+let staticDir    = join(__dirname, "/../../static"),
+    clientSrcDir = join(__dirname, "/../../src/client");
 
 let web = clone(webServer.WebServer, {
   sessionSecret: "omgsupersecretlol",
