@@ -5,7 +5,7 @@ let assert = require("assert");
 
 let {makeChatlog, addEntry, clearEntries} = require("../../models/chatlog"),
     {ChatOutput} = require("./index"),
-    {clone} = require("../../lib/proto"),
+    {clone} = require("proto"),
     {domEqual} = require("../../lib/testlib.js"),
     $ = require("jquery"),
     fs = require("fs"),

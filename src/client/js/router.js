@@ -1,6 +1,6 @@
 "use strict";
 
-let {clone, init} = require("./lib/proto");
+let {clone, init} = require("proto");
 
 let {find} = require("lodash");
 

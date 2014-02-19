@@ -1,6 +1,6 @@
 "use strict";
 
-let clone = require("../client/js/lib/proto").clone;
+let clone = require("proto").clone;
 
 let webServer = require("./webServer");
 

@@ -1,7 +1,7 @@
 "use strict";
 
 let {onMessage,listen,send} = require("../../lib/socketConn"),
-    {clone, init} = require("../../lib/proto"),
+    {clone, init} = require("proto"),
     {extend, last} = require("lodash"),
     character = require("../character"),
     can = require("../../shims/can"),

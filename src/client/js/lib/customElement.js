@@ -2,7 +2,7 @@
 
 let can = require("../shims/can"),
     {forEach, extend} = require("lodash"),
-    {clone, init} = require("./proto");
+    {clone, init} = require("proto");
 
 let $ = require("jquery");
 $.fn.props = function(name, val) {

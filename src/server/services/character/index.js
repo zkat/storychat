@@ -1,6 +1,6 @@
 "use strict";
 
-let proto = require("../../../client/js/lib/proto"),
+let proto = require("proto"),
     clone = proto.clone,
     init = proto.init;
 

@@ -4,7 +4,7 @@
 let assert = require("assert");
 
 let {Chatlog, submitEntry, addEntry} = require("./index"),
-    {clone} = require("../../lib/proto"),
+    {clone} = require("proto"),
     {connect, disconnect} = require("../../lib/socketConn");
 
 let socketUrl = "http://localhost:8080/wsauth";

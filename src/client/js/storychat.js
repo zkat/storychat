@@ -2,7 +2,7 @@
 
 let $ = require("jquery"),
     {Router} = require("./router"),
-    {clone} = require("./lib/proto");
+    {clone} = require("proto");
 
 let style = require("./lib/ensureStyle");
 

@@ -1,7 +1,7 @@
 "use strict";
 
 let Genfun = require("genfun"),
-    proto = require("../client/js/lib/proto"),
+    proto = require("proto"),
     clone = proto.clone,
     init = proto.init;
 

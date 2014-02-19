@@ -3,7 +3,7 @@
 let can = require("../shims/can"),
     {forEach, extend} = require("lodash"),
     Genfun = require("genfun"),
-    {clone, init} = require("./proto");
+    {clone, init} = require("proto");
 
 let EventListener = clone(),
     teardown = new Genfun();
