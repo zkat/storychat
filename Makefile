@@ -5,8 +5,8 @@
 #
 # Binaries
 #
-module-root = ./node_modules
-bin = $(module-root)/.bin
+module-root = $(shell npm root)
+bin = $(shell npm bin)
 uglify = $(bin)/uglifyjs
 browserify = $(bin)/browserify
 jsdoc = $(module-root)/jsdoc/jsdoc
