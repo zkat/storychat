@@ -35,7 +35,7 @@ let entryGroups = {};
 forEach(entryTemplates, function(template, name) {
   entryGroups[name] = element.define(name+"-entry-group", {
     template: template,
-    attributes: {
+    properties: {
       entries: { required: true }
     }
   });

@@ -17,10 +17,10 @@ let Character = element.define("character-page", {
   template: require("./template.mustache"),
   attributes: {
     characters: {
-      defaultMaker: character.list
+      defun: character.list
     },
     character: {
-      defaultMaker: makeCharacter
+      defun: makeCharacter
     }
   },
   events: {
