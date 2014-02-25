@@ -56,9 +56,8 @@ function makeCharacter(scope) {
   });
 }
 
-function isCurrentHelper(chr, opts) {
-  /*jshint validthis: true*/
-  if (this.attr("character") === chr) {
+function isCurrentHelper(props, chr, opts) {
+  if (props.attr("character") === chr) {
     return opts.fn();
   } else {
     return opts.inverse();

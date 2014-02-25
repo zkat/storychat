@@ -40,7 +40,6 @@ init.addMethod([CustomElement], function(customEl, tagName, opts) {
         [this.element].concat([].slice.call(arguments)));
     };
   });
-  customEl.helpers = opts.helpers;
   customEl.helpers = forEach(extend({}, opts.helpers), function(cb, name, hps) {
     hps[name] = function() {
       return cb.apply(this, [this].concat([].slice.call(arguments)));
