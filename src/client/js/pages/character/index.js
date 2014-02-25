@@ -15,7 +15,7 @@ require("../../components/characterEditor").install();
 let Character = element.define("character-page", {
   style: require("./styles.styl"),
   template: require("./template.mustache"),
-  attributes: {
+  properties: {
     characters: {
       defun: character.list
     },
