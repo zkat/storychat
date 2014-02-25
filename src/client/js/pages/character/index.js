@@ -24,7 +24,7 @@ let Character = element.define("character-page", {
     }
   },
   events: {
-    "[name=character] change": changeScopeCharacter,
+    "[name=character] change": changeCharacter,
     ".delete click": deleteCharacter
   },
   helpers: {
@@ -32,27 +32,26 @@ let Character = element.define("character-page", {
   }
 });
 
-function changeScopeCharacter(component) {
-  component.scope.attr(
+function changeCharacter(el) {
+  el.props(
     "character",
-    component.element.find("[name=character] :selected").data("character") ||
-      makeCharacter(component.scope));
+    el.find("[name=character] :selected").data("character") ||
+      makeCharacter(el));
 }
 
-function deleteCharacter(component) {
-  let scope = component.scope;
-  character.destroy(scope.attr("character")).then(function() {
-    scope.attr("character", makeCharacter(scope));
+function deleteCharacter(el) {
+  character.destroy(el.props("character")).then(function() {
+    el.props("character", makeCharacter(el));
   });
 }
 
-function makeCharacter(scope) {
+function makeCharacter(el) {
   return character.makeCharacter("","").bind("created", function() {
     // TODO - this callback is being invoked within a promise for some reason,
     //        which prevents it from throwing an uncaught exception when an
     //        error happens in here. Investigate!
-    scope.attr("characters").push(this);
-    scope.attr("character", this);
+    el.props("characters").push(this);
+    el.props("character", this);
   });
 }
 
