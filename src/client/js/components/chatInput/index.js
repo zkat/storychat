@@ -104,12 +104,15 @@ function updateScopeActor(el) {
   let actor = el.find("[name=actor] :selected").data("actor"),
       props = el.props();
   can.batch.start();
-  props.attr("actor", actor);
-  props.attr("user").attr("character", actor.name);
-  props.attr("user").save();
-  alignActionInput(el);
-  $(window).resize();
-  can.batch.stop();
+  try {
+    props.attr("actor", actor);
+    props.attr("user").attr("character", actor.name);
+    props.attr("user").save();
+    alignActionInput(el);
+    $(window).resize();
+  } finally {
+    can.batch.stop();
+  }
 }
 
 function alignActionInput(el) {
@@ -192,10 +195,13 @@ function typingNotification(el) {
 function updateScopeUser(el) {
   if (conn.state() === "open") {
     can.batch.start();
-    let user = el.props("user");
-    user.attr("name", el.find("[name=user]").val());
-    user.save();
-    can.batch.stop();
+    try {
+      let user = el.props("user");
+      user.attr("name", el.find("[name=user]").val());
+      user.save();
+    } finally {
+      can.batch.stop();
+    }
   }
 }
 
