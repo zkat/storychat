@@ -58,7 +58,7 @@ let ChatInput = element.define("chat-input", {
       defun: function(props) {
         user.current().then(function(usr) {
           props.attr("user", usr);
-        });
+        }).done();
         return {};
       }
     },
