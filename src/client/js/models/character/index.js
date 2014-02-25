@@ -1,6 +1,7 @@
 "use strict";
 
 let {request} = require("../../lib/socketConn"),
+    q = require("q"),
     $ = require("jquery"),
     can = require("../../shims/can");
 
@@ -57,15 +58,15 @@ function listCharacters() {
 }
 
 function save(character) {
-  return character.save();
+  return q(character.save());
 }
 
 function read(id) {
-  return Character.findOne(id);
+  return q(Character.findOne(id));
 }
 
 function destroy(character) {
-  return character.destroy();
+  return q(character.destroy());
 }
 
 function list() {
