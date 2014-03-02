@@ -1,7 +1,7 @@
 "use strict";
 
 let element = require("../../lib/customElement");
-let can = require("../../shims/can");
+let can = require("can");
 
 let Home = element.define("home-page", {
   style: require("./styles.styl"),

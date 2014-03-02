@@ -3,7 +3,7 @@
 require("sockjs");
 let Sock = window.SockJS,
     Genfun = require("genfun"),
-    can = require("../../shims/can"),
+    can = require("can"),
     $ = require("jquery"),
     {clone, init} = require("proto"),
     {partial, forEach, contains, without} = require("lodash"),

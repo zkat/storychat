@@ -3,7 +3,7 @@
 let {request} = require("../../lib/socketConn"),
     q = require("q"),
     $ = require("jquery"),
-    can = require("../../shims/can");
+    can = require("can");
 
 let Character = can.Model.extend({
   create: createCharacter,

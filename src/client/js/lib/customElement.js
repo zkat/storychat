@@ -1,6 +1,6 @@
 "use strict";
 
-let can = require("../shims/can"),
+let can = require("can"),
     {forEach, extend} = require("lodash"),
     {clone, init} = require("proto");
 

@@ -9,33 +9,22 @@
   },
   "author": "Kat Marchán <kzm@sykosomatic.org>",
   "license": "AGPLv3",
-  "browserify": {
-    "transform": [
-      "es6ify",
-      "debowerify",
-      "./src/server/node_modules/can.viewify.js",
-      "stylify",
-      "brfs",
-      "uglifyify"
-    ]
-  },
   "devDependencies": {
     "jshint": "~2.1.10",
     "mocha": "~1.12.1",
-    "uglify-js": "~2.4.0",
     "supervisor": "~0.5.4",
     "bower": "~1.2.6",
-    "browserify": "~2.28.0",
     "es6ify": "~0.4.8",
-    "brfs": "0.0.7",
-    "watchify": "~0.1.0",
-    "debowerify": "~0.1.4",
     "insert-css": "0.0.0",
-    "stylify": "0.0.1",
     "through": "~2.3.4",
     "testee": "0.0.7",
-    "uglifyify": "~1.2.2",
-    "can.viewify": "^0.1.2"
+    "webpack": "^1.1.0-beta6",
+    "transform-loader": "^0.1.0",
+    "style-loader": "^0.6.3",
+    "stylus-loader": "^0.2.0",
+    "css-loader": "^0.6.8",
+    "can.viewify": "^0.1.2",
+    "raw-loader": "^0.5.1"
   },
   "dependencies": {
     "genfun": "~0.1.2",

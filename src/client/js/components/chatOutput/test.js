@@ -8,12 +8,11 @@ let {makeChatlog, addEntry, clearEntries} = require("../../models/chatlog"),
     {clone} = require("proto"),
     {domEqual} = require("../../lib/testlib.js"),
     $ = require("jquery"),
-    fs = require("fs"),
     {connect, disconnect} = require("../../lib/socketConn");
 
 let socketUrl = "http://localhost:8080/wsauth";
 
-let dialogueTest = fs.readFileSync(__dirname + "/entries/dialogue-test.html");
+let dialogueTest = require("./entries/dialogue-test.html");
 
 describe("ChatOutput", function() {
   let conn = connect(socketUrl),

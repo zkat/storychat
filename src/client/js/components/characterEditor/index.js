@@ -2,7 +2,7 @@
 
 let {makeCharacter, save} = require("../../models/character");
 let element = require("../../lib/customElement");
-let can = require("../../shims/can");
+let can = require("can");
 
 let CharacterEditor = element.define("character-editor", {
   style: require("./styles.styl"),

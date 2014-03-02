@@ -2,7 +2,7 @@
 
 let {forEach, find, findIndex, defer, partial} = require("lodash");
 
-let can = require("../../shims/can"),
+let can = require("can"),
     $ = require("jquery"),
     element = require("../../lib/customElement");
 

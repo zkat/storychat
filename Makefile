@@ -8,7 +8,7 @@
 module-root = $(shell npm root)
 bin = $(shell npm bin)
 uglify = $(bin)/uglifyjs
-browserify = $(bin)/browserify
+webpack = $(bin)/webpack
 jsdoc = $(module-root)/jsdoc/jsdoc
 mocha = $(bin)/mocha $(node-opts) $(mocha-opts)
 linter = $(bin)/jshint $(linter-opts)
@@ -43,8 +43,6 @@ static-resources = \
     $(resource-dir)/js/mocha.js $(resource-dir)/js/mocha.css
 
 build-dir = $(resource-dir)/js
-browserify-bundle = $(build-dir)/storychat.js
-browserify-test-bundle = $(build-dir)/storychat-test.js
 
 #
 # Backend files
@@ -70,7 +68,7 @@ space:= $(empty) $(empty)
 config-dir = config
 mocha-opts = --check-leaks --recursive
 linter-opts =
-browserify-opts =
+webpack-opts =
 node-opts = --harmony
 supervisor-opts = -w $(subst $(space),$(comma),$(source-files) $(npm-dep-dir) $(npm-spec))
 db-host = localhost
@@ -92,16 +90,9 @@ build: static lint compile
 static: $(static-resources)
 
 .PHONY: compile
-compile: $(browserify-bundle) $(browserify-test-bundle)
-
-$(browserify-bundle): $(client-main-file) $(client-src-files) $(client-stylesheets)
+compile: $(client-main-file) $(client-test-main-file) $(client-src-files) $(client-stylesheets)
 	@mkdir -p $(@D)
-	$(browserify) $< $(browserify-opts) -o $@
-
-$(browserify-test-bundle): $(client-test-main-file) $(client-main-file) \
-                            $(client-src-files) $(client-stylesheets)
-	@mkdir -p $(@D)
-	$(browserify) $< $(browserify-opts) -o $@
+	$(webpack) $(webpack-opts)
 
 $(resource-dir)/%: $(client-src-dir)/%
 	@mkdir -p $(@D)
@@ -213,8 +204,13 @@ lint: $(source-files) $(linter-config) $(client-src-files)
 	@$(linter) --config $(linter-config) $(source-files) $(client-src-files)
 
 .PHONY: test-client
-test-client: static compile-tests
+test-client: static compile
 	$(testee) --root static test.html
+
+.PHONY: webpack-stats
+webpack-stats:
+	$(webpack) --profile --json > webpack-stats.json
+	@echo "Upload webpack-stats.json to http://webpack.github.io/analyse/"
 
 #
 # Misc

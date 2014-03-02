@@ -2,7 +2,7 @@
 
 let {forEach, defer} = require("lodash");
 let element = require("../../lib/customElement");
-let can = require("../../shims/can");
+let can = require("can");
 let $ = require("jquery");
 
 let ChatOutput = element.define("chat-output", {

@@ -3,7 +3,7 @@
 let {conn, onMessage, listen,
      unlisten, request} = require("../../lib/socketConn"),
     {find} = require("lodash"),
-    can = require("../../shims/can");
+    can = require("can");
 
 let User = can.Model.extend({
   update: updateUser,
