@@ -163,6 +163,50 @@
    New sets have a base cost of 10 tokens, which includes a single
    detail. Additional details follow the character detail purchase rules.
 * Playing a Scene
+** The Lobby
+   The Lobby is the invitation to play. One player starts a game session by
+   clicking the Play button and choosing "host". This drops the player into a
+   lobby where they can configure the scene with various options. Only the host
+   can actually change most of these options, but all present players may
+   discuss them so the host changes them. The options are listed at the bottom
+   of this section.
+
+   The lobby also contains a chatroom for players, and a list of present
+   players. The host may kick or ban any players in the lobby.
+
+   In the lobby, players should discuss what the scene should be about.
+*** Open/closed/spectator scene
+    An open scene will show up on the games list for anyone to join. A closed
+    scene can only be joined through a direct invite by the host. A spectator
+    scene can be spectated by anyone, but only people who were invited can
+    actually participate (note that anyone invited to the scene can choose to
+    spectate instead of play).
+*** Player limit
+    Number of players the scene will be limited to. Must be between 1 and 8
+    (TODO: figure out a good limit for the medium. Readability is important)
+*** Description
+    The description that will appear in the lobby for what the purpose of the
+    scene is.
+*** Set
+    The set is the location for the scene. This cannot change during the scene,
+    and is used in the initial framing. The list of available sets is based on
+    the sets controlled by all players in the lobby that have set their sets to
+    "host can use". The set will automatically frame the scene according to the
+    characters and props that are put in it. Characters and props are added by
+    players from their own resources. Additional set details like time of day
+    are configured by the host.
+*** Family-friendly
+    Denotes that the scene will be restricted to family-friendly themes and
+    language. An FF scene should not have anything sexual, violent,
+    drug-related, or any foul language in it. Note that even if a scene is not
+    family-friendly, certain themes are completely out of bounds for this
+    game. For example, rape (including statutory), violence against child
+    characters (in any form, even physical 'discipline' that may be acceptable
+    to some groups).
+
+    The FF flag communicates intention. Players will have a chance to change
+    whether the final scene is tagged as FF after the scene is complete, but
+    will default to this setting.
 ** Before
    A scene takes place in a single set, and includes a specific set of main
    characters.
