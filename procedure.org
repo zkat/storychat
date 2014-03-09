@@ -229,8 +229,9 @@
    repick characters, etc.
 *** Vetoing
     In order to veto, a player should simply push "veto" on an entry. This will
-    grey it out and mark it as "vetoed". At that point, all other players
-    involved can either accept the veto, or choose to leave the scene.
+    grey out the entry and all entries that followed it, and mark them as
+    "vetoed". At that point, all other players involved can either accept the
+    veto, or choose to leave the scene.
 
     Before placing their final "votes", players should discuss with each other
     why the entry was vetoed, and what can be done instead.
@@ -239,9 +240,8 @@
     the vote is finalized, at which point the entry returns to normal and play
     continues as usual.
 
-    If a veto is accepted, the entry becomes hidden, but can still be expanded
-    manually in the future, by pressing the 'show vetoed' link in the place the
-    entry used to be. It can no longer be brought back.
+    If a veto is accepted, the entries are completely removed from the scene,
+    and play continues as before, as if the entries had never happened.
 ** After
 *** Awards
     Each player involved in a scene has two tokens to give out: One for the player
