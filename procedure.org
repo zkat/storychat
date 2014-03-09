@@ -67,28 +67,20 @@
     the usual description rules.
 
     For example, "Ash is carrying a pair of revolvers and a leather whip."
-*** A technical note
-    In general, the entity system shouldn't be restricted to what something
-    "is". There should not be anything special about a character as far as how
-    it's treated by the code itself -- it is simply a Describable entity with
-    an Outfit slot (which is given order number 1, and can only hold Wearable
-    entities), and an Inventory slot (which is given order number 2, and can
-    only hold Carryable entities). The Describable entity component is what
-    handles knowledge about what the basic description is (in its Base
-    Description slot), and can be extended with additional slots with
-    miscellaneous restrictions about what's allowed in them.
+*** Implementation
+    Descriptions, costumes, and props can all be implemented with a generic
+    detail mechanic: Each detail added to a game entity includes a detail type
+    (an index into the detail meta-table), which includes information about
+    what order the details should be rendered in, and info about what template
+    to use when actually rendering each detail, as well as "error" messages the
+    parser can use when verbs perform actions that act on or change details
+    ("hand X my sword" -> "You're not carrying a sword").
 
-    This will give the game really good flexibility as far as what players are
-    able to describe/create. For example, there's nothing technically stopping
-    someone from treating a character, or a subset of the character, as a set,
-    a carryable object, etc -- players can probably end up being quite creative
-    with the objects they "possess" as well. This should be a fairly elegant
-    way to go about it, and the possibilities are endless.
-
-    (Note: I think this can be worked out a little better -- think more about
-    what details are, what their role is, how they relate to the different
-    parts of an entity. Can 'details', and their 'subdetails' be the base unit
-    that this whole system revolves around? What is really the base unit?
+    This, I think, covers everything we might want to add details-wise. For
+    example, it covers all three of the above, it covers "exits" if we ever
+    added them, it covers rooms and containers ("the box has a sword in it.",
+    "John, Jane, and Ash are in the bar"). It can do all this by just specifying
+    a template (which will render "smart" text), and maybe some helpers.
 ** Customizing characters
    Players may choose to change or add detail to any of their character's
    attributes. Costs and restrictions are listed below.
