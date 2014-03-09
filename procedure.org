@@ -224,9 +224,9 @@
    but any player can veto any particular part of the drama at any time, for any
    reason. For rules on vetos, see the Vetoing section.
 
-   Scenes are played out by players using a character to add either dia Once the
-   scene draws to a close, players discuss the next step, repick characters,
-   etc.
+   Scenes are played out by players using a character to add either dialogue or
+   actions. Once the scene draws to a close, players discuss the next step,
+   repick characters, etc.
 *** Vetoing
     In order to veto, a player should simply push "veto" on an entry. This will
     grey it out and mark it as "vetoed". At that point, all other players
