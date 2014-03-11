@@ -7,27 +7,27 @@ function create(opts) {
   let q = ("INSERT INTO entity"+
            "    (description)"+
            "  VALUES"+
-           "    (:description)"+
+           "    ($1)"+
            "  RETURNING id");
-  return db.query(q, opts);
+  return db.query(q, [opts.description]);
 }
 
 function read(opts) {
   let q = ("SELECT id, description FROM entity"+
-           "  WHERE id = :id");
-  return db.query(q, opts).then(_.first);
+           "  WHERE id = $1");
+  return db.query(q, [opts.id]).then(_.first);
 }
 
 function update(opts) {
   let q = ("UPDATE entity SET"+
-           "    description = :description"+
-           "  WHERE id = :id");
-  return db.query(q, opts);
+           "    description = $1"+
+           "  WHERE id = $2");
+  return db.query(q, [opts.description, opts.id]);
 }
 
 function destroy(opts) {
-  let q = ("DELETE FROM entity WHERE id = :id");
-  return db.query(q, opts);
+  let q = ("DELETE FROM entity WHERE id = $1");
+  return db.query(q, [opts.id]);
 }
 
 function list(opts) {
