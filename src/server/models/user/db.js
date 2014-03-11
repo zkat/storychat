@@ -14,21 +14,17 @@ function create(email, displayName, password) {
   let q = ("INSERT INTO \"user\""+
            "    (email, display_name, password)"+
            "  VALUES"+
-           "    (:email, :displayName, :password)"),
+           "    ($1, $2, $3)"),
       pass = password + config.passwordSecret;
   return hash(pass, iterations).then(function(pwhash) {
-    return db.query(q, {
-      email: email,
-      displayName: displayName,
-      password: pwhash
-    });
+    return db.query(q, [email, displayName, pwhash]);
   });
 }
 
 function verify(email, password) {
   let q = ("SELECT password FROM \"user\""+
-           "  WHERE email = :email");
-  return db.query(q, {email: email}).then(function(result) {
+           "  WHERE email = $1");
+  return db.query(q, [email]).then(function(result) {
     return compare(password + config.passwordSecret, result[0].password);
   });
 }
