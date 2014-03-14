@@ -2,7 +2,7 @@
 
 let webpack = require("webpack");
 let _ = require("lodash");
-let config = require("../../webpack.config.js");
+let config = require("../../config/webpack.config.js");
 
 function watch(options) {
   webpack(_.extend({

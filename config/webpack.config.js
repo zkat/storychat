@@ -5,7 +5,7 @@ module.exports = {
     "storychat-test": "./src/client/js/storychat-test.js"
   },
   output: {
-    path: __dirname + "/static/js/",
+    path: __dirname + "/../static/js/",
     filename: "[name].js"
   },
   optimize: "minimize",
