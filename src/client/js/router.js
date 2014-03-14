@@ -5,12 +5,12 @@ let {clone, init} = require("proto");
 let {find} = require("lodash");
 
 let $ = require("jquery");
-let {EventListener, listen} = require("./lib/eventListener");
+let {EventListener, listen} = require("eventListener");
 
 let can = require("can");
 require("can/route/pushstate");
 
-let style = require("./lib/ensureStyle");
+let style = require("ensureStyle");
 
 /**
  * Storychat router

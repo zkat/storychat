@@ -1,7 +1,7 @@
 "use strict";
 
 let {forEach, defer} = require("lodash");
-let element = require("../../lib/customElement");
+let element = require("customElement");
 let can = require("can");
 let $ = require("jquery");
 

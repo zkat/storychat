@@ -2,7 +2,7 @@
 
 let {makeChatlog} = require("../../models/chatlog");
 let {extend} = require("lodash");
-let element = require("../../lib/customElement");
+let element = require("customElement");
 let can = require("can");
 
 /*

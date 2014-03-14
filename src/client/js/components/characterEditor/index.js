@@ -1,7 +1,7 @@
 "use strict";
 
 let {makeCharacter, save} = require("../../models/character");
-let element = require("../../lib/customElement");
+let element = require("customElement");
 let can = require("can");
 
 let CharacterEditor = element.define("character-editor", {
