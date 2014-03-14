@@ -6,9 +6,9 @@ let assert = require("assert");
 let {makeChatlog, addEntry, clearEntries} = require("../../models/chatlog"),
     {ChatOutput} = require("./index"),
     {clone} = require("proto"),
-    {domEqual} = require("../../lib/testlib.js"),
+    {domEqual} = require("testlib.js"),
     $ = require("jquery"),
-    {connect, disconnect} = require("../../lib/socketConn");
+    {connect, disconnect} = require("socketConn");
 
 let socketUrl = "http://localhost:8080/wsauth";
 

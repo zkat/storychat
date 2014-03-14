@@ -4,9 +4,9 @@ let {forEach, find, findIndex, defer, partial} = require("lodash");
 
 let can = require("can"),
     $ = require("jquery"),
-    element = require("../../lib/customElement");
+    element = require("customElement");
 
-let {conn} = require("../../lib/socketConn");
+let {conn} = require("socketConn");
 
 let {submitEntry} = require("../../models/chatlog");
 
