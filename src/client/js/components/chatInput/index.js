@@ -64,13 +64,7 @@ let ChatInput = element.define("chat-input", {
     },
     log: { type: "lookup", required: true, observe: false },
     type: { type: "string", default: inputs[0].name },
-    inputs: { default: inputs },
-    defaults: {
-      internal: true,
-      defun: function() {
-        return Object.create(null);
-      }
-    }
+    inputs: { default: inputs }
   },
   helpers: {
     renderInput: renderInput,
@@ -140,20 +134,20 @@ function keyPressed(el, _target, event) {
 }
 
 function cycleInputType(el, goForward) {
+  let inputs = el.props("inputs");
   let typeIndex = findIndex(inputs, {name: el.props("type")});
-  el.props(
-    "type",
-    inputs[(typeIndex + (goForward ? 1 : inputs.length - 1)) %
-           inputs.length].name);
+  inputs[typeIndex].attr("defaults", objectify(el.find("form")));
+  el.props("type", inputs[(typeIndex + goForward*2 - 1) % inputs.length].name);
   focusContent(el);
 }
 
 function typeChanged(el) {
   let form = el.find("form");
   el.find("[name=type]").val(el.props("type"));
-  el.props("defaults", can.deparam(form.serialize()));
-  forEach(el.props("defaults"), function(v, k) {
-    form.find("[name="+k+"]").val(v);
+  let inputs = el.props("inputs");
+  let typeIndex = findIndex(inputs, {name: el.props("type")});
+  forEach(inputs[typeIndex].attr("defaults"), function(v, k) {
+    form.find("[name="+k+"]").focus().val(v);
   });
   alignActionInput(el);
   typingNotification(el);
@@ -229,6 +223,13 @@ function isSelected(props, opts) {
   } else {
     return opts.inverse();
   }
+}
+
+/*
+ * Utils
+ */
+function objectify(form) {
+  return can.deparam(form.serialize());
 }
 
 /*
