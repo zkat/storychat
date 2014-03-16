@@ -1,14 +1,15 @@
 play-page {
   margin: 0 auto;
-  width: 33em;
-  position: relative;
+  display: inline-block;
+  float: none;
+  position: static;
+  .chat-container {
+    width: 33em;
+  }
   .user-list-container {
-    position: relative;
     font-size: 0.8em;
     .user-list {
-      position: fixed;
-      top: 8em;
-      left: 2em;
+      border-radius: 1.618em;
       padding: 1em;
       background-color: lightgrey;
       list-style: none;
