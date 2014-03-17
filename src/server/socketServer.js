@@ -2,6 +2,7 @@
 
 let Genfun = require("genfun"),
     proto = require("proto"),
+    cond = require("cond"),
     clone = proto.clone,
     init = proto.init;
 
@@ -70,20 +71,20 @@ function initConn(srv, conn) {
 }
 
 function onClientMessage(srv, conn, msg) {
-  try {
+  cond.handlerCase(function() {
     let json = JSON.parse(msg),
         service = srv.services[json.ns];
     if (service) {
       messageCallback(service, conn, json);
     } else {
-      throw new Error("Invalid service: "+json.namespace);
+      cond.error("Invalid service: "+json.namespace);
     }
-  } catch (e) {
+  }, function(e) {
     console.error("An error occurred while processing socket message:", {
       error: e,
       input: msg
     });
-  }
+  });
 }
 
 function messageCallback(service, conn, msg) {

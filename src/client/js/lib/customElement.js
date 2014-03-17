@@ -2,7 +2,8 @@
 
 let can = require("can"),
     {forEach, extend} = require("lodash"),
-    {clone, init} = require("proto");
+    {clone, init} = require("proto"),
+    cond = require("cond");
 
 let $ = require("jquery");
 $.fn.props = function(name, val) {
@@ -123,8 +124,8 @@ function assignAttribute(el, props, name, fillDefaults) {
   } else if (config.required &&
              !elHasAttribute &&
              value === undefined) {
-    throw new Error("Missing required property "+name+
-                    " in instance of <"+el[0].tagName+">");
+    cond.error("Missing required property "+name+
+               " in instance of <"+el[0].tagName+">");
   }
   if (!props.hasOwnProperty(name) && fillDefaults) {
     setter(props, name, defaultVal);

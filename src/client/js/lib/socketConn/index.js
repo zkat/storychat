@@ -7,6 +7,7 @@ let Sock = window.SockJS,
     $ = require("jquery"),
     {clone, init} = require("proto"),
     {partial, forEach, contains, without} = require("lodash"),
+    cond = require("cond"),
     Q = require("q");
 
 let MAX_RECONNECT_ATTEMPTS = 100;
@@ -111,7 +112,8 @@ function unlisten(observer) {
 
 function rawSend(data) {
   if (CONN.state() === "closed") {
-    throw new Error("connection is closed");
+    // TODO - provide "reconnect" recovery.
+    cond.error("connection is closed");
   } else if (CONN.socket && CONN.socket.readyState === Sock.OPEN) {
     let json = JSON.stringify(data);
     CONN.socket.send(json);
