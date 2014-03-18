@@ -103,7 +103,7 @@ function assignAttribute(el, props, name, fillDefaults) {
   let config = el.data("__customEl").propertyConfigs[name],
       hookupScope = el.data("__customElHookupScope");
   if (!config) { return; }
-  
+
   let setter = config.observe ? attrSet : normalSet,
       value = el.attr(name),
       elHasAttribute = el[0].hasAttribute(name),
