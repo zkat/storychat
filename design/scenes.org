@@ -1,0 +1,133 @@
+* Playing a Scene
+** The Lobby
+   The Lobby is the invitation to play. One player starts a game session by
+   clicking the Play button and choosing "host". This drops the player into a
+   lobby where they can configure the scene with various options. Only the host
+   can actually change most of these options, but all present players may
+   discuss them so the host changes them. The options are listed at the bottom
+   of this section.
+
+   The lobby also contains a chatroom for players, and a list of present
+   players. The host may kick or ban any players in the lobby.
+
+   In the lobby, players should discuss what the scene should be about.
+*** Open/closed/spectator scene
+    An open scene will show up on the games list for anyone to join. A closed
+    scene can only be joined through a direct invite by the host. A spectator
+    scene can be spectated by anyone, but only people who were invited can
+    actually participate (note that anyone invited to the scene can choose to
+    spectate instead of play).
+*** Player limit
+    Number of players the scene will be limited to. Must be between 1 and 8
+    (TODO: figure out a good limit for the medium. Readability is important)
+*** Description
+    The description that will appear in the lobby for what the purpose of the
+    scene is.
+*** Set
+    The set is the location for the scene. This cannot change during the scene,
+    and is used in the initial framing. The list of available sets is based on
+    the sets controlled by all players in the lobby that have set their sets to
+    "host can use". The set will automatically frame the scene according to the
+    characters and props that are put in it. Characters and props are added by
+    players from their own resources. Additional set details like time of day
+    are configured by the host.
+*** Family-friendly
+    Denotes that the scene will be restricted to family-friendly themes and
+    language. An FF scene should not have anything sexual, violent,
+    drug-related, or any foul language in it. Note that even if a scene is not
+    family-friendly, certain themes are completely out of bounds for this
+    game. For example, rape (including statutory), violence against child
+    characters (in any form, even physical 'discipline' that may be acceptable
+    to some groups).
+
+    The FF flag communicates intention. Players will have a chance to change
+    whether the final scene is tagged as FF after the scene is complete, but
+    will default to this setting.
+** Before
+   A scene takes place in a single set, and includes a specific set of main
+   characters.
+
+   A scene is marked by a slug line -- which is determined by the chosen set +
+   time of day. Following the slug line is a scene header, which should be the
+   description of the set, with all the details added to it, followed by a brief
+   summary of what props are in the set, finalized by what characters are
+   present in the scene, along with basic "posing" information for both
+   characters and props (John is standing near the entrance, a katana is stuck
+   on the ground)
+** During
+   Once the scene is framed by the heading, players should play out the action
+   in the scene until it draws to a close. Players can do anything they want,
+   but any player can veto any particular part of the drama at any time, for any
+   reason. For rules on vetos, see the Vetoing section.
+
+   Scenes are played out by players using a character to add either dialogue or
+   actions. Once the scene draws to a close, players discuss the next step,
+   repick characters, etc.
+*** Vetoing
+    In order to veto, a player should simply push "veto" on an entry. This will
+    grey out the entry and all entries that followed it, and mark them as
+    "vetoed". At that point, all other players involved can either accept the
+    veto, or choose to leave the scene.
+
+    Before placing their final "votes", players should discuss with each other
+    why the entry was vetoed, and what can be done instead.
+
+    The player who vetoed an entry can withdraw their veto at any point before
+    the vote is finalized, at which point the entry returns to normal and play
+    continues as usual.
+
+    If a veto is accepted, the entries are completely removed from the scene,
+    and play continues as before, as if the entries had never happened.
+** After
+*** TODO Ending a scene
+    (How do we actually end scenes?)
+*** Awards
+    Each player involved in a scene has two tokens to give out: One for the player
+    who played their character the best (maybe they led the scene in an excellent
+    way, or they really nailed a plot point, or they were excellent supports to a
+    central character, or just generally brought life to a scene, regardless of
+    their starring status), and one for the player who players themselves enjoyed
+    interacting with the most. Maybe they were gracious and patient when something
+    wasn't going well, or they helped someone out with a good idea. Tokens cannot
+    be given to oneself, and players are not obligated to give away both of their
+    tokens if they don't feel anyone was particularly great.
+
+    (Note: In the future, token-giving should be blind and anonymous -- no one
+    knows who's received the most tokens, and no one knows who gave tokens to
+    whom)
+
+    The player who ends up with the most tokens receives additional tokens equal
+    to the total number of players in the scene.
+
+    Finally, the closer the scene was, in length, to the 3-page 'ideal' for a
+    scene, the more tokens all players receive.
+
+    A scene that reaches exactly 3 pages (module a couple of actions), is
+    granted 5 tokens. The tokens are then scaled according to how far from ideal
+    length a scene was, rounded *down*. For example, if the scene was half the
+    desired length, or twice the desired length, the token reward is reduced
+    from 5 tokens to 2 tokens. If the scene length is higher than 1.8x or lower
+    than 0.2x of the ideal, the reward for just playing the scene is reduced to
+    1 token.
+*** Story arcs
+    As scenes are played out, players should organize them into story arcs, in
+    whatever order they see fit. These story arcs should tell a larger story
+    than what each individual scene does. Scenes in a story arc are ordered
+    linearly. There can be multiple story arcs running in parallel, and multiple
+    story arcs can use the same scene, if necessary. It's generally helpful to
+    have some kind of plan/cohesion to story arcs, and they can be very useful
+    in planning future scenes.
+
+    Scenes are only published once they are added to a published story arc.
+
+    Story arcs can also be 'tokened' by players other than the story arc
+    manager. Every token given to a story arc is given to the player managing
+    that story arc. Any player can token any story arc other than their own, and
+    they can token as many as they want.
+
+    A story arc can have multiple managers. In this case, arc tokens are
+    awarded by dividing them between all owners when enough tokens have been
+    accumulated to divide.
+*** Spending tokens
+    Tokens can be spent between scenes to add details to characters or sets, but
+    not during scenes, with one exception -- extras can be purchased at any point.

@@ -1,0 +1,145 @@
+* Entities
+  Every "thing" in the game is an entity. This includes characters, props,
+  sets, and even details on each of these (and details on the details!). This
+  document describes the rules for how these entities are managed by players.
+** Characters
+*** Anatomy of a character
+    A character is composed of four parts: A name, a description, a costume, and
+    a list of held props.
+**** Name
+     A character name should be brief and only one or two relatively short
+     words. For characters whose real name is much longer or composed of more
+     words, choose a concise nickname that will be used to refer to them, and
+     only use the full name in dialogue when the character introduces itself.
+
+     For example, "Ash" is a nice name.
+**** Description
+     The character description is the first paragraph in each character's
+     description box (all character details are in a single place for now). A
+     description is composed of a basic description and zero or
+     more *details*. A *detail* decribes, with one or two adjectives, a concrete
+     part of the character.
+
+     For example, a description might read like: "Ash is a short and stocky
+     person. Ash has long, curly red hair and a nice, friendly smile."
+
+     This description includes the base description and two *details*. 'Ash is a
+     short and stocky person.' is the base. 'long, curly red hair' is one
+     detail, and 'a nice, friendly smile' is the second.
+**** Costume
+     The costume is what the character is currently wearing. The costume
+     description is the second paragraph in the character description area.
+
+     Costumes are entities, just like characters themselves, which are
+     associated with the character as what they are 'wearing'. Much like a
+     character's first paragraph, the description for a costume includes a base
+     description, and zero or more *details*. The costume section is prefixed by
+     '<character> is wearing...'
+
+     For example, "Ash is wearing a dusty, worn cowboy outfit. It has
+     exceptionally shiny boots.", is a costume description with a base
+     description ('a dusty, worn cowboy outfit'), and a single detail
+     ('exceptionally shiny boots').
+**** Props
+     Finally, the third paragraph describes the props the character is
+     carrying. It is prefixed by "<X> is carrying...".
+
+     Props, just like characters and outfits, are entities of their own, with
+     the usual description rules.
+
+     For example, "Ash is carrying a pair of revolvers and a leather whip."
+**** Implementation
+     Descriptions, costumes, and props can all be implemented with a generic
+     detail mechanic: Each detail added to a game entity includes a detail type
+     (an index into the detail meta-table), which includes information about
+     what order the details should be rendered in, and info about what template
+     to use when actually rendering each detail, as well as "error" messages the
+     parser can use when verbs perform actions that act on or change details
+     ("hand X my sword" -> "You're not carrying a sword").
+
+     This, I think, covers everything we might want to add details-wise. For
+     example, it covers all three of the above, it covers "exits" if we ever
+     added them, it covers rooms and containers ("the box has a sword in it.",
+     "John, Jane, and Ash are in the bar"). It can do all this by just specifying
+     a template (which will render "smart" text), and maybe some helpers.
+*** Customizing characters
+    Players may choose to change or add detail to any of their character's
+    attributes. Costs and restrictions are listed below.
+**** Name
+     Changing a character's name can only be done once, ever, and costs no
+     tokens. The standard restrictions for names apply (short, only one or two
+     words)
+**** Description
+     The base cost for a detail is two tokens. This cost includes a single
+     adjective. The base cost for a second adjective for that detail is another
+     two tokens.
+
+     Adding a detail to a character requires the base cost of tokens, multiplied
+     by the number of details the character already has. Remember that a detail
+     is the thing/attribute itself, not the adjectives attached to it, so "a
+     warm, loving heart" is a single detail with two adjectives. Second
+     adjectives always cost two tokens, regardless of how many details a
+     description already has.
+
+     An entire detail can be removed for 1 token. Adjectives cannot be removed
+     from existing details.
+
+     A character must have at least one detail at all times. A character can't
+     have more than 5 details.
+**** Costumes
+     A new costume costs 3 tokens + the cost of any details attached to it.
+
+     Detail purchase rules for costumes are the same as for character
+     descriptions: 2 token base cost for each detail, with an additional
+     adjective costing 2 more tokens, and new token purchase costing the base
+     cost multiplied by the number of existing details.
+
+     Unlike character descriptions, costumes can have just a name/identifier
+     attached to them, and do not require any details. For example, "A cowboy
+     outfit." would cost only 3 tokens to buy.
+
+     Like descriptions, a costume cannot have more than 5 details.
+**** Props
+     A new prop costs 1 token + the cost of any details attached to it.
+
+     Prop detail purchase rules are identical to costume detail rules.
+*** New main characters
+    New characters have a base cost of 5 tokens for the initial creation of a
+    character.
+
+    Additionally, they require a valid description (minimum cost of 2
+    tokens), and a costume (minimum cost 3 tokens).
+
+    So, the minimum cost for a brand-new character is 10 tokens.
+*** Extras
+    Extras are a special kind of character. They are meant as minor/side
+    characters, and come with some restrictions.
+
+    * They can only speak once per scene
+    * They can only take two actions per scene
+    * They cannot be customized (name, description, and costume cannot change)
+    * They cannot have props
+    * Only one detail in their description
+    * Only one (optional) detail allowed in their costume
+
+    In exchange for all this, an extra costs a mere 2 tokens to create. An extra
+    can be upgraded at any time to a main character for 10 tokens, and keeps all
+    its attributes from its days as an extra, but loses all its extra
+    restrictions. Extras also have the unique ability that they can be created
+    mid-scene.
+*** Character versioning
+    Multiple versions of the same character can exist, tagged with a label for
+    future reference. Characters themselves are immutable, but multiple versions
+    can be associated with each other and tagged as character descriptions are
+    changed. All character versions are preserved in that character's version
+    history. Scenes preserve a direct pointer to the version of the character
+    that was used for that particular scene.
+
+    Versions themselves don't cost anything, but are created incidentally as
+    part of the character customization process.
+** Sets
+   A set is a location, made up of a name and a description. Sets are where the
+   action takes place.
+
+   New sets have a base cost of 10 tokens, which includes a single
+   detail. Additional details follow the character detail purchase rules.

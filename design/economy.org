@@ -1,0 +1,14 @@
+* Economy
+  The economy in this game is based on tokens. These tokens are acquired through
+  trade, and through playing scenes. Tokens can then be used for various
+  entity-related actions such as purchasing new ones and customizing them
+** Tokens
+   Every player starts off with 10 tokens. Tokens can be spent on buying
+   characters, adding details to characters, purchasing outfits and props, and
+   adding details to sets.
+
+   They can also be used (through auction) to buy the privilege to frame the next
+   scene.
+
+   See individual game mechanic documents for specific uses for tokens and
+   costs.
