@@ -101,10 +101,10 @@ function updateScopeActor(el) {
     props.attr("actor", actor);
     props.attr("user").attr("character", actor.name);
     props.attr("user").save();
-    alignActionInput(el);
-    $(window).resize();
   } finally {
     can.batch.stop();
+    $(window).resize();
+    alignActionInput(el);
   }
 }
 
@@ -204,9 +204,6 @@ function renderInput(props, type, actor) {
   return function(el) {
     render(el);
     type.bind("change", function() {
-      render(el);
-    });
-    actor.bind("change", function() {
       render(el);
     });
   };
