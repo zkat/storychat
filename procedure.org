@@ -12,16 +12,12 @@
 
    They can also be used (through auction) to buy the privilege to frame the next
    scene.
-** Picking initial characters
-   In addition to the initial tokens, every player gets one stock character for
-   free. The list of available characters can be found at
-   http://storychat.herokuapp.com/characters. Players should read through the
-   character descriptions and figure out which character they'd like. They
-   should argue amongst themselves if two people want the same character. Figure
-   it out.
-
-   Once characters have been chosen, players may choose to spend any number of
-   tokens customizing them, according to the character customization rules.
+** Picking characters
+   In addition to the initial tokens, every player gets a blank character, and
+   the ability to customize it as they see fit. The player can refer to existing
+   characters when designing this one, but the result will be a new character,
+   owned by this player. Players may choose to spend any number of tokens on
+   further character customization, according to the rules below.
 ** Anatomy of a character
    A character is composed of four parts: A name, a description, a costume, and
    a list of held props.
