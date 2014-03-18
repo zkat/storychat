@@ -29,7 +29,6 @@ let ChatInput = element.define("chat-input", {
   template: require("./template.mustache"),
   events: {
     "form submit": sendMessage,
-    "form keydown": keyPressed,
     "form [name=content] keydown": textAreaKeyPressed,
     "form [name=content] input": typingNotification,
     "form click": focusContent,
@@ -125,14 +124,6 @@ function updateActorDropdown(el) {
 /*
  * Cycle between input types
  */
-const TAB = 9;
-function keyPressed(el, _target, event) {
-  if (event.keyCode === TAB) {
-    event.preventDefault();
-    cycleInputType(el, !event.shiftKey);
-  }
-}
-
 function cycleInputType(el, goForward) {
   let inputs = el.props("inputs");
   let typeIndex = findIndex(inputs, {name: el.props("type")});
@@ -161,11 +152,15 @@ function typeSelectorChanged(el, target) {
 /*
  * Special textareas
  */
+const TAB = 9;
 const RET = 13;
-function textAreaKeyPressed(_el, _target, event) {
+function textAreaKeyPressed(el, _target, event) {
   /*jshint validthis:true*/
   if (event.keyCode === RET && !event.shiftKey) {
     sendMessage.apply(this, arguments);
+  } else if (event.keyCode === TAB) {
+    event.preventDefault();
+    cycleInputType(el, !event.shiftKey);
   }
 }
 
