@@ -63,6 +63,7 @@
    Scenes are played out by players using a character to add either dialogue or
    actions. Once the scene draws to a close, players discuss the next step,
    repick characters, etc.
+*** TODO Actually having fun
 *** Vetoing
     In order to veto, a player should simply push "veto" on an entry. This will
     grey out the entry and all entries that followed it, and mark them as
