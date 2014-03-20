@@ -18,4 +18,5 @@ Storychat is a nice sandbox for playing with a bunch of web technologies.
 
 1. Don't push to develop.
 1. Create a new branch prefixed with "dev/" for specific fixes and features.
+1. Test your code! (Client-side tests depend on [PhantomJS](https://github.com/ariya/phantomjs/))
 1. When ready to merge/rebase, have someone else review the branch and signoff on it.
