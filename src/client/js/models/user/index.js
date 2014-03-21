@@ -1,7 +1,7 @@
 "use strict";
 
 let {conn, onMessage, listen,
-     unlisten, request} = require("../../lib/socketConn"),
+     unlisten, request} = require("socketConn"),
     {find} = require("lodash"),
     can = require("can");
 

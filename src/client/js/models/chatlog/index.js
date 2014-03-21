@@ -1,6 +1,6 @@
 "use strict";
 
-let {onMessage,listen,send} = require("../../lib/socketConn"),
+let {onMessage,listen,send} = require("socketConn"),
     {clone, init} = require("proto"),
     {extend, last} = require("lodash"),
     character = require("../character"),

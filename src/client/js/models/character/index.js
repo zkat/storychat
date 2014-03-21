@@ -1,6 +1,6 @@
 "use strict";
 
-let {request} = require("../../lib/socketConn"),
+let {request} = require("socketConn"),
     q = require("q"),
     $ = require("jquery"),
     can = require("can");

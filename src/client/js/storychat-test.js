@@ -5,7 +5,7 @@ let $ = require("jquery"),
 mocha.setup("bdd");
 mocha.globals(["$"]);
 
-require("./lib/socketConn/test");
+require("socketConn/test");
 require("./models/chatlog/test");
 require("./components/chatOutput/test");
 
