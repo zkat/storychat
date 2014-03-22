@@ -197,7 +197,7 @@ function updateScopeUser(el) {
 /*
  * Mustache helpers
  */
-function renderInput(props, type, _actor) {
+function renderInput(props, type) {
   function render(el) {
     $(el).html(find(inputs, {name: type()}).template(props));
   }
