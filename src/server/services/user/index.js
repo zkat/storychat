@@ -25,18 +25,14 @@ init.addMethod([UserService], function(service, namespace) {
 
 onRequest.addMethod([UserService], function(svc, data, req) {
   if (data.method === "list") {
-    return reply(req, {
-      data: _.map(svc.users, function(user) {
-        return _.omit(user, "conn");
-      })
-    });
+    return reply(req, _.map(svc.users, function(user) {
+      return _.omit(user, "conn");
+    }));
   } else if (data.method === "update") {
     let user = (_.find(svc.users, {id: data.args[0]}) ||
                 _.find(svc.users, {conn: req.from}));
     _.assign(user, data.args[1]);
-    reply(req, {
-      data: _.omit(user, "conn")
-    });
+    reply(req, _.omit(user, "conn"));
     return broadcastFrom(req.from, {
       method: "update",
       args: _.omit(user, "conn")
